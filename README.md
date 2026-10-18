@@ -12,7 +12,7 @@ Explore where a future engine could fail.
 [![Focus: engine simulation](https://img.shields.io/badge/focus-engine_simulation-0f766e?style=flat-square)](#vision)
 [![License: AGPL-3.0](https://img.shields.io/badge/license-AGPL--3.0-2563eb?style=flat-square)](LICENSE)
 
-[Vision](#vision) · [Applications](#two-applications-one-foundation) · [Roadmap](#roadmap) · [Get involved](#get-involved)
+[Vision](#vision) · [Applications](#two-applications-one-foundation) · [Roadmap](#roadmap) · [Technical track](#technical-track) · [Get involved](#get-involved)
 
 </div>
 
@@ -78,7 +78,7 @@ A load indicator becomes a calibrated wear estimate only when the relationship i
 
 ## Roadmap
 
-The roadmap contains **28 objectives across 7 milestones**. Each objective has a deliverable, acceptance criteria, a priority, and explicit dependencies.
+The roadmap contains **47 objectives across 7 milestones**: 28 product objectives and 19 supporting objectives for technology evaluation, architecture, expert collaboration, and technical performance. Each objective has a deliverable, acceptance criteria, a priority, and explicit dependencies.
 
 | Milestone | Focus | Completion target |
 | :--- | :--- | :--- |
@@ -95,6 +95,19 @@ Milestones are driven by evidence and dependencies. Data collection should begin
 **Explore the plan:** [GitHub Project](https://github.com/orgs/V-Twin-EIP/projects/1) · [Roadmap issues](https://github.com/V-Twin-EIP/V-Twin/issues?q=is%3Aissue+label%3Aroadmap) · [Milestones](https://github.com/V-Twin-EIP/V-Twin/milestones)
 
 The project board requires access to the organization's private project. The roadmap issues and milestones are also linked directly above.
+
+## Technical track
+
+V-Twin follows four selected Epitech Technical Track objectives. Issues use cumulative labels to show which objectives they support:
+
+| Objective | Issue label | Expected evidence |
+| :--- | :--- | :--- |
+| **Mandatory 1 · Technology watch** | [`track:tech-watch`](https://github.com/V-Twin-EIP/V-Twin/labels/track%3Atech-watch) | Comparative studies, POCs, benchmarks, justified adoption of a new technology, and documented sharing. |
+| **Mandatory 2 · Technical architecture** | [`track:architecture`](https://github.com/V-Twin-EIP/V-Twin/labels/track%3Aarchitecture) | Architecture and UML diagrams, technical documentation, configuration, quality reports, critical-module tests, error handling, logging, and initial security. |
+| **Selected complementary 1 · Experts** | [`track:experts`](https://github.com/V-Twin-EIP/V-Twin/labels/track%3Aexperts) | Focused external reviews, documented advice, and applied recommendations with verification. |
+| **Selected complementary 2 · Performance** | [`track:performance`](https://github.com/V-Twin-EIP/V-Twin/labels/track%3Aperformance) | Two to three primary KPIs, a reproducible baseline, load and resilience tests, and a measured before/after optimization. |
+
+These are planned deliverables. Labels identify contributions to an objective; completion requires linked evidence. The team's proposed targets of four studies, two POCs, and two comparative benchmarks are explained in the [track coverage and evidence plan](docs/technical-track.md).
 
 ## Get involved
 
