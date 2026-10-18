@@ -7,6 +7,11 @@ export interface Capabilities {
   models: string[]
 }
 
+export class CapabilitiesError extends Error {}
+
+const incompatibleResponse =
+  'The local service is incompatible with this client. Use matching frontend/backend versions and reload the page.'
+
 export async function getCapabilities(): Promise<Capabilities> {
   const controller = new AbortController()
   const timeout = setTimeout(() => controller.abort(), 5000)
@@ -15,8 +20,15 @@ export async function getCapabilities(): Promise<Capabilities> {
       signal: controller.signal,
     })
     if (!response.ok)
-      throw new Error(`The local service returned HTTP ${response.status}.`)
-    const data: unknown = await response.json()
+      throw new CapabilitiesError(
+        `The local service returned HTTP ${response.status}. Check its output, then retry.`,
+      )
+    let data: unknown
+    try {
+      data = await response.json()
+    } catch {
+      throw new CapabilitiesError(incompatibleResponse)
+    }
     if (
       typeof data !== 'object' ||
       data === null ||
@@ -34,9 +46,7 @@ export async function getCapabilities(): Promise<Capabilities> {
       !('viewer_3d_available' in data) ||
       typeof data.viewer_3d_available !== 'boolean'
     ) {
-      throw new Error(
-        'The local service returned an incompatible capability response.',
-      )
+      throw new CapabilitiesError(incompatibleResponse)
     }
     return data as Capabilities
   } finally {

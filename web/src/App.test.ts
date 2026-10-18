@@ -47,14 +47,30 @@ describe('local workspace connection', () => {
     wrapper.unmount()
   })
 
-  it('rejects an incompatible response instead of claiming a working connection', async () => {
+  it.each(['{"api_version":"future"}', 'not-json'])(
+    'explains incompatible response %s without asking to start a running service',
+    async (body) => {
+      vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(body)))
+      const wrapper = mount(App)
+      await flushPromises()
+      const status = wrapper.get('[role="status"]').text()
+      expect(status).toContain('matching frontend/backend versions')
+      expect(status).not.toContain('Start it')
+      wrapper.unmount()
+    },
+  )
+
+  it('reports an HTTP error with a relevant recovery action', async () => {
     vi.stubGlobal(
       'fetch',
-      vi.fn().mockResolvedValue(new Response('{"api_version":"future"}')),
+      vi.fn().mockResolvedValue(new Response('', { status: 503 })),
     )
     const wrapper = mount(App)
     await flushPromises()
-    expect(wrapper.get('[role="status"]').text()).toContain('Cannot connect')
+    const status = wrapper.get('[role="status"]').text()
+    expect(status).toContain('HTTP 503')
+    expect(status).toContain('Check its output')
+    expect(status).not.toContain('Start it')
     wrapper.unmount()
   })
 

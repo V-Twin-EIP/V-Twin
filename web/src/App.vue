@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { getCapabilities, type Capabilities } from './api/capabilities'
+import {
+  CapabilitiesError,
+  getCapabilities,
+  type Capabilities,
+} from './api/capabilities'
 
 const capabilities = ref<Capabilities | null>(null)
 const connecting = ref(false)
@@ -12,9 +16,11 @@ async function connect() {
   capabilities.value = null
   try {
     capabilities.value = await getCapabilities()
-  } catch {
+  } catch (failure) {
     error.value =
-      'Cannot connect to the local service. Start it, then retry the connection.'
+      failure instanceof CapabilitiesError
+        ? failure.message
+        : 'Cannot connect to the local service. Start it, then retry the connection.'
   } finally {
     connecting.value = false
   }
