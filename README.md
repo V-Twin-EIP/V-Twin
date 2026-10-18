@@ -49,6 +49,8 @@ Open [http://127.0.0.1:8000](http://127.0.0.1:8000). The startup screen checks t
 
 The independent numerical smoke check is `uv run --locked --extra api vtwin check-numerics`. It compares an analytical ODE with its exact solution and does not validate engine wear.
 
+The [performance protocol](docs/performance.md) defines the sandbox KPIs, user targets and measurement procedure. The [tracking register](benchmarks/README.md) keeps product baselines and technical budgets explicitly pending; an environment-inventory command is available for each target computer.
+
 ## Two applications, one foundation
 
 | | Digital twin | Design sandbox |

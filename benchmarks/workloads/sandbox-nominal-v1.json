@@ -1,0 +1,58 @@
+{
+  "record_type": "workload_definition",
+  "schema_version": "1.0.0",
+  "workload_id": "sandbox-nominal-v1",
+  "status": "awaiting_reference_case",
+  "ready_for_execution": false,
+  "scope": "One local batch calculation followed by usable required dashboard plots; no 3D",
+  "execution": {
+    "users": 1,
+    "numerical_workers": 1,
+    "initial_queue": "empty",
+    "viewer_3d": false,
+    "warmup_attempts": 3,
+    "measured_attempts": 30,
+    "browser_visibility": "foreground",
+    "input_origin": null
+  },
+  "frozen_inputs": {
+    "design_sha256": null,
+    "calibration_sha256": null,
+    "initial_state_sha256": null,
+    "scenario_sha256": null,
+    "simulated_duration_s": null,
+    "model_implementation_version": null,
+    "numerical_policy_sha256": null,
+    "output_grid_sha256": null,
+    "required_observable_versions": null,
+    "authoritative_output_samples": null,
+    "required_initial_plots": null,
+    "query_and_display_reduction_policy": null,
+    "viewport_and_pixel_ratio": null,
+    "cache_policy": null,
+    "correctness_reference_and_tolerances": null,
+    "environment_inventory_sha256": null
+  },
+  "user_targets": {
+    "run_ready_s_max": 60,
+    "stored_result_ready_s_exclusive_max": 1,
+    "curve_change_ready_s_exclusive_max": 1
+  },
+  "technical_budgets": {
+    "minimum_simulation_rate": null,
+    "maximum_peak_sampled_app_rss_bytes": null,
+    "queue_and_output_limits": null,
+    "ci_regression_thresholds": null
+  },
+  "evidence": {
+    "product_baseline_report": null,
+    "budget_adoption_record": null
+  },
+  "readiness_requirements": [
+    "Replace every frozen-input null with a reviewed value or explicit justified applicability record",
+    "Freeze the matched nominal physical/scenario inputs in #3/#4/#7",
+    "Implement runner and correctness/instrumentation hooks in #8/#40/#46",
+    "Inventory and qualify the actual low-memory reference machine",
+    "Measure before proposing and adopting numerical/memory/resource budgets"
+  ]
+}

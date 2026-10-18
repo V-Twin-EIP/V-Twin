@@ -25,6 +25,7 @@ The existing roadmap proposes a shared simulation foundation. The owner selected
 - The selected interaction is **batch calculation followed by exploration/comparison**. The owner prefers Vue and a replaceable connection between the engine and UI; local web is the initial deployment baseline in the [architecture](architecture/README.md).
 - A **dashboard-only mode** must remain usable without initializing 3D. Interactive 3D remains an MVP capability on supported hardware; a session can opt out of it.
 - The owner selected **Python/NumPy/SciPy for the first numerical engine**, with C++ considered according to measurements, and requested a **maximum one-minute wait for the nominal case**. The architecture defines the end-to-end timing boundary; #3/#39 establish the workload and measure whether the target is met.
+- On October 19, 2026, the owner clarified **one minute per calculation**, with comparison measured separately, and requested **less than one second** to open an already calculated result or change a curve. These are unmeasured user targets in the [performance protocol](performance.md), not automatic timeouts or adopted memory/throughput budgets.
 
 ## Decision record
 

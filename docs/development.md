@@ -100,6 +100,16 @@ npm --prefix web run format
 
 A separate core-only job installs a **non-editable wheel** without API or development dependencies, verifies that FastAPI is absent, and runs `vtwin check-numerics`. GitHub Actions are pinned to commit SHAs. Workflow permissions are limited to repository read access; no repository secrets are required.
 
+### Performance inventory
+
+The [performance protocol](performance.md) defines the three sandbox KPIs and the evidence needed before adopting budgets. Collect metadata on each actual target computer with:
+
+```sh
+uv run --locked --extra api python scripts/performance_inventory.py --label reference-8gb --output artifacts/performance/reference-8gb.json
+```
+
+The command uses the pinned development-only psutil dependency and leaves unavailable/manual context explicit. It collects environment metadata, not a performance baseline. Complete browser, graphics, power/display, background-load, BLAS/thread and storage information before running a benchmark. CI records its own inventory under `artifacts/performance/`; its integration test exercises the command on all three OS targets without introducing a wall-time performance gate.
+
 ## Module responsibilities
 
 | Path | Implemented responsibility |

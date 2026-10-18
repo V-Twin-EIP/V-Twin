@@ -91,15 +91,17 @@ For each exchange, retain the expert's relevant profile, a focused request, a sh
 
 Physical-model accuracy and software performance answer different questions. Preserve independent physical validation while measuring the cost and responsiveness of the implementation.
 
-The initial candidates for the **two to three primary product KPIs** are:
+The [PF.1 measurement protocol](performance.md) selects **three primary sandbox KPIs** for the batch-first scope:
 
-| Candidate KPI | Meaning | Measurement considerations |
+| KPI | Meaning | Measurement considerations |
 | :--- | :--- | :--- |
-| End-to-end telemetry latency, p95 | Delay between the defined source event and its availability to the selected consumer. | Specify endpoints, clocks, timestamp quality, payload, frequency, and consumers. |
+| Submission-to-usable-result latency | Delay from one browser submission through required results and usable initial graphs. | User target ≤ 60 seconds per calculation; report median, p95, maximum and all failures on a fixed workload/machine. |
 | Simulation real-time factor | Simulated seconds divided by elapsed wall-clock seconds. | Fix engine, scenario, simulation duration, numerical settings, and hardware. |
-| Peak resident memory (RSS) | Peak memory of the explicitly selected processes during a run. | Define process scope, environment, load, and collection method. |
+| Peak sampled application RSS | Maximum simultaneous RSS sum for coordinator, worker and dedicated benchmark browser. | Retain group traces and sample completeness; evaluate actual system headroom on the reported 8 GB machine. |
 
-Confirm the selected KPIs in [#39](https://github.com/V-Twin-EIP/V-Twin/issues/39). Set justified budgets after measuring a baseline. Local transport/database benchmarks may record additional workload-specific metrics; they support the comparisons rather than expanding the primary product KPI set indefinitely.
+The owner also confirmed a **less-than-one-second** expectation for opening stored results or changing curves; this is a supporting interaction metric. Telemetry end-to-end p95 becomes the latency focus for the later twin profile, with source/consumer clock and acquisition requirements defined separately. Local transport/database benchmarks retain their workload-specific measures.
+
+The [initial tracking register](../benchmarks/README.md) and [nominal-workload record](../benchmarks/workloads/sandbox-nominal-v1.json) expose the remaining evidence gaps. #39 stays open for the frozen nominal workload and justified budgets after baseline. #46 can use the protocol to obtain that baseline; it must not require invented budgets to begin. The environment inventory command is implemented and exercised in CI, while product timing/memory measurements are not yet available.
 
 The test harness in [#46](https://github.com/V-Twin-EIP/V-Twin/issues/46) covers nominal operation, increasing load, stress, interruption/reconnection, unexpected inputs, and replay/recovery behavior. Record versions, hardware, configuration, workload, repetitions, raw data, and result variability. Keep functional correctness, numerical tolerances, and data integrity as guardrails.
 

@@ -38,6 +38,8 @@ jobs:
         run: npm install --global npm@11.16.0
       - name: Install locked Python dependencies
         run: uv sync --locked --extra api
+      - name: Record CI environment inventory
+        run: uv run --locked --extra api python scripts/performance_inventory.py --label ci-${{ matrix.os }}
       - name: Python quality and architecture report
         run: uv run --locked --extra api python scripts/check_quality.py
       - name: Numerical and adapter tests
