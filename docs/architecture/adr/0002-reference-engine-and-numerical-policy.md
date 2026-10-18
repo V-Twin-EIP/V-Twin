@@ -1,6 +1,6 @@
 # ADR 0002 Python reference engine and numerical policy
 
-**Status:** working implementation baseline, October 18, 2026. The owner identified C/C++, Python, TypeScript, and Vue/React as team skills and delegated the engine comparison. Numerical acceptance depends on #3/#4/#33; no performance winner has been measured.
+**Status:** Python/NumPy/SciPy selected by the owner for V1 on October 18, 2026, with C++ introduced according to measured needs. Numerical acceptance depends on #3/#4/#33; no performance winner has been measured.
 
 ## Decision
 
@@ -8,7 +8,7 @@ Start with a **Python reference engine using NumPy and SciPy**, independently im
 
 The application selects an `EnginePort` implementation through the composition root. Its operation consumes a frozen run specification, emits diagnostics and result artifacts through defined callbacks/sinks, and returns a terminal outcome. Numerical callbacks execute inside the selected engine. A future C++ implementation can implement the same semantic contract; neither UI routes nor run schemas need to expose its internal data structures.
 
-This is an engineering choice for the current component-level batch scope: use the team's Python experience and the available numerical tools while establishing the physical model and evaluation data. **No CUDA or GPU compute dependency is required for V1.** Python execution time and memory still need measurement on the reference workload.
+This choice uses the team's Python experience and the available numerical tools while establishing the physical model and evaluation data. **No CUDA or GPU compute dependency is required for V1.** Python execution time and memory still need measurement on the reference workload.
 
 ## Alternatives
 
@@ -28,7 +28,9 @@ If C++ is introduced, cross the language boundary with complete operations or ar
 - A Reynolds/contact-field formulation may require spatial discretization, algebraic/linear/nonlinear solves, or coupled iteration. `solve_ivp` is not a selected solution for every lubrication equation. #33 and the physical-model work establish that formulation and its convergence policy.
 - #4 specifies justified physical tolerances, calibration/evaluation separation, domain coverage, and failure conditions. Solver-local error controls do not establish agreement with experimental wear.
 
-## Evaluation before finalizing the choice
+## Numerical and performance evaluation
+
+The owner requested a **maximum one-minute wait for a nominal sandbox case**. Treat **60 seconds** as a user target to evaluate in #39: measure from the browser's run submission to the first complete required result set being usable in the dashboard. Include validation, scheduling, calculation, publication, result retrieval, and initial chart availability; report queue wait separately within that total. The nominal workload and environment must be fixed in #3/#39. Startup/installation and a queue already occupied by other jobs are separate scenarios with separately reported waits. This target is not a demonstrated result or an automatic solver timeout.
 
 Use the actual #3 reference workload and the #4 accuracy guardrails. Record input/model versions, duration, integration/output policy, runtime/BLAS configuration, hardware, repeated wall times, peak memory, solver diagnostics, and observable errors. Count the API/worker/browser cost separately where useful; retain a total application measurement on the 8 GB machine.
 

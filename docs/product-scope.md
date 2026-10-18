@@ -24,6 +24,7 @@ The existing roadmap proposes a shared simulation foundation. The owner selected
 - V1 targets **Windows, macOS, and Linux**, with developer installation and documented commands. The smallest reported machine has **8 GB RAM and integrated graphics**; exact hardware, operating-system, and browser versions remain to be inventoried for compatibility/performance checks.
 - The selected interaction is **batch calculation followed by exploration/comparison**. The owner prefers Vue and a replaceable connection between the engine and UI; local web is the initial deployment baseline in the [architecture](architecture/README.md).
 - A **dashboard-only mode** must remain usable without initializing 3D. Interactive 3D remains an MVP capability on supported hardware; a session can opt out of it.
+- The owner selected **Python/NumPy/SciPy for the first numerical engine**, with C++ considered according to measurements, and requested a **maximum one-minute wait for the nominal case**. The architecture defines the end-to-end timing boundary; #3/#39 establish the workload and measure whether the target is met.
 
 ## Decision record
 
@@ -48,6 +49,8 @@ The existing roadmap proposes a shared simulation foundation. The owner selected
 | Target Windows, macOS, and Linux with developer installation. | Confirmed | Owner's architecture interview answer; exact supported versions require cross-platform checks. |
 | Provide dashboard-only operation without loading 3D. | Confirmed | Owner's request for the 8 GB machine with integrated graphics; 3D remains available separately. |
 | Separate a Vue UI, a versioned local API, and a replaceable engine. | Working architecture baseline | Owner's preference and the initial architecture/ADR design; engine-language and numerical evaluation gates are recorded in #5. |
+| Start with Python/NumPy/SciPy and consider C++ according to measurements. | Confirmed | Owner selected this engine direction after the architecture comparison. |
+| Target usable nominal-case results within one minute of submission. | User expectation to evaluate | Owner's architecture interview answer. Workload, environment, and observed latency belong to #3/#39; not a measured result or automatic timeout. |
 
 ## Team and work allocation
 

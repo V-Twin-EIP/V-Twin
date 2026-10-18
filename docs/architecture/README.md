@@ -6,7 +6,7 @@ The first delivery runs a parameterized ring–liner case, records its results, 
 
 ## Constraints and stack
 
-The owner identified C/C++, Python, TypeScript, and Vue/React as team skills, preferred Vue, selected batch calculation followed by exploration, and favored local web deployment. V1 uses developer installation and documented launch commands. Windows, macOS, and Linux are target platforms. The smallest reported machine has **8 GB RAM and integrated graphics**; CPU, OS/browser versions, and graphics capability still need inventory. The two reported M4 Macs and two other workstations complement that reference environment.
+The owner identified C/C++, Python, TypeScript, and Vue/React as team skills, preferred Vue, selected **Python/NumPy/SciPy for V1 with C++ according to measurements**, selected batch calculation followed by exploration, and favored local web deployment. V1 uses developer installation and documented launch commands. Windows, macOS, and Linux are target platforms. The smallest reported machine has **8 GB RAM and integrated graphics**; CPU, OS/browser versions, and graphics capability still need inventory. The two reported M4 Macs and two other workstations complement that reference environment.
 
 | Layer | Working V1 choice | Decision |
 | :--- | :--- | :--- |
@@ -178,6 +178,8 @@ The normal local launch serves the built UI and `/api/v1` from the same loopback
 
 Persist a queued run before acknowledging it, then transition through `queued`, `running`, and a terminal `completed`, `failed`, `cancelled`, or `interrupted` state. A cancellation request is an event while work stops; it is not immediate success. Bound queue length, simulation duration, output volume, and result-query sizes. Initial limits are selected and measured in #39 rather than inferred from the 8 GB system capacity.
 
+The owner's UX target is **at most 60 seconds from submitting a nominal case to usable dashboard results**, on a fixed workload and reference environment. Measure the complete path, including any nominal queue wait, numerical execution, publication, retrieval, and initial graphs; report the component durations as well. Busy-queue and startup scenarios have separate measurements. This is an acceptance target to test in #39, not an established performance result or a forced numerical cutoff.
+
 The coordinator supervises worker exit, timeout, cancellation, staging publication, and startup reconciliation. CLI execution must respect exclusive workspace ownership: use the running coordinator's API or an independently locked workspace. A second CLI process cannot start a competing scheduler against an active workspace. Recovery and backup semantics are defined in ADR 0003.
 
 ## Replaceable interfaces
@@ -268,7 +270,7 @@ Structured logs carry run IDs, component, severity, and actionable error codes w
 | Decision | Required input or evidence |
 | :--- | :--- |
 | Numerical formulation, method and tolerances | Selected equations/coupling, validation protocol #4, wear-model study #33, and convergence/accuracy evidence. Binary64 and the candidate ODE adapter are working baselines. |
-| Workload, time and memory budgets | Exact scenario/output volume from #3 and environment measurements in #39; verify the reported 8 GB machine in dashboard-only mode and an available 3D environment separately. |
+| Workload, time and memory budgets | Owner's target: nominal submission-to-usable-results latency at most 60 seconds. Fix scenario/output volume in #3 and measure in #39; verify the reported 8 GB machine in dashboard-only mode and an available 3D environment separately. Justify memory/queue limits from those measurements. |
 | Cross-platform support | #6/#41: exact OS/browser versions, CPU architectures, dependency installation, launch, persistence, cancellation, and graphics capability checks. |
 | Future acquisition and telemetry | #30/#31: real hardware/signals and live transport evidence. No live-vehicle interface is implemented by this design. |
 | Future history store | #32/#43: InfluxDB/TimescaleDB comparison for the twin; compare against actual read/write/retention workloads. Local sandbox catalogue/artifacts have the separate ADR 0003 scope. |
