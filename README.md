@@ -29,7 +29,9 @@ Both applications will share a simulation core that connects operating condition
 > [!NOTE]
 > V-Twin is at the **project-definition stage**. This repository is a fresh start. The roadmap is defined; the simulation core, data integrations, and demonstrators are planned work.
 
-The first demonstrator will prioritize **the design sandbox**, with one reference engine and a focused reliability case. The real-engine twin remains a subsequent delivery goal. Engine selection, available evidence, and demonstration criteria are being defined in the [product scope](docs/product-scope.md).
+The first demonstrator will prioritize **the design sandbox**, with one reference engine and a focused reliability case. The real-engine twin remains a subsequent delivery goal. The scoped reference case, evidence gaps, and demonstration requirements are recorded in the [product scope](docs/product-scope.md).
+
+The scoped MVP uses parameter-based configuration, an **interactive 3D view**, graphs, and baseline-versus-variant comparison. Its first reliability topic is ring–liner wear associated with friction and lubrication. Audio is outside the product scope. The project currently has four team members. The next Epitech mentoring meeting is **Monday, October 26, 2026**; the first executable-demonstration date remains to be defined.
 
 ## Two applications, one foundation
 
@@ -111,7 +113,7 @@ These are planned deliverables. Labels identify contributions to an objective; c
 
 ## Get involved
 
-Start with [M0.1 — Define the scope and user journeys](https://github.com/V-Twin-EIP/V-Twin/issues/1). It establishes the first demonstrator, the reference engine, and the initial wear mechanism.
+Read the [product scope](docs/product-scope.md) and its [M0.1 decision record](https://github.com/V-Twin-EIP/V-Twin/issues/1) for the first demonstrator, reference engine, and initial wear mechanism.
 
 Contributions can help with engine modeling, instrumentation and datasets, numerical methods, model validation, and the tools that make results understandable. Use the [roadmap issues](https://github.com/V-Twin-EIP/V-Twin/issues?q=is%3Aissue+label%3Aroadmap) to find an objective and review its dependencies and acceptance criteria before proposing work.
 

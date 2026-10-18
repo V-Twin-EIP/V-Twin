@@ -8,9 +8,9 @@
 
 Use a **single-cylinder gasoline Ricardo Hydra** as the engine context. Freeze the initial engine specification to the **86 mm bore, 86 mm stroke, 10.5:1 compression-ratio variant** described in Table 1 of Dyson, Priest, and Lee's 2023 study. The paper identifies its configuration and laboratory lubrication arrangements. These values establish a reference specification, not a complete wear-validation dataset. [Engine specification, Table 1](https://d-nb.info/1312319852/34).
 
-Focus the first component-level study on the **top compression ring–cylinder liner contact**, with **liner sliding wear** as the initial degradation quantity to investigate. Ring wear, the entire ring pack, bearings, and other failure mechanisms can be added after the first contact model is established. This component choice is a proposed technical scope, based on the owner's confirmed friction/lubrication direction.
+Focus the first component-level study on the **top compression ring–cylinder liner contact**, with **liner sliding wear** as the initial degradation quantity to investigate. Ring wear, the entire ring pack, bearings, and other failure mechanisms can be added after the first contact model is established. This is the working technical baseline adopted in M0.1 from the owner's confirmed friction/lubrication direction; model feasibility and validation remain follow-up work.
 
-Use **explicit engine/contact parameters**, entered through a form or a versioned file, as the proposed MVP design input. The exact file format is an architecture decision. Complete CAD import is a later capability.
+Use **explicit engine/contact parameters**, entered through a form or a versioned file, as the working MVP design-input baseline. The exact file format is an architecture decision. Complete CAD import is a later capability. The owner subsequently selected **interactive 3D with graphs and comparisons**, excluded audio, and confirmed a four-person project team. See the [current product scope](../product-scope.md) for those decisions.
 
 ## Candidate comparison
 
@@ -34,7 +34,7 @@ The engineering inference is that the component can be studied through an explic
 
 | Approach | What it contributes | Work still needed for wear simulation | MVP decision |
 | :--- | :--- | :--- | :--- |
-| **Parameter form/file** | Explicit dimensions, properties, operating conditions, and model settings that map to the solver. | Source and validate the parameters; implement and evaluate the physical model. | Proposed first implementation. It enables a controlled reference case and one-parameter comparisons. |
+| **Parameter form/file** | Explicit dimensions, properties, operating conditions, and model settings that map to the solver. | Source and validate the parameters; implement and evaluate the physical model. | Working MVP baseline. It enables a controlled reference case and one-parameter comparisons. |
 | **Complete CAD import** | Detailed shapes, part placement, and potentially assembly relationships, depending on the file. | Resolve format/dependencies, identify relevant parts and contacts, prepare the geometry, supply missing physical properties and conditions, and connect it to an appropriate solver. | Defer until the numerical model and its required inputs are established. |
 
 This is an architectural assessment for V-Twin's selected contact problem. Geometric detail does not by itself specify roughness, lubricant behavior, applied loading, or a validated wear law. A rendered assembly, a kinematic animation, a CFD geometry, and a wear-capable simulation model represent different capabilities.
@@ -46,7 +46,7 @@ This is an architectural assessment for V-Twin's selected contact problem. Geome
 
 These sources establish that engine-related CAD/geometry is available in some forms. This review did not identify a manufacturer-qualified, complete production-engine CAD assembly with all tribological properties, operating data, and a verified reuse license ready for V-Twin. No external CAD asset is copied into this repository by this decision.
 
-A later 2D/3D viewer can generate a simplified representation from V-Twin's parameters. Choosing a 3D view does not require making arbitrary CAD import part of the MVP.
+The MVP's interactive 3D viewer will use a simplified representation driven by V-Twin's documented parameters. CAD import remains a separate later capability. Illustrative geometry and any display exaggeration must be identified; the rendering does not establish a validated physical model.
 
 ## Initial parameter and evidence inventory
 
@@ -64,7 +64,7 @@ Each supplied value will need a unit, provenance, applicability, and uncertainty
 
 1. Load the frozen reference configuration and one documented operating/contact case.
 2. Run the selected ring/liner model and record the relevant lubrication, friction, and wear outputs.
-3. Change one supported parameter, such as a lubricant property or a ring/contact design property, within the evaluated range.
+3. For the scoped first case, compare two lubricant viscosity configurations within the evaluated range, keeping other inputs fixed. Open further contact-design parameters as their model support and evidence are established.
 4. Repeat the same scenario and compare the outputs, their interpretation, and evidence coverage.
 5. Preserve the configuration, source references, model version, and results for reproduction.
 
