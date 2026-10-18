@@ -10,6 +10,7 @@ Explore where a future engine could fail.
 [![Stage: project definition](https://img.shields.io/badge/stage-project_definition-e9a23b?style=flat-square)](#current-status)
 [![Roadmap: 7 milestones](https://img.shields.io/badge/roadmap-7_milestones-2563eb?style=flat-square)](#roadmap)
 [![Focus: engine simulation](https://img.shields.io/badge/focus-engine_simulation-0f766e?style=flat-square)](#vision)
+[![License: AGPL-3.0](https://img.shields.io/badge/license-AGPL--3.0-2563eb?style=flat-square)](LICENSE)
 
 [Vision](#vision) · [Applications](#two-applications-one-foundation) · [Roadmap](#roadmap) · [Get involved](#get-involved)
 
@@ -102,6 +103,10 @@ Start with [M0.1 — Define the scope and user journeys](https://github.com/V-Tw
 Contributions can help with engine modeling, instrumentation and datasets, numerical methods, model validation, and the tools that make results understandable. Use the [roadmap issues](https://github.com/V-Twin-EIP/V-Twin/issues?q=is%3Aissue+label%3Aroadmap) to find an objective and review its dependencies and acceptance criteria before proposing work.
 
 For a modeling proposal, include the physical mechanism, assumptions, required inputs, expected outputs, and the evidence that could validate it.
+
+## License
+
+V-Twin is licensed under the **GNU Affero General Public License v3.0 (AGPL-3.0)**. See [LICENSE](LICENSE) for the full text.
 
 ---
 
