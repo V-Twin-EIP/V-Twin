@@ -1,6 +1,6 @@
 # Product scope and first demonstrator
 
-**Status:** M0.1 product-scope baseline, version 1. This document defines planned capabilities; their implementation and physical validation are tracked in the follow-up issues.
+**Status:** M0.1 product-scope baseline, with team allocation updated on October 18, 2026. This document defines planned capabilities; their implementation and physical validation are tracked in the follow-up issues.
 
 **Tracking:** [M0.1 — Define the scope and user journeys](https://github.com/V-Twin-EIP/V-Twin/issues/1).
 
@@ -20,7 +20,7 @@ The existing roadmap proposes a shared simulation foundation. The owner selected
 - A documented **Ricardo Hydra gasoline 86 × 86 mm case** is selected as the reference-engine context. It has published specifications and relevant tribology literature; a complete matched parameter and wear-validation dataset has not yet been established. See the [reference-engine and input review](research/reference-engine-and-design-inputs.md).
 - The first product demonstration prioritizes the sandbox. Vehicle acquisition and twin-related technology experiments can continue as supporting roadmap work, without making a live vehicle connection a prerequisite for this demonstration.
 - The future twin is intended to start with a new vehicle. Its deployment mechanism, available signals, and initialization/calibration procedure remain to be defined.
-- The project has **four team members**. The next Epitech mentoring meeting is **Monday, October 26, 2026**. Individual responsibilities, availability, and the first executable-demonstration date have not been established in this discussion.
+- The project has **five team members**. Their approved responsibilities and current GitHub availability are recorded below. The next Epitech mentoring meeting is **Monday, October 26, 2026**; the first executable-demonstration date remains to be defined. Individual working hours and capacity have not been established.
 
 ## Decision record
 
@@ -39,8 +39,24 @@ The existing roadmap proposes a shared simulation foundation. The owner selected
 | Study the top compression ring–liner contact, initially targeting liner sliding wear. | Adopted working baseline | Scoped from the confirmed wear direction and relevant literature; formulation, parameters, and calibration remain follow-up work. |
 | Include interactive 3D, graphs, and result comparison in the MVP. | Confirmed | Owner's third-round answer. |
 | Exclude engine audio. | Confirmed | Owner stated that sound is not wanted. |
-| Plan with a four-person team. | Confirmed | Owner's third-round answer; no allocation or delivery date inferred. |
+| Plan with a five-person team. | Corrected and confirmed | Owner corrected the earlier four-person estimate and approved the allocation below. |
 | Prepare for the next Epitech mentoring meeting on October 26, 2026. | Planning date | Owner supplied “Monday, October 26” after the distinction between mentoring and an executable demonstration; no executable-delivery deadline inferred. |
+
+## Team and work allocation
+
+The owner approved this initial allocation for a **five-person project team**. GitHub availability was checked on **October 18, 2026**: four accounts can currently be assigned issues; `divin0i` has a pending organization invitation. Issue assignees are the current operational record. Assignment identifies responsibility and does not bypass dependencies or establish completion.
+
+| Member | Responsibility | Tickets | Current assignment |
+| :--- | :--- | :--- | :--- |
+| [rchrp](https://github.com/rchrp) | Technical foundation: architecture/stack, build/tests/CI, and performance KPIs/protocol. | [#5](https://github.com/V-Twin-EIP/V-Twin/issues/5), [#6](https://github.com/V-Twin-EIP/V-Twin/issues/6), [#39](https://github.com/V-Twin-EIP/V-Twin/issues/39). | Assigned. |
+| [Slakkos](https://github.com/Slakkos) | Lead the four comparative technology studies: acquisition, transport, time-series storage, and physical/ML/hybrid wear approaches. | [#30](https://github.com/V-Twin-EIP/V-Twin/issues/30), [#31](https://github.com/V-Twin-EIP/V-Twin/issues/31), [#32](https://github.com/V-Twin-EIP/V-Twin/issues/32), [#33](https://github.com/V-Twin-EIP/V-Twin/issues/33). | Assigned; all four studies are included in the next mentoring review. |
+| [AdamTamboura](https://github.com/AdamTamboura) | Sandbox scenarios and physical validation/data protocol; scientific review support for Slakkos's wear-model comparison. | [#3](https://github.com/V-Twin-EIP/V-Twin/issues/3), [#4](https://github.com/V-Twin-EIP/V-Twin/issues/4); supports [#33](https://github.com/V-Twin-EIP/V-Twin/issues/33). | Assigned to #3 and #4; Slakkos remains responsible for #33. |
+| [epitechpacien](https://github.com/epitechpacien) | Watch journal, consolidation of study evidence, and preparation of focused expert exchanges. | [#29](https://github.com/V-Twin-EIP/V-Twin/issues/29), [#36](https://github.com/V-Twin-EIP/V-Twin/issues/36). | Assigned. |
+| [divin0i](https://github.com/divin0i) | Setup/configuration documentation and data contracts with rchrp's review; later, sandbox visualization. | [#41](https://github.com/V-Twin-EIP/V-Twin/issues/41), [#7](https://github.com/V-Twin-EIP/V-Twin/issues/7), then [#24](https://github.com/V-Twin-EIP/V-Twin/issues/24). | Reserved in the issue descriptions; unassigned while the invitation is pending. |
+
+For the October 26 mentoring meeting, prepare the scope, scenarios/validation plan, architecture and foundation work, KPIs, journal/expert questions, and the four comparative studies. Present evidence and unresolved decisions honestly; the later visualization implementation is not committed for that date. The full acceptance criteria and dependencies remain in each ticket.
+
+Use [Prochain mentorat](https://github.com/orgs/V-Twin-EIP/projects/1/views/10) for the team overview and [Prochain Mentorat mon travail](https://github.com/orgs/V-Twin-EIP/projects/1/views/11) for your own assigned preparation work. The personal view saves `label:mentoring:next assignee:@me`; GitHub's [`@me` filter](https://docs.github.com/en/issues/planning-and-tracking-with-projects/customizing-views-in-your-project/filtering-projects#filtering-assignees-and-reviewers-using-keywords) resolves to the signed-in viewer, so the same tab works for every member. Unassigned reserved tickets remain visible in the team view.
 
 ## Application framing
 
@@ -108,7 +124,7 @@ An early integration prototype may use declared fixtures to exercise the interfa
 | Next Epitech mentoring meeting | Product scope, reference-engine rationale, user journeys, MVP boundaries, track evidence matrix, and questions to arbitrate. Architecture and experiment results can be added as their own issues progress. | Monday, October 26, 2026. |
 | First executable software demonstration | The end-to-end configuration/run/3D/graphs/comparison path described above, with the provenance and evaluation status of displayed results explicit. | To be defined. |
 
-The mentoring meeting and executable demonstration are separate planning events. No delivery deadline or four-person task allocation has been committed by this scope document.
+The mentoring meeting and executable demonstration are separate planning events. The team allocation above is approved; the executable-demonstration date remains uncommitted.
 
 ### Subsequent delivery: real-engine twin
 

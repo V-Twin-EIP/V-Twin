@@ -105,13 +105,16 @@ For [#47](https://github.com/V-Twin-EIP/V-Twin/issues/47), profile a measured bo
 
 ## Prepare the next mentoring meeting
 
-Use the `mentoring:next` label to find the immediate preparation work. This is a review focus, not a claim that every issue can be completed before a date that has not been agreed.
+The next mentoring meeting is **Monday, October 26, 2026**. Use the `mentoring:next` label to find its preparation work. Present available evidence, recommendations, open decisions, and remaining work; inclusion in the review does not mark an issue complete or commit the executable product for that date. The [five-person team allocation](product-scope.md#team-and-work-allocation) identifies responsibilities and the pending GitHub invitation.
+
+Project views: [team preparation](https://github.com/orgs/V-Twin-EIP/projects/1/views/10) and [Prochain Mentorat mon travail](https://github.com/orgs/V-Twin-EIP/projects/1/views/11). The personal view combines the mentoring label with `assignee:@me`, as explained in the [team allocation](product-scope.md#team-and-work-allocation).
 
 | Bring to the meeting | Issues and expected discussion |
 | :--- | :--- |
-| Product scope, reference engine, and evidence plan. | [#1](https://github.com/V-Twin-EIP/V-Twin/issues/1), [#4](https://github.com/V-Twin-EIP/V-Twin/issues/4): what is observable, what will be demonstrated, and how it will be checked. |
+| Product scope, reference engine, scenarios, and evidence plan. | [#1](https://github.com/V-Twin-EIP/V-Twin/issues/1), [#3](https://github.com/V-Twin-EIP/V-Twin/issues/3), [#4](https://github.com/V-Twin-EIP/V-Twin/issues/4): what is observable, what will be demonstrated, and how it will be checked. AdamTamboura leads #3/#4. |
 | Architecture V1 and a justified repository/configuration plan. | [#5](https://github.com/V-Twin-EIP/V-Twin/issues/5), [#6](https://github.com/V-Twin-EIP/V-Twin/issues/6), [#41](https://github.com/V-Twin-EIP/V-Twin/issues/41): UML, flows, responsibilities, initial setup assumptions, and decisions still to test. |
 | An initialized watch journal and comparative questions. | [#29](https://github.com/V-Twin-EIP/V-Twin/issues/29): sources, novelty for the team, cadence, and planned experiments. |
+| Four comparative studies led by Slakkos. | [#30](https://github.com/V-Twin-EIP/V-Twin/issues/30): OBD-II/CAN/sensors; [#31](https://github.com/V-Twin-EIP/V-Twin/issues/31): MQTT/WebSocket/REST/SSE; [#32](https://github.com/V-Twin-EIP/V-Twin/issues/32): InfluxDB/TimescaleDB; [#33](https://github.com/V-Twin-EIP/V-Twin/issues/33): physical/ML/hybrid wear approaches. Bring sources, comparison criteria, V-Twin fit, recommendations, and experiments or evidence still needed. |
 | Expert topics, suitable profiles, and precise questions. | [#36](https://github.com/V-Twin-EIP/V-Twin/issues/36): which decisions need external challenge and what outcome is sought. |
 | Candidate KPIs and a measurement protocol. | [#39](https://github.com/V-Twin-EIP/V-Twin/issues/39): how a baseline and fair before/after comparison will be obtained. |
 

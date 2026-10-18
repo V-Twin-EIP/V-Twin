@@ -31,7 +31,7 @@ Both applications will share a simulation core that connects operating condition
 
 The first demonstrator will prioritize **the design sandbox**, with one reference engine and a focused reliability case. The real-engine twin remains a subsequent delivery goal. The scoped reference case, evidence gaps, and demonstration requirements are recorded in the [product scope](docs/product-scope.md).
 
-The scoped MVP uses parameter-based configuration, an **interactive 3D view**, graphs, and baseline-versus-variant comparison. Its first reliability topic is ring–liner wear associated with friction and lubrication. Audio is outside the product scope. The project currently has four team members. The next Epitech mentoring meeting is **Monday, October 26, 2026**; the first executable-demonstration date remains to be defined.
+The scoped MVP uses parameter-based configuration, an **interactive 3D view**, graphs, and baseline-versus-variant comparison. Its first reliability topic is ring–liner wear associated with friction and lubrication. Audio is outside the product scope. The project has **five team members**; responsibilities and current GitHub availability are recorded in the [team allocation](docs/product-scope.md#team-and-work-allocation). The next Epitech mentoring meeting is **Monday, October 26, 2026**; the first executable-demonstration date remains to be defined.
 
 ## Two applications, one foundation
 
@@ -97,6 +97,8 @@ Milestones are driven by evidence and dependencies. Data collection should begin
 **Explore the plan:** [GitHub Project](https://github.com/orgs/V-Twin-EIP/projects/1) · [Roadmap issues](https://github.com/V-Twin-EIP/V-Twin/issues?q=is%3Aissue+label%3Aroadmap) · [Milestones](https://github.com/V-Twin-EIP/V-Twin/milestones)
 
 The project board requires access to the organization's private project. The roadmap issues and milestones are also linked directly above.
+
+For the next review, use [Prochain mentorat](https://github.com/orgs/V-Twin-EIP/projects/1/views/10) for the team or [Prochain Mentorat mon travail](https://github.com/orgs/V-Twin-EIP/projects/1/views/11) for preparation tickets assigned to the signed-in member.
 
 ## Technical track
 

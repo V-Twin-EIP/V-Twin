@@ -10,7 +10,7 @@ Use a **single-cylinder gasoline Ricardo Hydra** as the engine context. Freeze t
 
 Focus the first component-level study on the **top compression ring–cylinder liner contact**, with **liner sliding wear** as the initial degradation quantity to investigate. Ring wear, the entire ring pack, bearings, and other failure mechanisms can be added after the first contact model is established. This is the working technical baseline adopted in M0.1 from the owner's confirmed friction/lubrication direction; model feasibility and validation remain follow-up work.
 
-Use **explicit engine/contact parameters**, entered through a form or a versioned file, as the working MVP design-input baseline. The exact file format is an architecture decision. Complete CAD import is a later capability. The owner subsequently selected **interactive 3D with graphs and comparisons**, excluded audio, and confirmed a four-person project team. See the [current product scope](../product-scope.md) for those decisions.
+Use **explicit engine/contact parameters**, entered through a form or a versioned file, as the working MVP design-input baseline. The exact file format is an architecture decision. Complete CAD import is a later capability. The owner subsequently selected **interactive 3D with graphs and comparisons**, excluded audio, and corrected the project team size to **five members**. See the [current product scope](../product-scope.md) for those decisions and the approved allocation.
 
 ## Candidate comparison
 
