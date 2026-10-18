@@ -1,0 +1,84 @@
+name: Foundation CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: foundation-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  foundation:
+    name: Foundation (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    env:
+      OPENBLAS_NUM_THREADS: "1"
+      OMP_NUM_THREADS: "1"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
+        with:
+          version: "0.13.1"
+          python-version-file: .python-version
+          enable-cache: true
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .node-version
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - name: Pin npm version
+        run: npm install --global npm@11.16.0
+      - name: Install locked Python dependencies
+        run: uv sync --locked --extra api
+      - name: Python quality and architecture report
+        run: uv run --locked --extra api python scripts/check_quality.py
+      - name: Numerical and adapter tests
+        run: uv run --locked --extra api pytest --cov=vtwin --cov-report=term-missing --cov-report=xml:artifacts/coverage.xml --junitxml=artifacts/pytest.xml
+      - name: Analytical numerical check
+        run: uv run --locked --extra api vtwin check-numerics
+      - name: Build Python distributions
+        run: uv build --no-sources
+      - name: Install locked frontend dependencies
+        run: npm --prefix web ci
+      - name: Frontend lint report
+        run: npm --prefix web run lint -- --format json --output-file ../artifacts/eslint.json
+      - name: Frontend formatting
+        run: npm --prefix web run format:check
+      - name: Frontend unit tests
+        run: npm --prefix web run test:unit -- --run --reporter=default --reporter=junit --outputFile=../artifacts/vitest.xml
+      - name: Type-check and build frontend
+        run: npm --prefix web run build
+      - name: Real local-server smoke check
+        run: uv run --locked --extra api python scripts/smoke_http.py
+      - name: Upload reports and builds
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: foundation-${{ matrix.os }}
+          path: |
+            artifacts/
+            dist/
+            web/dist/
+
+  core-only:
+    name: Core wheel without HTTP dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
+        with:
+          version: "0.13.1"
+          python-version-file: .python-version
+      - run: uv sync --locked --no-dev --no-editable
+      - run: uv run --no-sync vtwin check-numerics
+      - name: Verify core import isolation and wheel installation
+        run: uv run --no-sync python -c "import importlib.util, vtwin; assert importlib.util.find_spec('fastapi') is None; assert 'site-packages' in vtwin.__file__; print(vtwin.__file__)"

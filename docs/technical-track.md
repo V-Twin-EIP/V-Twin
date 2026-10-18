@@ -120,7 +120,7 @@ Project views: [team preparation](https://github.com/orgs/V-Twin-EIP/projects/1/
 | Expert topics, suitable profiles, and precise questions. | [#36](https://github.com/V-Twin-EIP/V-Twin/issues/36): which decisions need external challenge and what outcome is sought. |
 | Candidate KPIs and a measurement protocol. | [#39](https://github.com/V-Twin-EIP/V-Twin/issues/39): how a baseline and fair before/after comparison will be obtained. |
 
-The README overview, license, issue-based roadmap, and working architecture/UML views are present. A runnable module structure, environment examples, tests, and implemented error handling remain planned in this repository. The team's list of accepted sub-objectives is treated as agreed scope; completion requires evidence linked to the relevant issue.
+The README overview, license, issue-based roadmap, working architecture/UML views, and [initial development foundation](development.md) are present. The foundation provides a runnable module structure, a small configuration example, analytical numerical/adapter tests, quality reports, and CI jobs. Full physical models, persistent execution/storage, and the error/logging/security work in #40 still require their own evidence. The team's list of accepted sub-objectives is treated as agreed scope; completion requires evidence linked to the relevant issue.
 
 ## Evidence and completion rules
 

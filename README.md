@@ -7,7 +7,8 @@
 Track how a real engine ages.<br />
 Explore where a future engine could fail.
 
-[![Stage: project definition](https://img.shields.io/badge/stage-project_definition-e9a23b?style=flat-square)](#current-status)
+[![Stage: foundation](https://img.shields.io/badge/stage-foundation-e9a23b?style=flat-square)](#current-status)
+[![Foundation CI](https://github.com/V-Twin-EIP/V-Twin/actions/workflows/ci.yml/badge.svg)](https://github.com/V-Twin-EIP/V-Twin/actions/workflows/ci.yml)
 [![Roadmap: 7 milestones](https://img.shields.io/badge/roadmap-7_milestones-2563eb?style=flat-square)](#roadmap)
 [![Focus: engine simulation](https://img.shields.io/badge/focus-engine_simulation-0f766e?style=flat-square)](#vision)
 [![License: AGPL-3.0](https://img.shields.io/badge/license-AGPL--3.0-2563eb?style=flat-square)](LICENSE)
@@ -27,11 +28,26 @@ Both applications will share a simulation core that connects operating condition
 ## Current status
 
 > [!NOTE]
-> V-Twin is at the **project-definition stage**. This repository is a fresh start. The roadmap is defined; the simulation core, data integrations, and demonstrators are planned work.
+> V-Twin has an **initial development foundation**: an installable Python numerical package, local read-only API, Vue startup screen, tests, quality checks, and a cross-platform CI workflow. Physical engine/wear models, data integrations, the simulation runner, dashboards, and 3D remain planned work.
 
 The first demonstrator will prioritize **the design sandbox**, with one reference engine and a focused reliability case. The real-engine twin remains a subsequent delivery goal. The scoped reference case, evidence gaps, and demonstration requirements are recorded in the [product scope](docs/product-scope.md).
 
 The scoped MVP uses parameter-based configuration, an **interactive 3D view**, graphs, and baseline-versus-variant comparison. A **dashboard-only mode** supports configuration, calculations, graphs, comparison, and export without loading 3D. Its first reliability topic is ring–liner wear associated with friction and lubrication. Audio is outside the product scope. The project has **five team members**; responsibilities and current GitHub availability are recorded in the [team allocation](docs/product-scope.md#team-and-work-allocation). The next Epitech mentoring meeting is **Monday, October 26, 2026**; the first executable-demonstration date remains to be defined.
+
+## Run the foundation
+
+Prerequisites: **uv 0.13.1**, **Node 24.18.1**, and **npm 11.16.0**. uv installs the pinned Python 3.13.16 runtime when needed. From the repository root:
+
+```sh
+uv sync --locked --extra api
+npm --prefix web ci
+npm --prefix web run build
+uv run --locked --extra api vtwin serve
+```
+
+Open [http://127.0.0.1:8000](http://127.0.0.1:8000). The startup screen checks the local API; it does not simulate an engine. See the [development guide](docs/development.md) for setup, dev mode, tests, reports, configuration, and CI.
+
+The independent numerical smoke check is `uv run --locked --extra api vtwin check-numerics`. It compares an analytical ODE with its exact solution and does not validate engine wear.
 
 ## Two applications, one foundation
 
@@ -118,6 +134,8 @@ These are planned deliverables. Labels identify contributions to an objective; c
 Read the [product scope](docs/product-scope.md) and its [M0.1 decision record](https://github.com/V-Twin-EIP/V-Twin/issues/1) for the first demonstrator, reference engine, and initial wear mechanism.
 
 Contributions can help with engine modeling, instrumentation and datasets, numerical methods, model validation, and the tools that make results understandable. Use the [roadmap issues](https://github.com/V-Twin-EIP/V-Twin/issues?q=is%3Aissue+label%3Aroadmap) to find an objective and review its dependencies and acceptance criteria before proposing work.
+
+Follow the [contribution workflow](CONTRIBUTING.md) and run the documented checks before proposing a change.
 
 For a modeling proposal, include the physical mechanism, assumptions, required inputs, expected outputs, and the evidence that could validate it.
 

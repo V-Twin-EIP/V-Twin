@@ -1,0 +1,84 @@
+[build-system]
+requires = ["hatchling==1.32.4"]
+build-backend = "hatchling.build"
+
+[project]
+name = "vtwin"
+version = "0.1.0"
+description = "Engine simulation foundation for V-Twin"
+readme = "README.md"
+requires-python = ">=3.13,<3.14"
+license = "AGPL-3.0-only"
+license-files = ["LICENSE"]
+dependencies = [
+  "numpy>=2.5.4,<3",
+  "scipy>=1.18.1,<2",
+]
+
+[project.optional-dependencies]
+api = ["fastapi>=0.146.0,<0.147", "uvicorn>=0.54.0,<0.55"]
+
+[project.scripts]
+vtwin = "vtwin.adapters.cli:main"
+
+[dependency-groups]
+dev = [
+  "httpx>=0.28.1,<0.29",
+  "import-linter>=2.15,<3",
+  "mypy>=2.4.0,<3",
+  "pytest>=9.1.1,<10",
+  "pytest-cov>=7.1.0,<8",
+  "ruff>=0.17.1,<0.18",
+]
+
+[tool.uv]
+required-version = "==0.13.1"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/vtwin"]
+
+[tool.ruff]
+target-version = "py313"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "C4", "RUF"]
+
+[tool.mypy]
+python_version = "3.13"
+strict = true
+files = ["src"]
+
+[[tool.mypy.overrides]]
+module = ["scipy", "scipy.*"]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--strict-config --strict-markers"
+filterwarnings = ["error"]
+
+[tool.coverage.run]
+branch = true
+source = ["vtwin"]
+patch = ["subprocess"]
+
+[tool.coverage.report]
+show_missing = true
+skip_empty = true
+
+[tool.importlinter]
+root_package = "vtwin"
+include_external_packages = true
+
+[[tool.importlinter.contracts]]
+name = "Numerical core stays independent of entrypoints and HTTP"
+type = "forbidden"
+source_modules = ["vtwin.domain", "vtwin.engine", "vtwin.ports"]
+forbidden_modules = ["vtwin.adapters", "vtwin.bootstrap", "fastapi", "starlette", "uvicorn"]
+
+[[tool.importlinter.contracts]]
+name = "Application services depend on ports rather than implementations"
+type = "forbidden"
+source_modules = ["vtwin.application"]
+forbidden_modules = ["vtwin.engine", "vtwin.adapters", "vtwin.bootstrap", "fastapi", "uvicorn"]

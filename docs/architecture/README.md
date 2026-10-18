@@ -174,7 +174,7 @@ flowchart TB
     end
 ```
 
-The normal local launch serves the built UI and `/api/v1` from the same loopback origin; Node is a build/development dependency rather than a numerical runtime. Development uses Vite with an explicit API proxy or permitted local origin. #6/#41 will supply the actual commands and tested dependency versions; this architecture does not describe an already runnable application.
+The normal local launch serves the built UI and `/api/v1` from the same loopback origin; Node is a build/development dependency rather than a numerical runtime. Development uses Vite with an explicit API proxy or permitted local origin. The [foundation guide](../development.md) documents the current startup/metadata API and commands. The worker, job lifecycle, persistence, and simulation contracts below remain the target architecture for subsequent issues.
 
 Persist a queued run before acknowledging it, then transition through `queued`, `running`, and a terminal `completed`, `failed`, `cancelled`, or `interrupted` state. A cancellation request is an event while work stops; it is not immediate success. Bound queue length, simulation duration, output volume, and result-query sizes. Initial limits are selected and measured in #39 rather than inferred from the 8 GB system capacity.
 
@@ -225,7 +225,7 @@ The numerical policy records the method, floating-point precision, integration/o
 
 ## Module structure and versioning
 
-The following is the source layout planned for #6, rather than folders already implemented. Keep the Python numerical package usable with its core dependencies alone; HTTP/storage integration dependencies belong to explicit adapters or installation extras.
+The following is the target source layout. The [foundation module map](../development.md#module-responsibilities) identifies the implemented subset; physical models, storage/acquisition adapters, full contracts, and visualization remain later work. The Python numerical package is usable with its core dependencies alone; HTTP/storage integration dependencies belong to explicit adapters or installation extras.
 
 ```text
 src/vtwin/
@@ -257,7 +257,7 @@ Version the HTTP major path, interchange schemas, observable definitions, and st
 
 ## Errors and trust boundaries
 
-Imported configuration, result files, future observations, and interface requests cross an input-validation boundary. Validate schemas, units, finite numbers, physical parameter ranges, dataset references, and requested run limits before execution. Model code and storage paths are application-controlled rather than executable content supplied by a configuration file. Bind the normal service to loopback, validate allowed hosts/origins, and require a local launch/session token for API access. Do not enable wildcard browser origins or expose the data directory as static files.
+Imported configuration, result files, future observations, and interface requests cross an input-validation boundary. Validate schemas, units, finite numbers, physical parameter ranges, dataset references, and requested run limits before execution. Model code and storage paths are application-controlled rather than executable content supplied by a configuration file. Bind the normal service to loopback and validate allowed hosts/origins. The current scaffold exposes only read-only health/capability/schema metadata; require the local launch/session-token controls in #40 before introducing run or result access. Do not enable wildcard browser origins or expose the data directory as static files.
 
 Use distinct errors for invalid input, unsupported model conditions, missing evidence or data, numerical failure, storage failure, and cancellation. Correlate diagnostics with a run identifier and retain model-specific details for reproduction. A failed numerical run cannot be displayed as a completed comparison. Detailed implementation is tracked in [#40](https://github.com/V-Twin-EIP/V-Twin/issues/40).
 
