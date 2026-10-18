@@ -31,7 +31,7 @@ Both applications will share a simulation core that connects operating condition
 
 The first demonstrator will prioritize **the design sandbox**, with one reference engine and a focused reliability case. The real-engine twin remains a subsequent delivery goal. The scoped reference case, evidence gaps, and demonstration requirements are recorded in the [product scope](docs/product-scope.md).
 
-The scoped MVP uses parameter-based configuration, an **interactive 3D view**, graphs, and baseline-versus-variant comparison. Its first reliability topic is ring–liner wear associated with friction and lubrication. Audio is outside the product scope. The project has **five team members**; responsibilities and current GitHub availability are recorded in the [team allocation](docs/product-scope.md#team-and-work-allocation). The next Epitech mentoring meeting is **Monday, October 26, 2026**; the first executable-demonstration date remains to be defined.
+The scoped MVP uses parameter-based configuration, an **interactive 3D view**, graphs, and baseline-versus-variant comparison. A **dashboard-only mode** supports configuration, calculations, graphs, comparison, and export without loading 3D. Its first reliability topic is ring–liner wear associated with friction and lubrication. Audio is outside the product scope. The project has **five team members**; responsibilities and current GitHub availability are recorded in the [team allocation](docs/product-scope.md#team-and-work-allocation). The next Epitech mentoring meeting is **Monday, October 26, 2026**; the first executable-demonstration date remains to be defined.
 
 ## Two applications, one foundation
 
@@ -67,7 +67,7 @@ flowchart TD
     core --> sandbox["Design sandbox<br/>Comparisons, weak points, and corrective variants"]
 ```
 
-The [architecture draft](docs/architecture/README.md) defines the initial module boundaries and simulation flow. Deployment and the technology stack are being selected during the foundation phase. The core is intended to run independently of the interface so that recorded sessions and simulation campaigns can be replayed and compared.
+The [working V1 architecture](docs/architecture/README.md) separates a numerical engine, application services, a local HTTP API, and a Vue/TypeScript interface. It proposes local batch execution followed by result exploration, with Windows, macOS, and Linux as target platforms. The engine/solver and storage choices, alternatives, and evaluation gates are recorded in [architecture decision records](docs/architecture/README.md#constraints-and-stack). Model execution and numerical results remain independent of the viewer.
 
 ## Modeling principles
 

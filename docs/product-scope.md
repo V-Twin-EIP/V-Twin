@@ -21,6 +21,9 @@ The existing roadmap proposes a shared simulation foundation. The owner selected
 - The first product demonstration prioritizes the sandbox. Vehicle acquisition and twin-related technology experiments can continue as supporting roadmap work, without making a live vehicle connection a prerequisite for this demonstration.
 - The future twin is intended to start with a new vehicle. Its deployment mechanism, available signals, and initialization/calibration procedure remain to be defined.
 - The project has **five team members**. Their approved responsibilities and current GitHub availability are recorded below. The next Epitech mentoring meeting is **Monday, October 26, 2026**; the first executable-demonstration date remains to be defined. Individual working hours and capacity have not been established.
+- V1 targets **Windows, macOS, and Linux**, with developer installation and documented commands. The smallest reported machine has **8 GB RAM and integrated graphics**; exact hardware, operating-system, and browser versions remain to be inventoried for compatibility/performance checks.
+- The selected interaction is **batch calculation followed by exploration/comparison**. The owner prefers Vue and a replaceable connection between the engine and UI; local web is the initial deployment baseline in the [architecture](architecture/README.md).
+- A **dashboard-only mode** must remain usable without initializing 3D. Interactive 3D remains an MVP capability on supported hardware; a session can opt out of it.
 
 ## Decision record
 
@@ -41,6 +44,10 @@ The existing roadmap proposes a shared simulation foundation. The owner selected
 | Exclude engine audio. | Confirmed | Owner stated that sound is not wanted. |
 | Plan with a five-person team. | Corrected and confirmed | Owner corrected the earlier four-person estimate and approved the allocation below. |
 | Prepare for the next Epitech mentoring meeting on October 26, 2026. | Planning date | Owner supplied “Monday, October 26” after the distinction between mentoring and an executable demonstration; no executable-delivery deadline inferred. |
+| Use batch calculation followed by interactive result exploration. | Confirmed | Owner's architecture interview answer. Numerical advancement is independent of playback. |
+| Target Windows, macOS, and Linux with developer installation. | Confirmed | Owner's architecture interview answer; exact supported versions require cross-platform checks. |
+| Provide dashboard-only operation without loading 3D. | Confirmed | Owner's request for the 8 GB machine with integrated graphics; 3D remains available separately. |
+| Separate a Vue UI, a versioned local API, and a replaceable engine. | Working architecture baseline | Owner's preference and the initial architecture/ADR design; engine-language and numerical evaluation gates are recorded in #5. |
 
 ## Team and work allocation
 
@@ -79,11 +86,11 @@ These categories define the product boundary. Exact signal names, file schemas, 
 The first sandbox journey is:
 
 1. The engineer loads the reference engine and contact configuration through a form or file.
-2. The engineer selects the supported operating scenario and inspects the configuration in an interactive 3D view.
+2. The engineer selects the supported operating scenario and optionally inspects the configuration in the interactive 3D view; dashboard-only mode keeps the parameter view usable.
 3. V-Twin runs the configured model and records its inputs, assumptions, model version, and results.
-4. The engineer selects the ring/liner contact and examines its supported friction, lubrication, and wear results in graphs linked to the same run.
+4. The engineer selects the ring/liner contact and examines its supported friction, lubrication, and wear results in graphs linked to the same run, with an optional synchronized 3D view.
 5. The engineer duplicates the configuration, changes one supported parameter, and reruns the same scenario.
-6. The engineer compares the baseline and variant in the viewer and graphs, then saves the configurations and results for reproduction.
+6. The engineer compares the baseline and variant in the graphs and optional viewer, then saves the configurations and results for reproduction.
 
 The baseline first comparison is **two lubricant configurations differing in viscosity behavior**, applied to the same Hydra-context geometry and operating/contact scenario. Hold the remaining inputs constant and compare the supported friction/lubrication/wear quantities. The exact viscosity curves, values, test case, and evaluated range must come from the scenario and validation work; no numerical values or outcome are assumed here. Ring geometry, surface finish, and other design parameters can be opened for editing as their model support and evidence are established. The [reference review](research/reference-engine-and-design-inputs.md#proposed-first-comparison) records the evidence requirements.
 
@@ -94,6 +101,7 @@ The baseline first comparison is **two lubricant configurations differing in vis
 | One frozen reference-engine context and one ring/liner contact model. | Multiple engine families, complete ring packs, and additional components. |
 | Explicit parameter input and a controlled comparison of two configurations. | General-purpose complete CAD import and automatic contact/model extraction. |
 | Interactive 3D inspection of a simplified engine/contact representation, linked to graphs and comparison. | Manufacturer-qualified detailed assemblies and more advanced geometry workflows. |
+| Dashboard-only operation for configuration, calculation, graphs, comparison, and export; no 3D initialization in this mode. | Wider graphics support beyond the evaluated hardware/browser combinations. |
 | Reproducible scenario, result provenance, and interpretation tied to evaluated conditions. | Complete-engine reliability or remaining-life predictions across arbitrary use. |
 | Component-level wear evaluation using suitable calibration and independent observations. | Longitudinal monitoring of a real vehicle from new. |
 
@@ -108,12 +116,13 @@ The baseline first comparison is **two lubricant configurations differing in vis
 - Compare baseline and variant under the same operating scenario, showing changed inputs and comparable output curves.
 - If a thin film, deformation, or wear amount is visually exaggerated for inspection, identify the display scale or schematic representation.
 - Preserve model execution independently of rendering so numerical results can be reproduced without the viewer.
+- Allow 3D to be disabled and load its code/assets only on demand. Graphics unavailability or viewer failure must leave the dashboard workflow usable; chart rendering must not require WebGL.
 
-These are requirements for [the sandbox visualization/comparison work in #24](https://github.com/V-Twin-EIP/V-Twin/issues/24). They do not select a frontend framework, asset format, or rendering library.
+These are requirements for [the sandbox visualization/comparison work in #24](https://github.com/V-Twin-EIP/V-Twin/issues/24). The working V1 architecture records Vue, Three.js, and ECharts as implementation baselines, with separate adapters and platform checks; asset/schema details belong to the implementation issues.
 
 ### First executable demonstration
 
-The functional demonstration target is a complete path: **load a reference configuration → inspect it in 3D → run a supported case → inspect graphs → change one supported parameter → rerun → compare and save results**.
+The functional demonstration target is a complete path: **load a reference configuration → inspect its parameters and optional 3D → run a supported case → inspect graphs → change one supported parameter → rerun → compare and save results**. Demonstrate the synchronized 3D capability on a supported machine and the full dashboard workflow with 3D disabled separately.
 
 An early integration prototype may use declared fixtures to exercise the interface. It must identify them as example data. Satisfying the engineering MVP's wear claim requires the physical model and evaluation evidence tracked in the model/validation issues; interface functionality alone does not establish that claim.
 
@@ -156,7 +165,7 @@ The selected mechanism will determine the concrete physical quantities and how t
 | :--- | :--- |
 | Assemble a consistent reference parameter set and select the exact scenario/viscosity comparison. | [#3: sandbox scenarios](https://github.com/V-Twin-EIP/V-Twin/issues/3). |
 | Establish calibration/evaluation observations, supported operating range, and justified tolerances. | [#4: validation protocol](https://github.com/V-Twin-EIP/V-Twin/issues/4), [#13: wear mechanism/model](https://github.com/V-Twin-EIP/V-Twin/issues/13), [#33: model comparison](https://github.com/V-Twin-EIP/V-Twin/issues/33). |
-| Define the architecture, parameter/result contracts, and the boundary between solver and 3D rendering. | [#5: architecture](https://github.com/V-Twin-EIP/V-Twin/issues/5), [#7: data contracts](https://github.com/V-Twin-EIP/V-Twin/issues/7). |
+| Review and evaluate the working V1 architecture, parameter/result contracts, and the boundary between solver and optional 3D rendering. | [Architecture and ADRs](architecture/README.md), [#5: architecture](https://github.com/V-Twin-EIP/V-Twin/issues/5), [#7: data contracts](https://github.com/V-Twin-EIP/V-Twin/issues/7). |
 | Implement reproducible runs, the interactive 3D view, graphs, and comparisons. | [#21: sandbox runner](https://github.com/V-Twin-EIP/V-Twin/issues/21), [#24: visualization/comparison](https://github.com/V-Twin-EIP/V-Twin/issues/24). |
 | Obtain an external expert view on the contact model, evidence gaps, and transfer from bench data to engine claims. | [#36: expert preparation](https://github.com/V-Twin-EIP/V-Twin/issues/36), [#37: expert review](https://github.com/V-Twin-EIP/V-Twin/issues/37). |
 | Research the later twin's real signals, initial-state procedure, acquisition, and physical access. | [#2: real-engine data](https://github.com/V-Twin-EIP/V-Twin/issues/2), [#17: telemetry ingestion](https://github.com/V-Twin-EIP/V-Twin/issues/17). |

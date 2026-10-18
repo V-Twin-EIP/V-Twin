@@ -1,8 +1,24 @@
 # V-Twin architecture
 
-**Status:** working design for [M1.1 #5](https://github.com/V-Twin-EIP/V-Twin/issues/5), started October 18, 2026. Module boundaries below follow the [product scope](../product-scope.md). Deployment, implementation languages, numerical methods, and storage choices are being established with the owner and the comparative studies.
+**Status:** working V1 baseline for [M1.1 #5](https://github.com/V-Twin-EIP/V-Twin/issues/5), updated October 18, 2026. Product constraints are confirmed; implementation choices below are documented engineering baselines to evaluate. The validation protocol in #4 and the workloads/KPIs in #3/#39 remain open.
 
-The first delivery runs a parameterized ring–liner case, records its results, and supports interactive 3D inspection, graphs, and a baseline/variant comparison. The later digital twin reuses the model and run contracts with recorded or acquired observations. Model execution remains usable without the interface.
+The first delivery runs a parameterized ring–liner case, records its results, and supports interactive 3D inspection, graphs, and a baseline/variant comparison. A dashboard-only mode provides configuration, execution, graphs, comparison, and export without initializing 3D. The later digital twin reuses the model and run contracts with recorded or acquired observations. Model execution remains usable without the interface.
+
+## Constraints and stack
+
+The owner identified C/C++, Python, TypeScript, and Vue/React as team skills, preferred Vue, selected batch calculation followed by exploration, and favored local web deployment. V1 uses developer installation and documented launch commands. Windows, macOS, and Linux are target platforms. The smallest reported machine has **8 GB RAM and integrated graphics**; CPU, OS/browser versions, and graphics capability still need inventory. The two reported M4 Macs and two other workstations complement that reference environment.
+
+| Layer | Working V1 choice | Decision |
+| :--- | :--- | :--- |
+| Interface | Vue 3, TypeScript, Vite. | [ADR 0001](adr/0001-local-application-and-ui-boundary.md). |
+| 3D and graphs | Three.js viewer adapter; Apache ECharts with Canvas/SVG for dashboard plots. 3D is optional per client/session. | [ADR 0001](adr/0001-local-application-and-ui-boundary.md). |
+| Local API | FastAPI, versioned HTTP/JSON contracts and OpenAPI; polling for batch status. | [ADR 0001](adr/0001-local-application-and-ui-boundary.md). |
+| Reference numerical engine | Python, NumPy, SciPy; CPU execution, binary64 baseline, model-specific numerical policy. | [ADR 0002](adr/0002-reference-engine-and-numerical-policy.md). |
+| Optional native implementation | C++ behind the engine contract if model/library needs or measured costs justify it; pybind11 is a candidate binding. | [ADR 0002](adr/0002-reference-engine-and-numerical-policy.md). |
+| Local execution | One coordinator and at most one numerical child process at a time; bounded persisted job queue. | [ADR 0003](adr/0003-local-execution-and-storage.md). |
+| Persistence | SQLite catalogue, frozen JSON manifests/configuration, Parquet numerical histories through PyArrow. | [ADR 0003](adr/0003-local-execution-and-storage.md). |
+
+The ADRs compare alternatives and link primary documentation. These choices are not benchmark results. The numerical method and physical tolerances depend on the selected equations and #4; live-telemetry transport/storage remain subjects of Slakkos's studies.
 
 ## Components and dependencies
 
@@ -12,7 +28,7 @@ The first delivery runs a parameterized ring–liner case, records its results, 
 | Wear model | Evaluate the selected degradation mechanism using physical outputs, material/calibration parameters, and its applicability conditions. | Keep physical wear estimates distinct from exposure indicators; declare the coupling to the physical model. |
 | Numerical integration | Advance the coupled state under a documented numerical policy and report solver diagnostics. | The runner owns advancement; the viewer cannot change solver time or step size. |
 | Scenario and replay | Provide operating inputs against simulated time from a controlled scenario or a recorded session. | Validate units, ordering, gaps, and any resampling policy before execution. |
-| Run service | Validate a run request, freeze configuration/model versions, coordinate execution, and manage run status. | Entry point shared by an eventual interface adapter and a command-line runner. |
+| Run service | Validate a run request, freeze configuration/model versions, coordinate execution through an engine/execution port, and manage run status. | Shared use cases for HTTP and CLI adapters; no dependency on Vue or FastAPI. |
 | Result storage | Preserve run metadata, inputs, diagnostics, time series, and reproducible result artifacts. | Expose storage operations through a contract independent of the physical model. |
 | Acquisition adapters | Convert future vehicle/file/transport observations into the observation contract. | Hardware/transport choices remain in #30/#31; acquisition does not run inside a numerical step. |
 | Presentation | Configure a case, inspect simplified 3D geometry, display graphs, and compare recorded runs. | Render results from a selected run and state; rendering frequency does not determine numerical integration. |
@@ -26,6 +42,7 @@ classDiagram
         cancel(runId)
         status(runId)
         results(runId)
+        compare(baselineId, variantId)
     }
     class ScenarioSource {
         inputAt(simulatedTime)
@@ -33,6 +50,11 @@ classDiagram
     class NumericalIntegrator {
         advance(coupledState, inputs, policy)
     }
+    class EnginePort {
+        <<interface>>
+        run(frozenRunSpec, resultSink, cancellation)
+    }
+    class PythonReferenceEngine
     class PhysicalModel {
         evaluate(state, inputs, parameters)
     }
@@ -53,8 +75,10 @@ classDiagram
         compare(baselineId, variantId)
     }
     Presentation ..> RunService
-    RunService ..> ScenarioSource
-    RunService ..> NumericalIntegrator
+    RunService ..> EnginePort
+    PythonReferenceEngine ..|> EnginePort
+    PythonReferenceEngine ..> ScenarioSource
+    PythonReferenceEngine ..> NumericalIntegrator
     RunService ..> ResultStore
     NumericalIntegrator ..> PhysicalModel
     NumericalIntegrator ..> WearModel
@@ -77,36 +101,103 @@ flowchart LR
     manifest --> store
 ```
 
-The first comparison changes the supported lubricant viscosity configuration while keeping geometry and scenario fixed. A comparison checks compatible observable definitions and scenario/model provenance before overlaying curves. It reports the changed inputs rather than assuming two runs differ only in the intended parameter.
+The first comparison changes the supported lubricant viscosity configuration while keeping geometry and scenario fixed. A comparison checks compatible observable definitions and scenario/model provenance before overlaying curves. It reports the changed inputs rather than assuming two runs differ only in the intended parameter. The stored histories and comparison semantics are shared between dashboard-only and 3D modes.
 
 ```mermaid
 sequenceDiagram
     actor Engineer
     participant UI as Presentation
-    participant App as Run service
+    participant API as HTTP adapter
+    participant App as Run service and coordinator
     participant Store as Result storage
-    participant Solver as Numerical integration
+    participant Solver as Numerical child process
     Engineer->>UI: Load configuration and select scenario
-    UI->>App: Submit RunSpec
+    UI->>API: POST versioned run request
+    API->>App: Submit validated DTO
     App->>App: Validate inputs and freeze versions
     alt Invalid request
-        App-->>UI: Validation errors with field locations
+        App-->>API: Validation errors with field locations
+        API-->>UI: Structured error response
     else Accepted request
         App->>Store: Save manifest and queued status
-        App-->>UI: Return run identifier
-        App->>Solver: Execute frozen inputs
+        App-->>API: Persisted run identifier
+        API-->>UI: 202 accepted with run identifier
+        App->>Solver: Dispatch frozen inputs when worker is free
         Solver-->>App: Results or numerical failure diagnostics
         App->>Store: Persist results and terminal status
-        UI->>App: Request status and results for run identifier
+        UI->>API: Poll status and request bounded results
+        API->>App: Read run status and selected results
         App->>Store: Read status and available results
         Store-->>App: Run record
-        App-->>UI: Results with units and provenance
-        Engineer->>UI: Select state and inspect 3D and graphs
+        App-->>API: Results with units and provenance
+        API-->>UI: Versioned result response
+        Engineer->>UI: Inspect graphs and optional 3D at selected state
         Engineer->>UI: Duplicate configuration and change supported parameter
         Note over UI,App: Submit the variant through the same execution path
         Engineer->>UI: Compare baseline and completed variant
     end
 ```
+
+## Local deployment and execution
+
+This is a modular application with a local worker, rather than independently deployed business services. The browser communicates only with the API. The coordinator owns catalogue changes; a worker writes only its assigned staging artifacts and returns bounded diagnostic/artifact references.
+
+```mermaid
+flowchart TB
+    subgraph PC["User computer - Windows, macOS, or Linux"]
+        subgraph Browser["Browser"]
+            UI["Vue and TypeScript dashboard"]
+            Charts["ECharts Canvas or SVG"]
+            Viewer["Optional lazy-loaded Three.js viewer"]
+            UI --> Charts
+            UI --> Viewer
+        end
+        subgraph Service["One local coordinator process"]
+            API["FastAPI HTTP adapter and built UI assets"]
+            App["Use cases, bounded queue, run lifecycle"]
+            API --> App
+        end
+        subgraph Worker["At most one numerical child process"]
+            Engine["EnginePort implementation - Python NumPy SciPy"]
+        end
+        Catalog[("SQLite catalogue")]
+        Staging["Per-run staging area"]
+        Artifacts["Immutable JSON and Parquet artifacts"]
+        UI <-->|"HTTP on loopback"| API
+        App -->|"Frozen run specification"| Engine
+        Engine -->|"Diagnostics and artifact references"| App
+        Engine --> Staging
+        App --> Catalog
+        App -->|"Verify and publish"| Artifacts
+        Staging -.->|"Publication coordinated by application"| Artifacts
+        App -->|"Bounded result reads"| Artifacts
+    end
+```
+
+The normal local launch serves the built UI and `/api/v1` from the same loopback origin; Node is a build/development dependency rather than a numerical runtime. Development uses Vite with an explicit API proxy or permitted local origin. #6/#41 will supply the actual commands and tested dependency versions; this architecture does not describe an already runnable application.
+
+Persist a queued run before acknowledging it, then transition through `queued`, `running`, and a terminal `completed`, `failed`, `cancelled`, or `interrupted` state. A cancellation request is an event while work stops; it is not immediate success. Bound queue length, simulation duration, output volume, and result-query sizes. Initial limits are selected and measured in #39 rather than inferred from the 8 GB system capacity.
+
+The coordinator supervises worker exit, timeout, cancellation, staging publication, and startup reconciliation. CLI execution must respect exclusive workspace ownership: use the running coordinator's API or an independently locked workspace. A second CLI process cannot start a competing scheduler against an active workspace. Recovery and backup semantics are defined in ADR 0003.
+
+## Replaceable interfaces
+
+The **HTTP contract** separates the UI from the application/runtime. The **EnginePort contract** separates application orchestration from a particular numerical implementation. Replacing a UI preserves API behavior; replacing the engine also requires numerical/domain equivalence within the evaluation tolerances. Changing both remains possible through their independently versioned adapters.
+
+| Boundary | Proposed operation | Semantics to finalize in #7 |
+| :--- | :--- | :--- |
+| HTTP | `GET /api/v1/capabilities` | Supported models, schema/API compatibility, and application capabilities. Browser graphics support is detected by the client. |
+| HTTP | `POST /api/v1/runs` | Validate and persist a frozen run request, then return an accepted run identifier; reject invalid or over-limit work explicitly. |
+| HTTP | `GET /api/v1/runs/{id}` | Status and available progress/diagnostics. Do not fabricate a percentage when the engine cannot provide one. |
+| HTTP | `POST /api/v1/runs/{id}/cancel` | Request cancellation; status reports when the worker has actually stopped. |
+| HTTP | `GET /api/v1/runs/{id}/manifest` | Immutable inputs, observable definitions, versions, provenance, and evaluated domain. |
+| HTTP | `GET /api/v1/runs/{id}/series` | Selected observables and time interval with response limits and any display derivation identified. |
+| HTTP | `POST /api/v1/comparisons` | Validate baseline/variant compatibility and record the comparison request and changed inputs. |
+| HTTP | Artifact/export retrieval by run and artifact IDs | Return authorized application-owned files without accepting arbitrary host paths. |
+| Engine | `run(frozen_spec, result_sink, cancellation)` | Pure numerical use of resolved domain inputs; documented diagnostics, artifact/result contract, and terminal outcome. No HTTP objects or browser state. |
+| Frontend | API client and viewer/chart adapters | Map versioned DTOs to presentation state; keep Vue, Three.js, and ECharts-specific objects out of shared model contracts. |
+
+The OpenAPI document will be exported and versioned with the implementation; generate/check frontend DTOs against it. A new UI still needs its own presentation work, while the same configuration, run, and result semantics remain usable. Third-party executable plugins and arbitrary user-supplied model code are outside V1.
 
 ## Domain contracts
 
@@ -124,28 +215,63 @@ The contracts below define responsibilities for #5. [Schema implementation #7](h
 
 ### Time and units
 
-The proposed internal conventions use SI units: time in seconds, length in metres, temperature in kelvin, pressure in pascals, and angles in radians. Boundary adapters perform explicit conversions for entries or displays such as millimetres, degrees Celsius, bar, degrees, and RPM. Unit definitions accompany parameter and observable contracts.
+The internal baseline uses SI units: time in seconds, length in metres, temperature in kelvin, pressure in pascals, and angles in radians. Boundary adapters perform explicit conversions for entries or displays such as millimetres, degrees Celsius, bar, degrees, and RPM. Unit definitions, dimensions, and pressure/temperature reference conventions accompany parameter and observable contracts.
 
 Simulated time advances according to the numerical policy. Wall-clock time measures execution cost, and acquisition timestamps identify source observations. These are separate coordinates. The renderer selects a stored state or an explicitly defined interpolation for playback without changing simulation history. Cycle/angle indexing and the mapping to time will be specified with the operating scenario.
 
-The numerical policy must define the method, floating-point precision, integration/output steps, convergence criteria, error controls, and failure conditions. Per-observable tolerances and the evidence for them come from [validation #4](https://github.com/V-Twin-EIP/V-Twin/issues/4). No precision or speed target is inferred from a rendering frame rate.
+The numerical policy records the method, floating-point precision, integration/output steps, convergence criteria, error controls, and failure conditions. Binary64 is the initial numerical baseline. The candidate ODE path and the treatment of possible contact-field/algebraic subproblems are defined in ADR 0002. Per-observable tolerances and the evidence for them come from [validation #4](https://github.com/V-Twin-EIP/V-Twin/issues/4). No precision or speed target is inferred from a rendering frame rate.
+
+## Module structure and versioning
+
+The following is the source layout planned for #6, rather than folders already implemented. Keep the Python numerical package usable with its core dependencies alone; HTTP/storage integration dependencies belong to explicit adapters or installation extras.
+
+```text
+src/vtwin/
+  domain/          # design, calibration, state, observables, run records
+  engine/          # physical/wear models, scenarios and numerical policies
+  application/     # submit/run/cancel/compare use cases and lifecycle
+  ports/           # engine, execution and result-store contracts
+  adapters/
+    http/          # FastAPI routes and boundary DTO validation
+    cli/           # command-line entrypoints
+    execution/     # supervised local child process
+    storage/       # SQLite catalogue and JSON/Parquet result adapters
+    acquisition/   # later file/OBD/transport normalization
+  bootstrap/       # explicit composition of implementations and configuration
+web/
+  src/
+    api/           # versioned client and DTO mapping
+    features/      # configuration, runs, dashboards and comparisons
+    visualization/ # optional viewer and chart adapters
+schemas/           # versioned interchange contracts and OpenAPI exports
+tests/             # core, contract, adapter and recovery checks
+benchmarks/        # fixed workloads and measured environment/results
+docs/architecture/ # design and ADRs
+```
+
+Domain/engine modules do not import HTTP, persistence, or rendering adapters. Use explicit composition rather than runtime plugin discovery. Changes to a solver/backend/model get distinct implementation identifiers. A run manifest records the source commit, dependency lock references, configuration/scenario/calibration digests, schema/model versions, numerical policy, and relevant environment details. Reproduction across platforms is assessed within declared numerical tolerances rather than promised as identical bytes.
+
+Version the HTTP major path, interchange schemas, observable definitions, and storage migrations explicitly. Incompatible stored data must be rejected with a diagnostic or migrated by a documented operation that preserves the original. #6 selects and pins runtime/dependency versions after checking Windows/macOS/Linux and CPU architectures; no untested minimum platform version is advertised here.
 
 ## Errors and trust boundaries
 
-Imported configuration, result files, future observations, and interface requests cross an input-validation boundary. Validate schemas, units, finite numbers, physical parameter ranges, dataset references, and requested run limits before execution. Model code and storage paths are application-controlled rather than executable content supplied by a configuration file.
+Imported configuration, result files, future observations, and interface requests cross an input-validation boundary. Validate schemas, units, finite numbers, physical parameter ranges, dataset references, and requested run limits before execution. Model code and storage paths are application-controlled rather than executable content supplied by a configuration file. Bind the normal service to loopback, validate allowed hosts/origins, and require a local launch/session token for API access. Do not enable wildcard browser origins or expose the data directory as static files.
 
 Use distinct errors for invalid input, unsupported model conditions, missing evidence or data, numerical failure, storage failure, and cancellation. Correlate diagnostics with a run identifier and retain model-specific details for reproduction. A failed numerical run cannot be displayed as a completed comparison. Detailed implementation is tracked in [#40](https://github.com/V-Twin-EIP/V-Twin/issues/40).
 
-Storage and deployment choices must define atomic publication of complete results, recovery of interrupted runs, configuration/secrets boundaries, and backup/restore of run inputs, calibration references, manifests, and artifacts. The concrete topology depends on the deployment choice being discussed with the owner.
+Keep application configuration separate from engine design: data directory, bind address/port, allowed development origins, logging, queue/worker/resource limits, and optional future acquisition credentials. Document these in #41's `.env.example` without secrets or persisted launch tokens. Use a per-user data directory outside Git. UI assets and examples needed at runtime are bundled locally; any optional external service is an explicit capability.
 
-## Decisions to resolve
+Structured logs carry run IDs, component, severity, and actionable error codes without credentials or launch tokens. #40 implements validation/error/logging controls. ADR 0003 defines publication, interruption reconciliation, and backup/restore across the catalogue and immutable artifacts; #41 implements and exercises it.
+
+## Evidence and remaining decisions
 
 | Decision | Required input or evidence |
 | :--- | :--- |
-| Languages and implementation split | Team experience, numerical needs, integration overhead, and a reproducible benchmark workload. |
-| Local web, hosted web, or desktop deployment | Owner's preferred first-delivery workflow, target operating systems, offline/access needs, and available hardware. |
-| Batch calculation and playback or continuous interactive calculation | Owner's interaction goal, scenario duration, acceptable wait, and supported numerical fidelity. |
-| Numerical method and supported precision | Selected equations and coupling, validation protocol #4, wear-model study #33, convergence/accuracy evidence. |
-| Transport and storage | Studies #30–#32, offline/deployment constraints, dataset volume, run access patterns, and measured costs. |
+| Numerical formulation, method and tolerances | Selected equations/coupling, validation protocol #4, wear-model study #33, and convergence/accuracy evidence. Binary64 and the candidate ODE adapter are working baselines. |
+| Workload, time and memory budgets | Exact scenario/output volume from #3 and environment measurements in #39; verify the reported 8 GB machine in dashboard-only mode and an available 3D environment separately. |
+| Cross-platform support | #6/#41: exact OS/browser versions, CPU architectures, dependency installation, launch, persistence, cancellation, and graphics capability checks. |
+| Future acquisition and telemetry | #30/#31: real hardware/signals and live transport evidence. No live-vehicle interface is implemented by this design. |
+| Future history store | #32/#43: InfluxDB/TimescaleDB comparison for the twin; compare against actual read/write/retention workloads. Local sandbox catalogue/artifacts have the separate ADR 0003 scope. |
+| Model evaluation and expert review | #33 informs the wear formulation; #37 challenges architecture choices with external expertise and records changes. |
 
-Architecture decision records, a deployment view, and the stack comparison will extend this design as those inputs are established. The four studies remain assigned to Slakkos; this document records integration requirements without replacing their evidence.
+The four studies remain assigned to Slakkos. Their results can revise the affected ADR without coupling the UI to a transport, store, or solver implementation. #5 stays in progress while #4 and the numerical acceptance evidence are open; the diagrams and decisions here are a concrete V1 design for review, not completed implementation.

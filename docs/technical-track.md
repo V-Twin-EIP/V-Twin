@@ -58,6 +58,8 @@ The watch journal starts early and continues alongside development. Its ongoing 
 
 The early architecture deliverable in [#5](https://github.com/V-Twin-EIP/V-Twin/issues/5) covers components, dependencies, interfaces, storage, flows, deployment, versioning, and justified choices. Include suitable UML views of structure and a critical interaction, alongside a data-flow and deployment view. Record assumptions and revisit decisions after experiments and expert feedback.
 
+The [working V1 design and ADRs](architecture/README.md) provide those architecture views and a local API/replaceable-engine boundary. The owner confirmed Windows/macOS/Linux targets, developer installation, batch calculation followed by exploration, and dashboard-only operation on the 8 GB machine with integrated graphics. Numerical acceptance and measured performance remain tied to #4/#39; the architecture does not complete those checks.
+
 The foundation also includes:
 
 - A documented repository/module structure, linting, formatting, and a reproducible quality-analysis report suited to the selected stack.
@@ -118,7 +120,7 @@ Project views: [team preparation](https://github.com/orgs/V-Twin-EIP/projects/1/
 | Expert topics, suitable profiles, and precise questions. | [#36](https://github.com/V-Twin-EIP/V-Twin/issues/36): which decisions need external challenge and what outcome is sought. |
 | Candidate KPIs and a measurement protocol. | [#39](https://github.com/V-Twin-EIP/V-Twin/issues/39): how a baseline and fair before/after comparison will be obtained. |
 
-The README overview, license, and issue-based roadmap are present. Implementation deliverables such as a runnable module structure, UML artifacts, environment examples, tests, and error handling remain planned in this repository. The team's list of accepted sub-objectives is treated as agreed scope; completion requires evidence linked to the relevant issue.
+The README overview, license, issue-based roadmap, and working architecture/UML views are present. A runnable module structure, environment examples, tests, and implemented error handling remain planned in this repository. The team's list of accepted sub-objectives is treated as agreed scope; completion requires evidence linked to the relevant issue.
 
 ## Evidence and completion rules
 
