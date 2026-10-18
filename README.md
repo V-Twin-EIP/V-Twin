@@ -67,7 +67,7 @@ flowchart TD
     core --> sandbox["Design sandbox<br/>Comparisons, weak points, and corrective variants"]
 ```
 
-The architecture and technology stack will be selected during the foundation phase. The core is intended to run independently of the interface so that recorded sessions and simulation campaigns can be replayed and compared.
+The [architecture draft](docs/architecture/README.md) defines the initial module boundaries and simulation flow. Deployment and the technology stack are being selected during the foundation phase. The core is intended to run independently of the interface so that recorded sessions and simulation campaigns can be replayed and compared.
 
 ## Modeling principles
 
