@@ -29,7 +29,7 @@ Both applications will share a simulation core that connects operating condition
 > [!NOTE]
 > V-Twin is at the **project-definition stage**. This repository is a fresh start. The roadmap is defined; the simulation core, data integrations, and demonstrators are planned work.
 
-The first demonstrator will focus on **one reference engine and at least one measurable wear mechanism**. Selecting that engine, identifying accessible data, and defining validation criteria are the first objectives.
+The first demonstrator will prioritize **the design sandbox**, with one reference engine and a focused reliability case. The real-engine twin remains a subsequent delivery goal. Engine selection, available evidence, and demonstration criteria are being defined in the [product scope](docs/product-scope.md).
 
 ## Two applications, one foundation
 
