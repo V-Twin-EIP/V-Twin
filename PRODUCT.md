@@ -23,8 +23,10 @@ engine wear from a new vehicle. The project has five members. See
 
 The foundation checks the local connection and an analytical numerical reference.
 There is no engine wear model, job execution workflow, dashboard or 3D viewer yet.
-The target is Windows, macOS and Linux with a developer installation, including an
-8 GB RAM computer with integrated graphics. The planned workflow is batch
+The target is Windows, macOS and Linux with a developer installation. The reported
+team machines have 16 or 32 GB RAM; Pacien supplies the integrated-graphics profile
+and Divin a separate CPU/dedicated-GPU profile. See the
+[hardware inventory](benchmarks/README.md#machine-register). The planned workflow is batch
 simulation followed by result exploration, with optional 3D and a dashboard-only
 mode. Audio is outside the first demonstration. See
 [the development guide](docs/development.md).

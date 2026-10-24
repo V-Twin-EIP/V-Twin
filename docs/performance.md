@@ -10,7 +10,7 @@ The owner confirmed these targets on October 19, 2026:
 
 - **At most 60 seconds per calculation**, from browser submission until the required results and initial graphs are usable. This is a target for one calculation, not for two calculations plus comparison.
 - **Less than one second** to open an already calculated result or change its displayed curve under the defined nominal result workload. Include any necessary retrieval, decoding and chart update.
-- The smallest reported computer has **8 GB RAM and integrated graphics**. CPU, operating system and browser remain unknown. Inventory it before qualifying it as the reference machine. This RAM is shared with the OS and browser; it is not an 8 GB engine allocation.
+- The [hardware register](../benchmarks/README.md#machine-register) was corrected by the owner on **October 24, 2026**: four machines have **16 GB RAM**, Adam's has **32 GB**. Pacien's i5-1135G7/Iris Xe supplies the integrated-graphics profile; Divin's i5-7300HQ/GTX 1050 Ti supplies a separate CPU/dedicated-GPU profile. OS/browser versions and measured behavior remain to be collected. System RAM is shared with the OS and browser, not allocated entirely to the engine.
 
 These are user expectations, not observed performance, automatic execution timeouts, or measured resource budgets. First measure the workload, then decide whether the implementation meets the expectations and which changes are justified.
 
@@ -20,7 +20,7 @@ These are user expectations, not observed performance, automatic execution timeo
 | :--- | :--- | :--- | :--- |
 | `run_ready_s` | Seconds from submission to usable results. Lower is better. | Start immediately before the browser submits one valid nominal case. Stop after all required results are retrieved, decoded and the required initial plots have completed their render/update callbacks. | User target: **each successful, correct nominal repetition ≤ 60 s**. Report median, p95, maximum and failures. Component allocations remain unset until baseline. |
 | `simulation_rate` | Simulated seconds advanced divided by engine wall-clock seconds, in `s_sim/s_wall`. Higher is better. | Engine entry after frozen inputs are handed over, through numerical execution and emission of required outputs to its sink. Record the simulated interval actually completed. | No minimum fixed yet. This is throughput, not a requirement for a real-time simulator. Do not include queue waiting or browser work in its denominator. |
-| `peak_sampled_app_rss_bytes` | Maximum of simultaneous sums of resident memory over the owned application process set, in bytes; display may use MiB. Lower is better for an equivalent workload. | API/coordinator, worker and a dedicated benchmark browser process tree, from idle-before-submit through usable results. Retain each group's trace and the idle baseline. | No cap fixed yet. The headroom required on the reported 8 GB machine needs measurement. A core-only RSS observation is not this application KPI. |
+| `peak_sampled_app_rss_bytes` | Maximum of simultaneous sums of resident memory over the owned application process set, in bytes; display may use MiB. Lower is better for an equivalent workload. | API/coordinator, worker and a dedicated benchmark browser process tree, from idle-before-submit through usable results. Retain each group's trace and the idle baseline. | No cap fixed yet. The headroom required on the reported 16 GB reference profiles needs measurement. A core-only RSS observation is not this application KPI. |
 
 All three are evaluated on the **same frozen workload and environment**. Keep failed, cancelled, interrupted, invalid and correctness-failing runs in the report with their counts/reasons. Successful latency summaries do not establish success when attempts failed. A fast, incorrect or incomplete result cannot pass.
 
@@ -70,12 +70,12 @@ Use the inventory command before measurement:
 
 ```sh
 uv sync --locked --extra api
-uv run --locked --extra api python scripts/performance_inventory.py --label reference-8gb --output artifacts/performance/reference-8gb.json
+uv run --locked --extra api python scripts/performance_inventory.py --label pacien-16gb-igpu --output artifacts/performance/pacien-16gb-igpu.json
 ```
 
 Run it on the **actual target computer**. It collects OS/CPU/RAM, runtime versions, lock hashes and clock metadata; remaining browser, graphics, power, display, background-load, BLAS and storage fields stay explicit until completed. It does not collect hostnames, account names, network addresses or serial numbers, and does not measure performance. Optional `--browser-name`, `--browser-version` and `--graphics` preserve reported information; they do not test graphics support. Keep the original inventory and annotate the campaign's manual context separately.
 
-Qualify the low-memory machine first. The two M4 developer computers and the two other workstations are separate profiles; improvements on one do not qualify another. CI runner inventories establish the collection command's portability, not the performance of Divin's computer.
+First qualify Pacien's integrated-graphics profile and Divin's separate CPU/dedicated-GPU profile, both with 16 GB reported RAM. Use the appropriate profile ID from the register when running the command on each actual machine. Raphael's and Mathieu's M4/16 GB Macs and Adam's i7-13620H/32 GB/RTX 5060 Laptop GPU are separate profiles; improvements on one do not qualify another. CI runner inventories establish the collection command's portability, not the performance of a team computer.
 
 ## Repetitions and statistics
 

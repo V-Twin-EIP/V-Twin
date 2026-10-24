@@ -6,7 +6,7 @@ The first delivery runs a parameterized ring–liner case, records its results, 
 
 ## Constraints and stack
 
-The owner identified C/C++, Python, TypeScript, and Vue/React as team skills, preferred Vue, selected **Python/NumPy/SciPy for V1 with C++ according to measurements**, selected batch calculation followed by exploration, and favored local web deployment. V1 uses developer installation and documented launch commands. Windows, macOS, and Linux are target platforms. The smallest reported machine has **8 GB RAM and integrated graphics**; CPU, OS/browser versions, and graphics capability still need inventory. The two reported M4 Macs and two other workstations complement that reference environment.
+The owner identified C/C++, Python, TypeScript, and Vue/React as team skills, preferred Vue, selected **Python/NumPy/SciPy for V1 with C++ according to measurements**, selected batch calculation followed by exploration, and favored local web deployment. V1 uses developer installation and documented launch commands. Windows, macOS, and Linux are target platforms. The [October 24 hardware register](../../benchmarks/README.md#machine-register) records a lowest reported RAM capacity of **16 GB**. Pacien's i5-1135G7/Iris Xe is the integrated-graphics profile; Divin's i5-7300HQ/GTX 1050 Ti is a separate CPU/dedicated-GPU profile. Raphael and Mathieu each have an M4/16 GB MacBook Pro; Adam has an i7-13620H/32 GB/RTX 5060 Laptop GPU. Exact OS/browser versions and measured graphics/performance qualification remain pending.
 
 | Layer | Working V1 choice | Decision |
 | :--- | :--- | :--- |
@@ -176,7 +176,7 @@ flowchart TB
 
 The normal local launch serves the built UI and `/api/v1` from the same loopback origin; Node is a build/development dependency rather than a numerical runtime. Development uses Vite with an explicit API proxy or permitted local origin. The [foundation guide](../development.md) documents the current startup/metadata API and commands. The worker, job lifecycle, persistence, and simulation contracts below remain the target architecture for subsequent issues.
 
-Persist a queued run before acknowledging it, then transition through `queued`, `running`, and a terminal `completed`, `failed`, `cancelled`, or `interrupted` state. A cancellation request is an event while work stops; it is not immediate success. Bound queue length, simulation duration, output volume, and result-query sizes. Initial limits are selected and measured in #39 rather than inferred from the 8 GB system capacity.
+Persist a queued run before acknowledging it, then transition through `queued`, `running`, and a terminal `completed`, `failed`, `cancelled`, or `interrupted` state. A cancellation request is an event while work stops; it is not immediate success. Bound queue length, simulation duration, output volume, and result-query sizes. Initial limits are selected and measured in #39 rather than inferred from the 16 GB reference-system capacity.
 
 The owner's UX target is **at most 60 seconds from submitting a nominal case to usable dashboard results**, on a fixed workload and reference environment. Measure the complete path, including any nominal queue wait, numerical execution, publication, retrieval, and initial graphs; report the component durations as well. Busy-queue and startup scenarios have separate measurements. This is an acceptance target to test in #39, not an established performance result or a forced numerical cutoff.
 
@@ -270,7 +270,7 @@ Structured logs carry run IDs, component, severity, and actionable error codes w
 | Decision | Required input or evidence |
 | :--- | :--- |
 | Numerical formulation, method and tolerances | Selected equations/coupling, validation protocol #4, wear-model study #33, and convergence/accuracy evidence. Binary64 and the candidate ODE adapter are working baselines. |
-| Workload, time and memory budgets | Owner's target: nominal submission-to-usable-results latency at most 60 seconds. Fix scenario/output volume in #3 and measure in #39; verify the reported 8 GB machine in dashboard-only mode and an available 3D environment separately. Justify memory/queue limits from those measurements. |
+| Workload, time and memory budgets | Owner's target: nominal submission-to-usable-results latency at most 60 seconds. Fix scenario/output volume in #3 and measure in #39; verify Pacien's and Divin's reported 16 GB profiles in dashboard-only mode and assess 3D separately. Justify memory/queue limits from those measurements. |
 | Cross-platform support | #6/#41: exact OS/browser versions, CPU architectures, dependency installation, launch, persistence, cancellation, and graphics capability checks. |
 | Future acquisition and telemetry | #30/#31: real hardware/signals and live transport evidence. No live-vehicle interface is implemented by this design. |
 | Future history store | #32/#43: InfluxDB/TimescaleDB comparison for the twin; compare against actual read/write/retention workloads. Local sandbox catalogue/artifacts have the separate ADR 0003 scope. |

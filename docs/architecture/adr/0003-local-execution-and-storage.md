@@ -37,4 +37,4 @@ A backup pauses submissions and settles/stops active work, snapshots the catalog
 | InfluxDB or TimescaleDB service | Evaluate for live telemetry/history workloads in #32/#43. The first local sandbox needs immutable run artifacts and a local catalogue; this decision does not select a winner for the later twin. |
 | Broker and distributed worker system | Revisit for multiple users/machines or measured scheduling needs. The local one-worker policy does not require Redis/Celery or a network broker. |
 
-Verify queue limits, child failure, cancellation, interrupted-run reconciliation, bounded result reads, artifact integrity, and backup/restore in the relevant implementation issues. Measure memory and disk use on the 8 GB reference machine before expanding concurrency.
+Verify queue limits, child failure, cancellation, interrupted-run reconciliation, bounded result reads, artifact integrity, and backup/restore in the relevant implementation issues. Measure memory and disk use on the [reported 16 GB Pacien and Divin reference profiles](../../../benchmarks/README.md#machine-register) before expanding concurrency.

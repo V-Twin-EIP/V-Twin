@@ -4,7 +4,7 @@
 
 ## Context
 
-V-Twin needs an interactive sandbox without binding the numerical model to a particular interface. The smallest reported machine has 8 GB RAM and integrated graphics. A simulation can finish before the engineer explores and compares results, so numerical advancement need not track browser animation.
+V-Twin needs an interactive sandbox without binding the numerical model to a particular interface. The [hardware register corrected on October 24](../../../benchmarks/README.md#machine-register) has 16 GB RAM as the lowest reported capacity, with Pacien's integrated-graphics profile and Divin's separate dedicated-GPU profile. A simulation can finish before the engineer explores and compares results, so numerical advancement need not track browser animation.
 
 ## Decision
 
@@ -31,5 +31,5 @@ Use ordinary HTTP requests for configuration, run submission, status polling, an
 
 - In #6/#41, verify installation, launch, shutdown, browser access, and persisted runs on Windows, macOS, and Linux. Record CPU architecture, supported runtime versions, and dependency lockfiles.
 - In #24, verify the complete dashboard workflow with 3D disabled and with WebGL unavailable; verify the 3D/graphs selection linkage separately.
-- In #39, measure the 8 GB machine with API, worker, browser, and the operating system sharing memory. The hardware capacity is a test environment, not an invented application memory budget.
+- In #39, measure the 16 GB Pacien and Divin profiles with API, worker, browser, and the operating system sharing memory. The hardware capacity is a test environment, not an invented application memory budget.
 - Revisit streaming after measurements identify a requirement for live progress or continuous interaction. Revisit desktop packaging when installation expectations change.

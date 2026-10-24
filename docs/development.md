@@ -15,7 +15,7 @@ V-Twin's foundation contains an installable numerical package, a read-only local
 
 Install uv using its [platform instructions](https://docs.astral.sh/uv/getting-started/installation/) and use the versions above. uv can obtain the Python runtime specified by the project. Install the pinned Node/npm toolchain before frontend commands. [uv project locking](https://docs.astral.sh/uv/guides/projects/).
 
-Windows, macOS, and Linux are CI targets. CI records the Python/platform/CPU architecture in its quality report; it does not establish compatibility with every OS/browser/CPU version or the resource limits of the reported 8 GB machine. That hardware evaluation belongs to #39. The foundation has no GPU dependency and loads no 3D library.
+Windows, macOS, and Linux are CI targets. CI records the Python/platform/CPU architecture in its quality report; it does not establish compatibility with every OS/browser/CPU version or the resource limits of the [reported team machines](../benchmarks/README.md#machine-register). The current reference profiles have 16 GB RAM: Pacien with integrated graphics and Divin with a dedicated GPU. That hardware evaluation belongs to #39. The foundation has no GPU dependency and loads no 3D library.
 
 ## Install and run
 
@@ -105,7 +105,7 @@ A separate core-only job installs a **non-editable wheel** without API or develo
 The [performance protocol](performance.md) defines the three sandbox KPIs and the evidence needed before adopting budgets. Collect metadata on each actual target computer with:
 
 ```sh
-uv run --locked --extra api python scripts/performance_inventory.py --label reference-8gb --output artifacts/performance/reference-8gb.json
+uv run --locked --extra api python scripts/performance_inventory.py --label pacien-16gb-igpu --output artifacts/performance/pacien-16gb-igpu.json
 ```
 
 The command uses the pinned development-only psutil dependency and leaves unavailable/manual context explicit. It collects environment metadata, not a performance baseline. Complete browser, graphics, power/display, background-load, BLAS/thread and storage information before running a benchmark. CI records its own inventory under `artifacts/performance/`; its integration test exercises the command on all three OS targets without introducing a wall-time performance gate.

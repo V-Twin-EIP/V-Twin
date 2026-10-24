@@ -52,7 +52,7 @@
     "Replace every frozen-input null with a reviewed value or explicit justified applicability record",
     "Freeze the matched nominal physical/scenario inputs in #3/#4/#7",
     "Implement runner and correctness/instrumentation hooks in #8/#40/#46",
-    "Inventory and qualify the actual low-memory reference machine",
+    "Complete environment inventories and qualify the reported 16 GB Pacien and Divin reference profiles",
     "Measure before proposing and adopting numerical/memory/resource budgets"
   ]
 }
