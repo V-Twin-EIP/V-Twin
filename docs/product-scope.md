@@ -1,6 +1,6 @@
 # Product scope and first demonstrator
 
-**Status:** M0.1 product-scope baseline, with team allocation updated on October 18, 2026. This document defines planned capabilities; their implementation and physical validation are tracked in the follow-up issues.
+**Status:** M0.1 product-scope baseline, with team allocation updated on October 24, 2026. This document defines planned capabilities; their implementation and physical validation are tracked in the follow-up issues.
 
 **Tracking:** [M0.1 — Define the scope and user journeys](https://github.com/V-Twin-EIP/V-Twin/issues/1).
 
@@ -55,7 +55,7 @@ The existing roadmap proposes a shared simulation foundation. The owner selected
 
 ## Team and work allocation
 
-The owner approved this initial allocation for a **five-person project team**. GitHub availability was checked on **October 18, 2026**: four accounts can currently be assigned issues; `divin0i` has a pending organization invitation. Issue assignees are the current operational record. Assignment identifies responsibility and does not bypass dependencies or establish completion.
+The owner approved this allocation for a **five-person project team**. On **October 24, 2026**, all five accounts are assignable in the repository, including `divin0i`. His reserved issues are now assigned. Issue assignees are the current operational record. Assignment identifies responsibility and does not bypass dependencies or establish completion.
 
 | Member | Responsibility | Tickets | Current assignment |
 | :--- | :--- | :--- | :--- |
@@ -63,7 +63,7 @@ The owner approved this initial allocation for a **five-person project team**. G
 | [Slakkos](https://github.com/Slakkos) | Lead the four comparative technology studies: acquisition, transport, time-series storage, and physical/ML/hybrid wear approaches. | [#30](https://github.com/V-Twin-EIP/V-Twin/issues/30), [#31](https://github.com/V-Twin-EIP/V-Twin/issues/31), [#32](https://github.com/V-Twin-EIP/V-Twin/issues/32), [#33](https://github.com/V-Twin-EIP/V-Twin/issues/33). | Assigned; all four studies are included in the next mentoring review. |
 | [AdamTamboura](https://github.com/AdamTamboura) | Sandbox scenarios and physical validation/data protocol; scientific review support for Slakkos's wear-model comparison. | [#3](https://github.com/V-Twin-EIP/V-Twin/issues/3), [#4](https://github.com/V-Twin-EIP/V-Twin/issues/4); supports [#33](https://github.com/V-Twin-EIP/V-Twin/issues/33). | Assigned to #3 and #4; Slakkos remains responsible for #33. |
 | [epitechpacien](https://github.com/epitechpacien) | Watch journal, consolidation of study evidence, and preparation of focused expert exchanges. | [#29](https://github.com/V-Twin-EIP/V-Twin/issues/29), [#36](https://github.com/V-Twin-EIP/V-Twin/issues/36). | Assigned. |
-| [divin0i](https://github.com/divin0i) | Setup/configuration documentation and data contracts with rchrp's review; later, sandbox visualization. | [#41](https://github.com/V-Twin-EIP/V-Twin/issues/41), [#7](https://github.com/V-Twin-EIP/V-Twin/issues/7), then [#24](https://github.com/V-Twin-EIP/V-Twin/issues/24). | Reserved in the issue descriptions; unassigned while the invitation is pending. |
+| [divin0i](https://github.com/divin0i) | Setup/configuration documentation and data contracts with rchrp's review; later, sandbox visualization. | [#41](https://github.com/V-Twin-EIP/V-Twin/issues/41), [#7](https://github.com/V-Twin-EIP/V-Twin/issues/7), then [#24](https://github.com/V-Twin-EIP/V-Twin/issues/24). | All three assigned. #7 and #41 carry `mentoring:next` for the October 26 review; #24 follows its implementation dependencies. |
 
 For the October 26 mentoring meeting, prepare the scope, scenarios/validation plan, architecture and foundation work, KPIs, journal/expert questions, and the four comparative studies. Present evidence and unresolved decisions honestly; the later visualization implementation is not committed for that date. The full acceptance criteria and dependencies remain in each ticket.
 

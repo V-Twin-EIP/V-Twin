@@ -109,7 +109,7 @@ For [#47](https://github.com/V-Twin-EIP/V-Twin/issues/47), profile a measured bo
 
 ## Prepare the next mentoring meeting
 
-The next mentoring meeting is **Monday, October 26, 2026**. Use the `mentoring:next` label to find its preparation work. Present available evidence, recommendations, open decisions, and remaining work; inclusion in the review does not mark an issue complete or commit the executable product for that date. The [five-person team allocation](product-scope.md#team-and-work-allocation) identifies responsibilities and the pending GitHub invitation.
+The next mentoring meeting is **Monday, October 26, 2026**. Use the `mentoring:next` label to find its preparation work. Present available evidence, recommendations, open decisions, and remaining work; inclusion in the review does not mark an issue complete or commit the executable product for that date. The [five-person team allocation](product-scope.md#team-and-work-allocation) records all five assignable members. Since October 24, #7 and #41 are assigned to divin0i for the review; #24 is also assigned for subsequent visualization work.
 
 Project views: [team preparation](https://github.com/orgs/V-Twin-EIP/projects/1/views/10) and [Prochain Mentorat mon travail](https://github.com/orgs/V-Twin-EIP/projects/1/views/11). The personal view combines the mentoring label with `assignee:@me`, as explained in the [team allocation](product-scope.md#team-and-work-allocation).
 
