@@ -1,6 +1,6 @@
 # Reference engine and design input recommendation
 
-**Context:** [M0.1 product scope](../product-scope.md). The owner prioritizes the design sandbox, has no physical engine available, and selected wear associated with friction or lubrication as the first reliability topic. The owner delegated the reference-engine search and requested a recommendation on parameter-based input versus complete CAD import.
+**Context:** [M0.1 product scope](../product-scope.md). We prioritize the design sandbox and selected wear associated with friction or lubrication as our first reliability topic. We currently have no physical engine available. This review compares reference engines and assesses parameter-based input against complete CAD import.
 
 **Review date:** 2026-10-18.
 
@@ -8,9 +8,9 @@
 
 Use a **single-cylinder gasoline Ricardo Hydra** as the engine context. Freeze the initial engine specification to the **86 mm bore, 86 mm stroke, 10.5:1 compression-ratio variant** described in Table 1 of Dyson, Priest, and Lee's 2023 study. The paper identifies its configuration and laboratory lubrication arrangements. These values establish a reference specification, not a complete wear-validation dataset. [Engine specification, Table 1](https://d-nb.info/1312319852/34).
 
-Focus the first component-level study on the **top compression ring–cylinder liner contact**, with **liner sliding wear** as the initial degradation quantity to investigate. Ring wear, the entire ring pack, bearings, and other failure mechanisms can be added after the first contact model is established. This is the working technical baseline adopted in M0.1 from the owner's confirmed friction/lubrication direction; model feasibility and validation remain follow-up work.
+Focus the first component-level study on the **top compression ring–cylinder liner contact**, with **liner sliding wear** as the initial degradation quantity to investigate. Ring wear, the entire ring pack, bearings, and other failure mechanisms can be added after the first contact model is established. This is the working technical baseline adopted in M0.1 for our friction/lubrication scope; model feasibility and validation remain follow-up work.
 
-Use **explicit engine/contact parameters**, entered through a form or a versioned file, as the working MVP design-input baseline. The exact file format is an architecture decision. Complete CAD import is a later capability. The owner subsequently selected **interactive 3D with graphs and comparisons**, excluded audio, and corrected the project team size to **five members**. See the [current product scope](../product-scope.md) for those decisions and the approved allocation.
+Use **explicit engine/contact parameters**, entered through a form or a versioned file, as the working MVP design-input baseline. The exact file format is an architecture decision. Complete CAD import is a later capability. We selected **interactive 3D with graphs and comparisons**, excluded audio, and confirmed a team of **five members**. See the [current product scope](../product-scope.md) for those decisions and the approved allocation.
 
 ## Candidate comparison
 

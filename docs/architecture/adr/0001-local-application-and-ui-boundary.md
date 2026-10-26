@@ -1,6 +1,6 @@
 # ADR 0001 Local application and replaceable interface
 
-**Status:** working V1 baseline, October 18, 2026. The owner confirmed Vue as the preferred UI, batch calculation followed by exploration, Windows/macOS/Linux targets, a developer installation, and a dashboard mode without 3D. Local web is the selected initial deployment baseline.
+**Status:** working V1 baseline, October 18, 2026. We selected Vue for the UI, batch calculation followed by exploration, Windows/macOS/Linux targets, a developer installation, and a dashboard mode without 3D. Local web is the selected initial deployment baseline.
 
 ## Context
 
@@ -24,7 +24,7 @@ Use ordinary HTTP requests for configuration, run submission, status polling, an
 | :--- | :--- |
 | Desktop wrapper around the web UI | Can reuse presentation work, but adds runtime packaging, process supervision, ports, updates, and platform-specific testing. Revisit when a nontechnical installation is required. |
 | Hosted application | Supports remote access, but introduces server operation, authentication, shared-resource scheduling, and deployment decisions beyond the initial single-user local workflow. |
-| React interface | Compatible with the API boundary and team experience; Vue follows the owner's expressed preference. |
+| React interface | Compatible with the API boundary and team experience; we selected Vue as our initial UI framework. |
 | Direct UI calls into Python/C++ objects | Couples presentation to the runtime and packaging mechanism. The HTTP boundary keeps a browser UI and future alternative clients independent. |
 
 ## Verification and revision

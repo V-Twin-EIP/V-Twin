@@ -12,11 +12,11 @@
 | Supporting: stored-result/curve readiness | < 1 s, including required retrieval and rendering. | Not measured. | Per-stage/query budgets unset. | Fix result volume/curves and cache modes; measure in #46. |
 | Future twin: telemetry p95 | To define for the acquisition/consumer workflow. | Not measured. | Unset. | Signals/clock/payload/workload from #2/#35/#42. |
 
-The user confirmed **one minute per calculation** and **less than one second for result exploration**. Neither target is a measurement. There is no published engine timing, memory qualification or adopted regression threshold yet.
+We set targets of **one minute per calculation** and **less than one second for result exploration**. Neither target is a measurement. There is no published engine timing, memory qualification or adopted regression threshold yet.
 
 ## Machine register
 
-Hardware reported by the owner on **October 24, 2026**. The [machine-readable inventory](hardware-inventory.json) preserves the reported values and unknown fields.
+We recorded our team hardware on **October 24, 2026**. The [machine-readable inventory](hardware-inventory.json) preserves the reported values and unknown fields.
 
 | Member / profile | CPU as reported | RAM | Graphics as reported |
 | :--- | :--- | :--- | :--- |

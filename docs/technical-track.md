@@ -58,7 +58,7 @@ The watch journal starts early and continues alongside development. Its ongoing 
 
 The early architecture deliverable in [#5](https://github.com/V-Twin-EIP/V-Twin/issues/5) covers components, dependencies, interfaces, storage, flows, deployment, versioning, and justified choices. Include suitable UML views of structure and a critical interaction, alongside a data-flow and deployment view. Record assumptions and revisit decisions after experiments and expert feedback.
 
-The [working V1 design and ADRs](architecture/README.md) provide those architecture views and a local API/replaceable-engine boundary. The owner confirmed Windows/macOS/Linux targets, developer installation, batch calculation followed by exploration, and dashboard-only operation. The [corrected hardware register](../benchmarks/README.md#machine-register) now records 16 GB reference profiles for Pacien (integrated graphics) and Divin (dedicated GPU), plus two M4/16 GB Macs and Adam's 32 GB workstation. Numerical acceptance and measured performance remain tied to #4/#39; the architecture does not complete those checks.
+The [working V1 design and ADRs](architecture/README.md) provide those architecture views and a local API/replaceable-engine boundary. We selected Windows/macOS/Linux targets, developer installation, batch calculation followed by exploration, and dashboard-only operation. The [corrected hardware register](../benchmarks/README.md#machine-register) now records 16 GB reference profiles for Pacien (integrated graphics) and Divin (dedicated GPU), plus two M4/16 GB Macs and Adam's 32 GB workstation. Numerical acceptance and measured performance remain tied to #4/#39; the architecture does not complete those checks.
 
 The foundation also includes:
 
@@ -95,11 +95,11 @@ The [PF.1 measurement protocol](performance.md) selects **three primary sandbox 
 
 | KPI | Meaning | Measurement considerations |
 | :--- | :--- | :--- |
-| Submission-to-usable-result latency | Delay from one browser submission through required results and usable initial graphs. | User target ≤ 60 seconds per calculation; report median, p95, maximum and all failures on a fixed workload/machine. |
+| Submission-to-usable-result latency | Delay from one browser submission through required results and usable initial graphs. | Our target is ≤ 60 seconds per calculation; report median, p95, maximum and all failures on a fixed workload/machine. |
 | Simulation real-time factor | Simulated seconds divided by elapsed wall-clock seconds. | Fix engine, scenario, simulation duration, numerical settings, and hardware. |
 | Peak sampled application RSS | Maximum simultaneous RSS sum for coordinator, worker and dedicated benchmark browser. | Retain group traces and sample completeness; evaluate actual system headroom on the reported 16 GB reference profiles. |
 
-The owner also confirmed a **less-than-one-second** expectation for opening stored results or changing curves; this is a supporting interaction metric. Telemetry end-to-end p95 becomes the latency focus for the later twin profile, with source/consumer clock and acquisition requirements defined separately. Local transport/database benchmarks retain their workload-specific measures.
+We also set a **less-than-one-second** target for opening stored results or changing curves; this is a supporting interaction metric. Telemetry end-to-end p95 becomes the latency focus for the later twin profile, with source/consumer clock and acquisition requirements defined separately. Local transport/database benchmarks retain their workload-specific measures.
 
 The [initial tracking register](../benchmarks/README.md) and [nominal-workload record](../benchmarks/workloads/sandbox-nominal-v1.json) expose the remaining evidence gaps. #39 stays open for the frozen nominal workload and justified budgets after baseline. #46 can use the protocol to obtain that baseline; it must not require invented budgets to begin. The environment inventory command is implemented and exercised in CI, while product timing/memory measurements are not yet available.
 

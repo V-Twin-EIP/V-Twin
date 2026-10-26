@@ -8,11 +8,11 @@ The first application is a local, single-user **batch sandbox**, with one numeri
 
 ## Confirmed user expectations
 
-The owner confirmed these targets on October 19, 2026:
+We set these targets on October 19, 2026:
 
 - **At most 60 seconds per calculation**, from browser submission until the required results and initial graphs are usable. This is a target for one calculation, not for two calculations plus comparison.
 - **Less than one second** to open an already calculated result or change its displayed curve under the defined nominal result workload. Include any necessary retrieval, decoding and chart update.
-- The [hardware register](../benchmarks/README.md#machine-register) was corrected by the owner on **October 24, 2026**: four machines have **16 GB RAM**, Adam's has **32 GB**. Pacien's i5-1135G7/Iris Xe supplies the integrated-graphics profile; Divin's i5-7300HQ/GTX 1050 Ti supplies a separate CPU/dedicated-GPU profile. OS/browser versions and measured behavior remain to be collected. System RAM is shared with the OS and browser, not allocated entirely to the engine.
+- The [hardware register](../benchmarks/README.md#machine-register) was updated by our team on **October 24, 2026**: four machines have **16 GB RAM**, Adam's has **32 GB**. Pacien's i5-1135G7/Iris Xe supplies the integrated-graphics profile; Divin's i5-7300HQ/GTX 1050 Ti supplies a separate CPU/dedicated-GPU profile. OS/browser versions and measured behavior remain to be collected. System RAM is shared with the OS and browser, not allocated entirely to the engine.
 
 These are user expectations, not observed performance, automatic execution timeouts, or measured resource budgets. First measure the workload, then decide whether the implementation meets the expectations and which changes are justified.
 
@@ -20,7 +20,7 @@ These are user expectations, not observed performance, automatic execution timeo
 
 | Identifier | Definition and unit | Measurement boundary | Interpretation and initial budget |
 | :--- | :--- | :--- | :--- |
-| `run_ready_s` | Seconds from submission to usable results. Lower is better. | Start immediately before the browser submits one valid nominal case. Stop after all required results are retrieved, decoded and the required initial plots have completed their render/update callbacks. | User target: **each successful, correct nominal repetition ≤ 60 s**. Report median, p95, maximum and failures. Component allocations remain unset until baseline. |
+| `run_ready_s` | Seconds from submission to usable results. Lower is better. | Start immediately before the browser submits one valid nominal case. Stop after all required results are retrieved, decoded and the required initial plots have completed their render/update callbacks. | Our target: **each successful, correct nominal repetition ≤ 60 s**. Report median, p95, maximum and failures. Component allocations remain unset until baseline. |
 | `simulation_rate` | Simulated seconds advanced divided by engine wall-clock seconds, in `s_sim/s_wall`. Higher is better. | Engine entry after frozen inputs are handed over, through numerical execution and emission of required outputs to its sink. Record the simulated interval actually completed. | No minimum fixed yet. This is throughput, not a requirement for a real-time simulator. Do not include queue waiting or browser work in its denominator. |
 | `peak_sampled_app_rss_bytes` | Maximum of simultaneous sums of resident memory over the owned application process set, in bytes; display may use MiB. Lower is better for an equivalent workload. | API/coordinator, worker and a dedicated benchmark browser process tree, from idle-before-submit through usable results. Retain each group's trace and the idle baseline. | No cap fixed yet. The headroom required on the reported 16 GB reference profiles needs measurement. A core-only RSS observation is not this application KPI. |
 
@@ -30,8 +30,8 @@ For the 60-second target, a favorable p95 does not excuse a slower observed nomi
 
 ### Supporting measurements
 
-- `stored_result_ready_s`: opening one persisted result until its required charts are usable. User target **< 1 s**. Start with an empty client data cache; record backend/OS cache conditions without claiming unverified cold-disk reads.
-- `curve_change_ready_s`: user selection of another required curve until it is usable, including a fetch when needed. User target **< 1 s**. Distinguish cached and fetched paths.
+- `stored_result_ready_s`: opening one persisted result until its required charts are usable. Our target **< 1 s**. Start with an empty client data cache; record backend/OS cache conditions without claiming unverified cold-disk reads.
+- `curve_change_ready_s`: user selection of another required curve until it is usable, including a fetch when needed. Our target **< 1 s**. Distinguish cached and fetched paths.
 - Record validation, queue wait, engine wall time, publication, retrieval/decoding and initial rendering spans, plus output samples/bytes, solver evaluations and process-group RSS. These explain the primary KPIs; they are not additional primary product KPIs.
 - Measure two-run comparison separately. Do not reinterpret the 60-second target as a total comparison budget. Compare only compatible, correct result sets and record the changed inputs.
 - Startup, an occupied queue and optional 3D have separate scenarios. Record frame-time distribution and interaction failures for 3D when it exists; no FPS budget or graphics compatibility is claimed today.
@@ -95,14 +95,14 @@ Increasing load, stress, cancellation, interruption, reconnect and invalid-data 
 
 | Item | State now | Adoption rule |
 | :--- | :--- | :--- |
-| Nominal single-run latency | User target **≤ 60 s**; unmeasured. | Evaluate the complete path on the frozen reference case/machine; retain component spans and all failures. |
-| Stored-result/curve interaction | User target **< 1 s**; unmeasured. | Evaluate the fixed query/output/plot workload, including retrieval and rendering. |
+| Nominal single-run latency | Our target **≤ 60 s**; unmeasured. | Evaluate the complete path on the frozen reference case/machine; retain component spans and all failures. |
+| Stored-result/curve interaction | Our target **< 1 s**; unmeasured. | Evaluate the fixed query/output/plot workload, including retrieval and rendering. |
 | Minimum simulation rate | **Unset.** | Derive a requirement from simulated duration and measured non-engine costs within the run target, then verify it on the reference profile. If the remaining time is nonpositive, address the path rather than inventing a rate. |
 | Application RSS cap and headroom | **Unset.** | Measure application groups, idle/OS/browser needs, available memory and paging on the reference machine; propose and verify a cap that preserves usability under the declared conditions. |
 | Queue length, run/output limits and stage allocations | **Unset.** | Choose from representative size/load/resilience results, document the trade-off, then validate enforcement and failure behavior. |
 | CI timing-regression threshold | **Unset.** | Assess runner variability and baseline stability first. Ordinary shared-runner timing does not justify a hard wall-time gate. |
 
-For every proposed budget, retain its value/unit, workload revision, machine profile, raw baseline/report links, variability, rationale, correctness guardrails, owner/reviewer and adoption date. The technical owner `rchrp` reviews the measured proposal with the team. A changed model, output volume, machine or numerical tolerance triggers a recorded reevaluation rather than silent budget drift.
+For every proposed budget, retain its value/unit, workload revision, machine profile, raw baseline/report links, variability, rationale, correctness guardrails, owner/reviewer and adoption date. Our technical review is led by `rchrp`, who reviews the measured proposal with the team. A changed model, output volume, machine or numerical tolerance triggers a recorded reevaluation rather than silent budget drift.
 
 #46 can start from this versioned protocol while **#39's workload/budget criteria remain open**. It returns baseline evidence and proposed budgets to #39; it does not need #39 to falsely claim measured budgets before the first measurement. Telemetry-specific #35 prerequisites apply to the later twin campaign, not to an independent sandbox baseline.
 

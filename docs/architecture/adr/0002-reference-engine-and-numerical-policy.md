@@ -1,6 +1,6 @@
 # ADR 0002 Python reference engine and numerical policy
 
-**Status:** Python/NumPy/SciPy selected by the owner for V1 on October 18, 2026, with C++ introduced according to measured needs. Numerical acceptance depends on #3/#4/#33; no performance winner has been measured.
+**Status:** We selected Python/NumPy/SciPy for V1 on October 18, 2026, with C++ introduced according to measured needs. Numerical acceptance depends on #3/#4/#33; no performance winner has been measured.
 
 **October 26 review:** [ADR 0004](0004-study-review-and-v1-boundary.md) records the study-to-decision trace, retains the physical reference baseline and defers PINN adoption until independent correctness and measured-cost evidence exists.
 
@@ -32,9 +32,9 @@ If C++ is introduced, cross the language boundary with complete operations or ar
 
 ## Numerical and performance evaluation
 
-The owner requested a **maximum one-minute wait for a nominal sandbox case**. Treat **60 seconds** as a user target to evaluate in #39: measure from the browser's run submission to the first complete required result set being usable in the dashboard. Include validation, scheduling, calculation, publication, result retrieval, and initial chart availability; report queue wait separately within that total. The nominal workload and environment must be fixed in #3/#39. Startup/installation and a queue already occupied by other jobs are separate scenarios with separately reported waits. This target is not a demonstrated result or an automatic solver timeout.
+We set a **maximum one-minute wait for a nominal sandbox case** as our UX target. Evaluate **60 seconds** in #39: measure from the browser's run submission to the first complete required result set being usable in the dashboard. Include validation, scheduling, calculation, publication, result retrieval, and initial chart availability; report queue wait separately within that total. The nominal workload and environment must be fixed in #3/#39. Startup/installation and a queue already occupied by other jobs are separate scenarios with separately reported waits. This target is not a demonstrated result or an automatic solver timeout.
 
-On October 19, 2026, the owner clarified that the minute applies **per calculation** and added a **less-than-one-second** target for opening stored results or changing curves. The [PF.1 protocol](../../performance.md) defines the KPI boundaries, repetitions, inventory, initial tracking and budget-adoption process. These expectations remain unmeasured; technical budgets are pending a representative baseline.
+On October 19, 2026, we clarified that the minute applies **per calculation** and added a **less-than-one-second** target for opening stored results or changing curves. The [PF.1 protocol](../../performance.md) defines the KPI boundaries, repetitions, inventory, initial tracking and budget-adoption process. These expectations remain unmeasured; technical budgets are pending a representative baseline.
 
 Use the actual #3 reference workload and the #4 accuracy guardrails. Record input/model versions, duration, integration/output policy, runtime/BLAS configuration, hardware, repeated wall times, peak memory, solver diagnostics, and observable errors. Count the API/worker/browser cost separately where useful; retain total application measurements on the [reported 16 GB Pacien and Divin profiles](../../../benchmarks/README.md#machine-register).
 

@@ -11,51 +11,51 @@ V-Twin has two intended applications, with the **design sandbox prioritized for 
 1. **A design sandbox before production:** help an engineer test an engine design and investigate potential reliability problems before construction.
 2. **A digital twin of a real engine:** help a private vehicle owner track engine wear, with the software intended to follow the vehicle from its initial new-engine condition.
 
-The existing roadmap proposes a shared simulation foundation. The owner selected **wear associated with friction or lubrication** as the first reliability topic, with an **interactive 3D view, graphs, and result comparisons**. Audio is excluded. The scoped technical baseline uses a Ricardo Hydra gasoline case, explicit parameter input, and a first ring–liner contact model.
+The existing roadmap proposes a shared simulation foundation. We selected **wear associated with friction or lubrication** as our first reliability topic, with an **interactive 3D view, graphs, and result comparisons**. Audio is excluded. The scoped technical baseline uses a Ricardo Hydra gasoline case, explicit parameter input, and a first ring–liner contact model.
 
 ## Confirmed constraints
 
 - The team currently has **no accessible physical engine or vehicle** for this work.
-- No acquired engine measurements or wear observations have been established in this discussion.
+- We have not yet acquired engine measurements or wear observations.
 - A documented **Ricardo Hydra gasoline 86 × 86 mm case** is selected as the reference-engine context. It has published specifications and relevant tribology literature; a complete matched parameter and wear-validation dataset has not yet been established. See the [reference-engine and input review](research/reference-engine-and-design-inputs.md).
 - The first product demonstration prioritizes the sandbox. Vehicle acquisition and twin-related technology experiments can continue as supporting roadmap work, without making a live vehicle connection a prerequisite for this demonstration.
 - The future twin is intended to start with a new vehicle. Its deployment mechanism, available signals, and initialization/calibration procedure remain to be defined.
 - The project has **five team members**. Their approved responsibilities and current GitHub availability are recorded below. The next Epitech mentoring meeting is **Monday, October 26, 2026**; the first executable-demonstration date remains to be defined. Individual working hours and capacity have not been established.
-- V1 targets **Windows, macOS, and Linux**, with developer installation and documented commands. The [hardware register](../benchmarks/README.md#machine-register), updated from the owner's October 24 list, records **16 GB RAM for Pacien, Divin, Raphael and Mathieu, and 32 GB for Adam**. Pacien has integrated Iris Xe graphics; Divin has a GTX 1050 Ti. Exact OS/browser versions and measured compatibility/performance remain to be collected.
-- The selected interaction is **batch calculation followed by exploration/comparison**. The owner prefers Vue and a replaceable connection between the engine and UI; local web is the initial deployment baseline in the [architecture](architecture/README.md).
+- V1 targets **Windows, macOS, and Linux**, with developer installation and documented commands. The [hardware register](../benchmarks/README.md#machine-register), updated from our team inventory on October 24, records **16 GB RAM for Pacien, Divin, Raphael and Mathieu, and 32 GB for Adam**. Pacien has integrated Iris Xe graphics; Divin has a GTX 1050 Ti. Exact OS/browser versions and measured compatibility/performance remain to be collected.
+- The selected interaction is **batch calculation followed by exploration/comparison**. We selected Vue and a replaceable connection between the engine and UI; local web is the initial deployment baseline in the [architecture](architecture/README.md).
 - A **dashboard-only mode** must remain usable without initializing 3D. Interactive 3D remains an MVP capability on supported hardware; a session can opt out of it.
-- The owner selected **Python/NumPy/SciPy for the first numerical engine**, with C++ considered according to measurements, and requested a **maximum one-minute wait for the nominal case**. The architecture defines the end-to-end timing boundary; #3/#39 establish the workload and measure whether the target is met.
-- On October 19, 2026, the owner clarified **one minute per calculation**, with comparison measured separately, and requested **less than one second** to open an already calculated result or change a curve. These are unmeasured user targets in the [performance protocol](performance.md), not automatic timeouts or adopted memory/throughput budgets.
+- We selected **Python/NumPy/SciPy for the first numerical engine**, with C++ considered according to measurements, and set a **maximum one-minute wait for the nominal case** as our UX target. The architecture defines the end-to-end timing boundary; #3/#39 establish the workload and measure whether the target is met.
+- On October 19, 2026, we set **one minute per calculation**, with comparison measured separately, and **less than one second** to open an already calculated result or change a curve. These are unmeasured user targets in the [performance protocol](performance.md), not automatic timeouts or adopted memory/throughput budgets.
 
 ## Decision record
 
 | Decision | Status | Basis |
 | :--- | :--- | :--- |
-| Support both the real-engine twin and the design sandbox as product goals. | Confirmed | Project owner's stated vision. |
-| Build the new project in `V-Twin-EIP/V-Twin`. | Confirmed | Project owner's selected repository and fresh-start direction. |
+| Support both the real-engine twin and the design sandbox as product goals. | Confirmed | Our project vision. |
+| Build the new project in `V-Twin-EIP/V-Twin`. | Confirmed | Our selected repository and fresh-start direction. |
 | Use a common simulation foundation. | Roadmap basis | Existing product roadmap; architectural details belong to M1. |
-| Prioritize an engineer evaluating an engine design before construction for the sandbox. | Confirmed | Owner's first-round answer. |
-| Target a private owner following engine wear from the vehicle's new condition for the twin. | Confirmed | Owner's first-round answer. |
-| Prioritize the sandbox for the first demonstrator. | Confirmed | Owner's first-round answer. |
-| Record current access to a physical engine or vehicle as unavailable. | Confirmed constraint | Owner's first-round answer. |
-| Use a Ricardo Hydra gasoline 86 × 86 mm case as reference context. | Working selection from delegated research | Source-specific variant and evidence gaps recorded in the reference review. |
-| Target wear associated with friction or lubrication first. | Confirmed | Owner's second-round answer. |
-| Use explicit parameters in a form/file as the MVP design input. | Adopted working baseline | Owner's preference, delegated technical advice, and the reference review; exact format belongs to the architecture/data-contract work. |
+| Prioritize an engineer evaluating an engine design before construction for the sandbox. | Confirmed | Our initial product scoping. |
+| Target a private owner following engine wear from the vehicle's new condition for the twin. | Confirmed | Our initial product scoping. |
+| Prioritize the sandbox for the first demonstrator. | Confirmed | Our initial product scoping. |
+| Record current access to a physical engine or vehicle as unavailable. | Confirmed constraint | Our initial product scoping. |
+| Use a Ricardo Hydra gasoline 86 × 86 mm case as reference context. | Working selection from our reference-engine research | Source-specific variant and evidence gaps recorded in the reference review. |
+| Target wear associated with friction or lubrication first. | Confirmed | Our initial reliability scope. |
+| Use explicit parameters in a form/file as the MVP design input. | Adopted working baseline | Our input-format choice and the reference review; exact format belongs to the architecture/data-contract work. |
 | Study the top compression ring–liner contact, initially targeting liner sliding wear. | Adopted working baseline | Scoped from the confirmed wear direction and relevant literature; formulation, parameters, and calibration remain follow-up work. |
-| Include interactive 3D, graphs, and result comparison in the MVP. | Confirmed | Owner's third-round answer. |
-| Exclude engine audio. | Confirmed | Owner stated that sound is not wanted. |
-| Plan with a five-person team. | Corrected and confirmed | Owner corrected the earlier four-person estimate and approved the allocation below. |
-| Prepare for the next Epitech mentoring meeting on October 26, 2026. | Planning date | Owner supplied “Monday, October 26” after the distinction between mentoring and an executable demonstration; no executable-delivery deadline inferred. |
-| Use batch calculation followed by interactive result exploration. | Confirmed | Owner's architecture interview answer. Numerical advancement is independent of playback. |
-| Target Windows, macOS, and Linux with developer installation. | Confirmed | Owner's architecture interview answer; exact supported versions require cross-platform checks. |
-| Provide dashboard-only operation without loading 3D. | Confirmed | Owner's request remains in force; the corrected hardware register includes Pacien's 16 GB integrated-graphics profile and Divin's 16 GB dedicated-GPU profile. 3D remains available separately. |
-| Separate a Vue UI, a versioned local API, and a replaceable engine. | Working architecture baseline | Owner's preference and the initial architecture/ADR design; engine-language and numerical evaluation gates are recorded in #5. |
-| Start with Python/NumPy/SciPy and consider C++ according to measurements. | Confirmed | Owner selected this engine direction after the architecture comparison. |
-| Target usable nominal-case results within one minute of submission. | User expectation to evaluate | Owner's architecture interview answer. Workload, environment, and observed latency belong to #3/#39; not a measured result or automatic timeout. |
+| Include interactive 3D, graphs, and result comparison in the MVP. | Confirmed | Our agreed visualization scope. |
+| Exclude engine audio. | Confirmed | We excluded sound from the scope. |
+| Plan with a five-person team. | Corrected and confirmed | We confirmed five team members and agreed on the allocation below. |
+| Prepare for the next Epitech mentoring meeting on October 26, 2026. | Planning date | We scheduled the mentoring meeting for October 26; the executable demonstration has a separate date still to be defined. |
+| Use batch calculation followed by interactive result exploration. | Confirmed | Our architecture requirements. Numerical advancement is independent of playback. |
+| Target Windows, macOS, and Linux with developer installation. | Confirmed | Our architecture requirements; exact supported versions require cross-platform checks. |
+| Provide dashboard-only operation without loading 3D. | Confirmed | Our dashboard-only requirement remains in force; the corrected hardware register includes Pacien's 16 GB integrated-graphics profile and Divin's 16 GB dedicated-GPU profile. 3D remains available separately. |
+| Separate a Vue UI, a versioned local API, and a replaceable engine. | Working architecture baseline | Our interface choice and the initial architecture/ADR design; engine-language and numerical evaluation gates are recorded in #5. |
+| Start with Python/NumPy/SciPy and consider C++ according to measurements. | Confirmed | We selected this engine direction after comparing the architecture alternatives. |
+| Target usable nominal-case results within one minute of submission. | User expectation to evaluate | Our architecture requirements. Workload, environment, and observed latency belong to #3/#39; not a measured result or automatic timeout. |
 
 ## Team and work allocation
 
-The owner approved this allocation for a **five-person project team**. On **October 24, 2026**, all five accounts are assignable in the repository, including `divin0i`. His reserved issues are now assigned. Issue assignees are the current operational record. Assignment identifies responsibility and does not bypass dependencies or establish completion.
+We agreed on this allocation for our **five-person project team**. On **October 24, 2026**, all five accounts are assignable in the repository, including `divin0i`. His reserved issues are now assigned. Issue assignees are the current operational record. Assignment identifies responsibility and does not bypass dependencies or establish completion.
 
 | Member | Responsibility | Tickets | Current assignment |
 | :--- | :--- | :--- | :--- |
@@ -141,12 +141,12 @@ The mentoring meeting and executable demonstration are separate planning events.
 
 ### Subsequent delivery: real-engine twin
 
-The owner has defined the intended starting condition and purpose. The proposed workflow is:
+We intend to follow a vehicle from its new-engine condition. Our proposed workflow is:
 
 1. Associate the software with a vehicle and record its initial new-engine reference condition and available metadata.
 2. Acquire the selected observations over the vehicle's operating history through a deployment/integration method to be specified.
 3. Maintain the modeled state and a traceable history of the selected wear estimates.
-4. Let the owner review wear evolution and the quality/coverage of the observations supporting it.
+4. Let the vehicle owner review wear evolution and the quality/coverage of the observations supporting it.
 
 Deployment, initial-state estimation/calibration, signal acquisition, and handling of missing history require technical follow-up. The new-vehicle starting point is an intended operating condition, not a measurement of the engine's internal state.
 

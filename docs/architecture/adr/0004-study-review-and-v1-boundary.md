@@ -6,7 +6,7 @@
 
 - Slakkos's four studies, [PR #49](https://github.com/V-Twin-EIP/V-Twin/pull/49), immutable revision [6b5079c](https://github.com/V-Twin-EIP/V-Twin/tree/6b5079c8f369702686199c0f5707fff447abe506/docs/research/etudes-comparaison). The PR is not merged at this review.
 - Adam's merged [scenario catalogue](../../validation/scenarios/scenario-catalog.md), introduced by [600b2ae](https://github.com/V-Twin-EIP/V-Twin/commit/600b2ae591cb188d62dd2ee7d3272f7baa3d8c77). SCN-001/CONF-A is the nominal-case identity; operating values and matched contact inputs remain TBD. The validation protocol and datasets remain in preparation.
-- The owner's batch-first sandbox, optional 3D, CPU calculation, one-minute-per-run expectation and [reported team hardware](../../../benchmarks/README.md#machine-register).
+- Our batch-first sandbox, optional 3D, CPU calculation, one-minute-per-run target and [reported team hardware](../../../benchmarks/README.md#machine-register).
 
 ## Decision by study
 

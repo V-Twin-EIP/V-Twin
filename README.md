@@ -85,7 +85,7 @@ flowchart TD
     core --> sandbox["Design sandbox<br/>Comparisons, weak points, and corrective variants"]
 ```
 
-The [working V1 architecture](docs/architecture/README.md) separates a Python/NumPy/SciPy engine, application services, a local HTTP API, and a Vue/TypeScript interface. It uses local batch execution followed by result exploration, with Windows, macOS, and Linux as target platforms. The solver and storage choices, alternatives, and evaluation gates are recorded in [architecture decision records](docs/architecture/README.md#constraints-and-stack). Model execution and numerical results remain independent of the viewer. The user target is usable results within one minute for the nominal case; workload definition and measured feasibility remain follow-up work.
+The [working V1 architecture](docs/architecture/README.md) separates a Python/NumPy/SciPy engine, application services, a local HTTP API, and a Vue/TypeScript interface. It uses local batch execution followed by result exploration, with Windows, macOS, and Linux as target platforms. The solver and storage choices, alternatives, and evaluation gates are recorded in [architecture decision records](docs/architecture/README.md#constraints-and-stack). Model execution and numerical results remain independent of the viewer. Our target is usable results within one minute for the nominal case; workload definition and measured feasibility remain follow-up work.
 
 ## Modeling principles
 

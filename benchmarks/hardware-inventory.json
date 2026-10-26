@@ -2,7 +2,7 @@
   "record_type": "reported_hardware_inventory",
   "schema_version": "1.0.0",
   "reported_on": "2026-10-24",
-  "source": "Project owner's supplied team hardware list",
+  "source": "Hardware specifications reported by our team",
   "qualification_status": "not_benchmarked",
   "notes": [
     "Reported system RAM has a minimum of 16 GB across the five machines",
