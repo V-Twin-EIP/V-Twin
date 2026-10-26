@@ -39,10 +39,10 @@ Screenshots of RSS feeds, newsletters and bookmarks: `docs/technology-watch/asse
 
 | Item | Issue | Document / evidence | Status |
 | :--- | :--- | :--- | :--- |
-| Study: acquisition (OBD-II / CAN / sensors) | [#30](https://github.com/V-Twin-EIP/V-Twin/issues/30) | — | Not started |
-| Study: telemetry transport (MQTT / WebSocket / REST / SSE) | [#31](https://github.com/V-Twin-EIP/V-Twin/issues/31) | — | Not started |
-| Study: time-series storage (InfluxDB / TimescaleDB) | [#32](https://github.com/V-Twin-EIP/V-Twin/issues/32) | — | Not started |
-| Study: wear estimation (physical / ML / hybrid) | [#33](https://github.com/V-Twin-EIP/V-Twin/issues/33) | — | Not started |
+| Study: acquisition (OBD-II / CAN / sensors) | [#30](https://github.com/V-Twin-EIP/V-Twin/issues/30) | [01_telemetrie_obd2_vs_can.md](../research/etudes-comparaison/01_telemetrie_obd2_vs_can.md) | Done |
+| Study: telemetry transport (MQTT / WebSocket / REST / SSE) | [#31](https://github.com/V-Twin-EIP/V-Twin/issues/31) | [02_protocoles_reseau_mqtt_vs_websocket.md](../research/etudes-comparaison/02_protocoles_reseau_mqtt_vs_websocket.md) | Done |
+| Study: time-series storage (InfluxDB / TimescaleDB) | [#32](https://github.com/V-Twin-EIP/V-Twin/issues/32) | [03_stockage_series_temporelles_timescaledb_vs_influxdb.md](../research/etudes-comparaison/03_stockage_series_temporelles_timescaledb_vs_influxdb.md) | Done |
+| Study: wear estimation (physical / ML / hybrid) | [#33](https://github.com/V-Twin-EIP/V-Twin/issues/33) | [04_prediction_usure_moteur_pinn_vs_ml.md](../research/etudes-comparaison/04_prediction_usure_moteur_pinn_vs_ml.md) | Done |
 | POC: acquisition | [#34](https://github.com/V-Twin-EIP/V-Twin/issues/34) | — | Not started |
 | POC: MQTT telemetry | [#35](https://github.com/V-Twin-EIP/V-Twin/issues/35) | — | Not started |
 | Benchmark: transport | [#42](https://github.com/V-Twin-EIP/V-Twin/issues/42) | — | Not started |
@@ -66,7 +66,10 @@ Screenshots of RSS feeds, newsletters and bookmarks: `docs/technology-watch/asse
 
 | Decision | Status | Why | Evidence (study / POC / benchmark / ADR) |
 | :--- | :--- | :--- | :--- |
-| | | | |
+| Ingestion duale CAN / OBD-II | Adopted | CAN haute fréquence (100–500 Hz) pour simulateur, OBD-II pour véhicules série | [Study #30](../research/etudes-comparaison/01_telemetrie_obd2_vs_can.md) |
+| Transport hybride MQTT v5 + WebSocket | Adopted | MQTT v5/Protobuf pour ingestion télémétrique résiliente, WebSocket pour flux temps réel 3D, REST pour services CRUD | [Study #31](../research/etudes-comparaison/02_protocoles_reseau_mqtt_vs_websocket.md) |
+| TimescaleDB pour séries temporelles | Adopted | SQL ANSI unifié, Hypertables, jointures natives avec nomenclatures/pièces et intégrité ACID | [Study #32](../research/etudes-comparaison/03_stockage_series_temporelles_timescaledb_vs_influxdb.md) |
+| Approche hybride PINN pour usure | Adopted | Inférence temps réel (<20 ms) tout en garantissant le respect strict des lois physiques (fatigue, lubrification) | [Study #33](../research/etudes-comparaison/04_prediction_usure_moteur_pinn_vs_ml.md) |
 
 ## 8. Mentoring summary
 
