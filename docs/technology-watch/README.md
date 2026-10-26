@@ -13,7 +13,7 @@ Rule: an entry is added only if it feeds a study, POC, benchmark or decision.
 | Technology | Team level | Status |
 | :--- | :--- | :--- |
 | Python, NumPy, SciPy | <mastered> | not new |
-| Vue / TypeScript | <mastered> | not new |
+| React / TypeScript | Team experience | Existing skills; Next.js selected for the UI on October 26. Framework-specific learning remains to assess. |
 | uv, GitHub Actions CI | <mastered> | not new |
 | MQTT | <never used> | **new exploration** (POC + study #31) |
 | InfluxDB| <never used> | **new exploration** (study #32, benchmark #43) |

@@ -22,7 +22,7 @@ The existing roadmap proposes a shared simulation foundation. We selected **wear
 - The future twin is intended to start with a new vehicle. Its deployment mechanism, available signals, and initialization/calibration procedure remain to be defined.
 - The project has **five team members**. Their approved responsibilities and current GitHub availability are recorded below. The next Epitech mentoring meeting is **Monday, October 26, 2026**; the first executable-demonstration date remains to be defined. Individual working hours and capacity have not been established.
 - V1 targets **Windows, macOS, and Linux**, with developer installation and documented commands. The [hardware register](../benchmarks/README.md#machine-register), updated from our team inventory on October 24, records **16 GB RAM for Pacien, Divin, Raphael and Mathieu, and 32 GB for Adam**. Pacien has integrated Iris Xe graphics; Divin has a GTX 1050 Ti. Exact OS/browser versions and measured compatibility/performance remain to be collected.
-- The selected interaction is **batch calculation followed by exploration/comparison**. We selected Vue and a replaceable connection between the engine and UI; local web is the initial deployment baseline in the [architecture](architecture/README.md).
+- The selected interaction is **batch calculation followed by exploration/comparison**. We selected Next.js (React)/TypeScript and a replaceable connection between the engine and UI; local web is the initial deployment baseline in the [architecture](architecture/README.md).
 - A **dashboard-only mode** must remain usable without initializing 3D. Interactive 3D remains an MVP capability on supported hardware; a session can opt out of it.
 - We selected **Python/NumPy/SciPy for the first numerical engine**, with C++ considered according to measurements, and set a **maximum one-minute wait for the nominal case** as our UX target. The architecture defines the end-to-end timing boundary; #3/#39 establish the workload and measure whether the target is met.
 - On October 19, 2026, we set **one minute per calculation**, with comparison measured separately, and **less than one second** to open an already calculated result or change a curve. These are unmeasured user targets in the [performance protocol](performance.md), not automatic timeouts or adopted memory/throughput budgets.
@@ -49,7 +49,7 @@ The existing roadmap proposes a shared simulation foundation. We selected **wear
 | Use batch calculation followed by interactive result exploration. | Confirmed | Our architecture requirements. Numerical advancement is independent of playback. |
 | Target Windows, macOS, and Linux with developer installation. | Confirmed | Our architecture requirements; exact supported versions require cross-platform checks. |
 | Provide dashboard-only operation without loading 3D. | Confirmed | Our dashboard-only requirement remains in force; the corrected hardware register includes Pacien's 16 GB integrated-graphics profile and Divin's 16 GB dedicated-GPU profile. 3D remains available separately. |
-| Separate a Vue UI, a versioned local API, and a replaceable engine. | Working architecture baseline | Our interface choice and the initial architecture/ADR design; engine-language and numerical evaluation gates are recorded in #5. |
+| Separate a Next.js (React)/TypeScript UI, a versioned local API, and a replaceable engine. | Working architecture baseline | Our interface choice and the initial architecture/ADR design; engine-language and numerical evaluation gates are recorded in #5. |
 | Start with Python/NumPy/SciPy and consider C++ according to measurements. | Confirmed | We selected this engine direction after comparing the architecture alternatives. |
 | Target usable nominal-case results within one minute of submission. | User expectation to evaluate | Our architecture requirements. Workload, environment, and observed latency belong to #3/#39; not a measured result or automatic timeout. |
 
@@ -122,7 +122,7 @@ The baseline first comparison is **two lubricant configurations differing in vis
 - Preserve model execution independently of rendering so numerical results can be reproduced without the viewer.
 - Allow 3D to be disabled and load its code/assets only on demand. Graphics unavailability or viewer failure must leave the dashboard workflow usable; chart rendering must not require WebGL.
 
-These are requirements for [the sandbox visualization/comparison work in #24](https://github.com/V-Twin-EIP/V-Twin/issues/24). The working V1 architecture records Vue, Three.js, and ECharts as implementation baselines, with separate adapters and platform checks; asset/schema details belong to the implementation issues.
+These are requirements for [the sandbox visualization/comparison work in #24](https://github.com/V-Twin-EIP/V-Twin/issues/24). The working V1 architecture records Next.js (React)/TypeScript, Three.js, and ECharts as target implementation baselines, with the current Vue/Vite screen still to migrate, with separate adapters and platform checks; asset/schema details belong to the implementation issues.
 
 ### First executable demonstration
 

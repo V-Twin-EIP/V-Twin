@@ -2,6 +2,8 @@
 
 **Status:** V1 architecture arbitration recorded on October 26, 2026 for #5. Experimental recommendations remain subject to their stated evidence gates; no new transport, database or neural model is declared implemented.
 
+**Frontend correction on October 26:** Next.js (React)/TypeScript supersedes Vue as our UI choice. [ADR 0001](0001-local-application-and-ui-boundary.md) records the planned static-export deployment and pending migration; the numerical, API and storage arbitration below is unchanged.
+
 ## Inputs reviewed
 
 - Slakkos's four studies, [PR #49](https://github.com/V-Twin-EIP/V-Twin/pull/49), immutable revision [6b5079c](https://github.com/V-Twin-EIP/V-Twin/tree/6b5079c8f369702686199c0f5707fff447abe506/docs/research/etudes-comparaison). The PR is not merged at this review.

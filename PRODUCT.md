@@ -8,8 +8,9 @@ Web, running locally in the user's browser.
 
 ## Stack
 
-Python, NumPy and SciPy provide the numerical foundation. Vue 3, TypeScript and
-Vite provide the client. A local FastAPI adapter keeps the interface independent
+Python, NumPy and SciPy provide the numerical foundation. We selected Next.js
+(React) with TypeScript for the client on October 26, 2026. The existing Vue/Vite
+startup screen still needs migration. A local FastAPI adapter keeps the interface independent
 of the numerical implementation. See [the architecture](docs/architecture/README.md).
 
 ## Users and purpose

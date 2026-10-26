@@ -6,11 +6,11 @@ The first delivery runs a parameterized ring–liner case, records its results, 
 
 ## Constraints and stack
 
-Our team has experience with C/C++, Python, TypeScript, and Vue/React. We chose Vue for the interface and **Python/NumPy/SciPy for V1, with C++ considered according to measurements**. We use batch calculation followed by result exploration, with local web deployment. V1 uses developer installation and documented launch commands. Windows, macOS, and Linux are target platforms. The [October 24 hardware register](../../benchmarks/README.md#machine-register) records a lowest reported RAM capacity of **16 GB**. Pacien's i5-1135G7/Iris Xe is the integrated-graphics profile; Divin's i5-7300HQ/GTX 1050 Ti is a separate CPU/dedicated-GPU profile. Raphael and Mathieu each have an M4/16 GB MacBook Pro; Adam has an i7-13620H/32 GB/RTX 5060 Laptop GPU. Exact OS/browser versions and measured graphics/performance qualification remain pending.
+Our team has experience with C/C++, Python, TypeScript, and React. We chose Next.js (React) with TypeScript for the interface and **Python/NumPy/SciPy for V1, with C++ considered according to measurements**. We use batch calculation followed by result exploration, with local web deployment. V1 uses developer installation and documented launch commands. Windows, macOS, and Linux are target platforms. The [October 24 hardware register](../../benchmarks/README.md#machine-register) records a lowest reported RAM capacity of **16 GB**. Pacien's i5-1135G7/Iris Xe is the integrated-graphics profile; Divin's i5-7300HQ/GTX 1050 Ti is a separate CPU/dedicated-GPU profile. Raphael and Mathieu each have an M4/16 GB MacBook Pro; Adam has an i7-13620H/32 GB/RTX 5060 Laptop GPU. Exact OS/browser versions and measured graphics/performance qualification remain pending.
 
 | Layer | Working V1 choice | Decision |
 | :--- | :--- | :--- |
-| Interface | Vue 3, TypeScript, Vite. | [ADR 0001](adr/0001-local-application-and-ui-boundary.md). |
+| Interface | Next.js (React), TypeScript, App Router; static export planned for local hosting. Migration from the existing Vue/Vite scaffold is pending. | [ADR 0001](adr/0001-local-application-and-ui-boundary.md). |
 | 3D and graphs | Three.js viewer adapter; Apache ECharts with Canvas/SVG for dashboard plots. 3D is optional per client/session. | [ADR 0001](adr/0001-local-application-and-ui-boundary.md). |
 | Local API | FastAPI, versioned HTTP/JSON contracts and OpenAPI; polling for batch status. | [ADR 0001](adr/0001-local-application-and-ui-boundary.md). |
 | Reference numerical engine | Python, NumPy, SciPy; CPU execution, binary64 baseline, model-specific numerical policy. | [ADR 0002](adr/0002-reference-engine-and-numerical-policy.md). |
@@ -28,7 +28,7 @@ The ADRs compare alternatives and link primary documentation. These choices are 
 | Wear model | Evaluate the selected degradation mechanism using physical outputs, material/calibration parameters, and its applicability conditions. | Keep physical wear estimates distinct from exposure indicators; declare the coupling to the physical model. |
 | Numerical integration | Advance the coupled state under a documented numerical policy and report solver diagnostics. | The runner owns advancement; the viewer cannot change solver time or step size. |
 | Scenario and replay | Provide operating inputs against simulated time from a controlled scenario or a recorded session. | Validate units, ordering, gaps, and any resampling policy before execution. |
-| Run service | Validate a run request, freeze configuration/model versions, coordinate execution through an engine/execution port, and manage run status. | Shared use cases for HTTP and CLI adapters; no dependency on Vue or FastAPI. |
+| Run service | Validate a run request, freeze configuration/model versions, coordinate execution through an engine/execution port, and manage run status. | Shared use cases for HTTP and CLI adapters; no dependency on React/Next.js or FastAPI. |
 | Result storage | Preserve run metadata, inputs, diagnostics, time series, and reproducible result artifacts. | Expose storage operations through a contract independent of the physical model. |
 | Acquisition adapters | Convert future vehicle/file/transport observations into the observation contract. | Hardware/transport choices remain in #30/#31; acquisition does not run inside a numerical step. |
 | Presentation | Configure a case, inspect simplified 3D geometry, display graphs, and compare recorded runs. | Render results from a selected run and state; rendering frequency does not determine numerical integration. |
@@ -146,7 +146,7 @@ This is a modular application with a local worker, rather than independently dep
 flowchart TB
     subgraph PC["User computer - Windows, macOS, or Linux"]
         subgraph Browser["Browser"]
-            UI["Vue and TypeScript dashboard"]
+            UI["Next.js React and TypeScript dashboard"]
             Charts["ECharts Canvas or SVG"]
             Viewer["Optional lazy-loaded Three.js viewer"]
             UI --> Charts
@@ -174,7 +174,7 @@ flowchart TB
     end
 ```
 
-The normal local launch serves the built UI and `/api/v1` from the same loopback origin; Node is a build/development dependency rather than a numerical runtime. Development uses Vite with an explicit API proxy or permitted local origin. The [foundation guide](../development.md) documents the current startup/metadata API and commands. The worker, job lifecycle, persistence, and simulation contracts below remain the target architecture for subsequent issues.
+The normal local launch serves the built UI and `/api/v1` from the same loopback origin; Node is a build/development dependency rather than a numerical runtime. The selected Next.js frontend will use static export for local hosting and a configured local API connection during development. The existing scaffold still uses Vite; migrating the build, development setup and smoke checks remains implementation work. The [foundation guide](../development.md) documents the current startup/metadata API and commands. The worker, job lifecycle, persistence, and simulation contracts below remain the target architecture for subsequent issues.
 
 Persist a queued run before acknowledging it, then transition through `queued`, `running`, and a terminal `completed`, `failed`, `cancelled`, or `interrupted` state. A cancellation request is an event while work stops; it is not immediate success. Bound queue length, simulation duration, output volume, and result-query sizes. Initial limits are selected and measured in #39 rather than inferred from the 16 GB reference-system capacity.
 
@@ -197,7 +197,7 @@ The **HTTP contract** separates the UI from the application/runtime. The **Engin
 | HTTP | `POST /api/v1/comparisons` | Validate baseline/variant compatibility and record the comparison request and changed inputs. |
 | HTTP | Artifact/export retrieval by run and artifact IDs | Return authorized application-owned files without accepting arbitrary host paths. |
 | Engine | `run(frozen_spec, result_sink, cancellation)` | Pure numerical use of resolved domain inputs; documented diagnostics, artifact/result contract, and terminal outcome. No HTTP objects or browser state. |
-| Frontend | API client and viewer/chart adapters | Map versioned DTOs to presentation state; keep Vue, Three.js, and ECharts-specific objects out of shared model contracts. |
+| Frontend | API client and viewer/chart adapters | Map versioned DTOs to presentation state; keep React/Next.js, Three.js, and ECharts-specific objects out of shared model contracts. |
 
 The OpenAPI document will be exported and versioned with the implementation; generate/check frontend DTOs against it. A new UI still needs its own presentation work, while the same configuration, run, and result semantics remain usable. Third-party executable plugins and arbitrary user-supplied model code are outside V1.
 

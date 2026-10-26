@@ -2,6 +2,8 @@
 
 V-Twin's foundation contains an installable numerical package, a read-only local API, and a Vue startup screen. The numerical check uses analytical ODEs; no Hydra physics, calibrated wear model, job runner, result store, dashboards, or 3D viewer is implemented yet. Those capabilities keep their own roadmap issues.
 
+**Selected frontend:** Next.js (React)/TypeScript, corrected on October 26, 2026. **Current implementation:** the Vue/Vite startup scaffold described by the commands, paths and tests below. Migration is pending; [ADR 0001](architecture/adr/0001-local-application-and-ui-boundary.md) records the target deployment and checks to update.
+
 ## Supported toolchain
 
 | Tool | Version and source of truth |

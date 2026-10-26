@@ -34,6 +34,8 @@ The first demonstrator will prioritize **the design sandbox**, with one referenc
 
 The scoped MVP uses parameter-based configuration, an **interactive 3D view**, graphs, and baseline-versus-variant comparison. A **dashboard-only mode** supports configuration, calculations, graphs, comparison, and export without loading 3D. Its first reliability topic is ring–liner wear associated with friction and lubrication. Audio is outside the product scope. The project has **five team members**; responsibilities and current GitHub availability are recorded in the [team allocation](docs/product-scope.md#team-and-work-allocation). The next Epitech mentoring meeting is **Monday, October 26, 2026**; the first executable-demonstration date remains to be defined.
 
+**Frontend choice updated on October 26, 2026:** we selected **Next.js (React) with TypeScript**. The current startup scaffold is still Vue/Vite; migrating its screen, tooling and tests is pending. The commands below describe the existing scaffold.
+
 ## Run the foundation
 
 Prerequisites: **uv 0.13.1**, **Node 24.18.1**, and **npm 11.16.0**. uv installs the pinned Python 3.13.16 runtime when needed. From the repository root:
@@ -85,7 +87,7 @@ flowchart TD
     core --> sandbox["Design sandbox<br/>Comparisons, weak points, and corrective variants"]
 ```
 
-The [working V1 architecture](docs/architecture/README.md) separates a Python/NumPy/SciPy engine, application services, a local HTTP API, and a Vue/TypeScript interface. It uses local batch execution followed by result exploration, with Windows, macOS, and Linux as target platforms. The solver and storage choices, alternatives, and evaluation gates are recorded in [architecture decision records](docs/architecture/README.md#constraints-and-stack). Model execution and numerical results remain independent of the viewer. Our target is usable results within one minute for the nominal case; workload definition and measured feasibility remain follow-up work.
+The [working V1 architecture](docs/architecture/README.md) separates a Python/NumPy/SciPy engine, application services, a local HTTP API, and a Next.js (React)/TypeScript interface as the selected frontend target. It uses local batch execution followed by result exploration, with Windows, macOS, and Linux as target platforms. The solver and storage choices, alternatives, and evaluation gates are recorded in [architecture decision records](docs/architecture/README.md#constraints-and-stack). Model execution and numerical results remain independent of the viewer. Our target is usable results within one minute for the nominal case; workload definition and measured feasibility remain follow-up work.
 
 ## Modeling principles
 
