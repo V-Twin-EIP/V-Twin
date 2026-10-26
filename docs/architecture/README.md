@@ -1,6 +1,6 @@
 # V-Twin architecture
 
-**Status:** working V1 baseline for [M1.1 #5](https://github.com/V-Twin-EIP/V-Twin/issues/5), updated October 18, 2026. Product constraints are confirmed; implementation choices below are documented engineering baselines to evaluate. The validation protocol in #4 and the workloads/KPIs in #3/#39 remain open.
+**Status:** working V1 baseline for [M1.1 #5](https://github.com/V-Twin-EIP/V-Twin/issues/5), reviewed October 26, 2026. Product constraints are confirmed; implementation choices below are documented engineering baselines to evaluate. The [study review and V1 arbitration](adr/0004-study-review-and-v1-boundary.md) records how Slakkos's studies and Adam's scenarios affect these decisions. The validation protocol in #4 and the workloads/KPIs in #3/#39 remain open.
 
 The first delivery runs a parameterized ring–liner case, records its results, and supports interactive 3D inspection, graphs, and a baseline/variant comparison. A dashboard-only mode provides configuration, execution, graphs, comparison, and export without initializing 3D. The later digital twin reuses the model and run contracts with recorded or acquired observations. Model execution remains usable without the interface.
 
@@ -276,4 +276,4 @@ Structured logs carry run IDs, component, severity, and actionable error codes w
 | Future history store | #32/#43: InfluxDB/TimescaleDB comparison for the twin; compare against actual read/write/retention workloads. Local sandbox catalogue/artifacts have the separate ADR 0003 scope. |
 | Model evaluation and expert review | #33 informs the wear formulation; #37 challenges architecture choices with external expertise and records changes. |
 
-The four studies remain assigned to Slakkos. Their results can revise the affected ADR without coupling the UI to a transport, store, or solver implementation. #5 stays in progress while #4 and the numerical acceptance evidence are open; the diagrams and decisions here are a concrete V1 design for review, not completed implementation.
+Slakkos's four studies are available in PR #49. [ADR 0004](adr/0004-study-review-and-v1-boundary.md) records the accepted V1 boundaries, deferred recommendations and evidence gates, using Adam's SCN-001/CONF-A as the nominal-case identity. #5 stays in progress while #4 and the outstanding POC/benchmark acceptance evidence are open; architecture decisions do not imply completed physical models or measured product performance.

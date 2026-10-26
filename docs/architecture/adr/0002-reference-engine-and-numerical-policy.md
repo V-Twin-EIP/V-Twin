@@ -2,6 +2,8 @@
 
 **Status:** Python/NumPy/SciPy selected by the owner for V1 on October 18, 2026, with C++ introduced according to measured needs. Numerical acceptance depends on #3/#4/#33; no performance winner has been measured.
 
+**October 26 review:** [ADR 0004](0004-study-review-and-v1-boundary.md) records the study-to-decision trace, retains the physical reference baseline and defers PINN adoption until independent correctness and measured-cost evidence exists.
+
 ## Decision
 
 Start with a **Python reference engine using NumPy and SciPy**, independently importable and callable without the web server. Use explicit typed domain records/arrays inside the engine and serialized, versioned run contracts at its boundary. Keep validation of HTTP payloads in the adapter. Model modules must not import FastAPI, database clients, or presentation code.

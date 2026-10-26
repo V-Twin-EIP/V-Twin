@@ -42,3 +42,17 @@ uv run --locked --extra api python scripts/performance_inventory.py --label divi
 Run each command on the corresponding machine. Complete the browser, power/display, graphics, background-load, BLAS/thread and storage context before benchmarking. Automatic unknowns remain `null`; hardware labels do not invent missing specifications. Generated local reports are ignored under `artifacts/` and CI inventories accompany that run's artifacts.
 
 The [nominal-workload record](workloads/sandbox-nominal-v1.json) lists the prerequisites for product measurements. It remains explicitly **not ready for execution** until its references and correctness criteria are frozen. #46 will add the real measurement command, raw records and baseline report. No engine benchmark command is advertised before it exists.
+
+## October 26 progress
+
+The nominal case is now explicitly linked to Adam's **SCN-001 / CONF-A** and its source revision. The workload record lists the remaining input owners; unresolved physical values are not replaced with arbitrary numbers.
+
+An [analytical-core timing probe](reports/foundation-probe-2026-10-26.json) has been executed locally with 3 warm-ups and 30 measured, correctness-checked attempts. It measures the existing `y'=-y` check in one Python process. Raw attempts, timing statistics, runtime information and source hashes are retained. Its RSS observations are taken after each attempt and are **not application memory peaks**.
+
+Reproduce that component-only observation with:
+
+```sh
+uv run --locked --extra api python scripts/measure_foundation.py --output artifacts/performance/foundation-probe.json
+```
+
+This is not the product baseline: no physical model, browser, queue, result publication or graphs are exercised. The three product KPI measurements and their technical budgets remain open.

@@ -4,6 +4,13 @@
   "workload_id": "sandbox-nominal-v1",
   "status": "awaiting_reference_case",
   "ready_for_execution": false,
+  "scenario_reference": {
+    "scenario_id": "SCN-001",
+    "configuration_id": "CONF-A",
+    "source_path": "docs/validation/scenarios/scenario-catalog.md",
+    "source_commit": "600b2ae591cb188d62dd2ee7d3272f7baa3d8c77",
+    "status": "conceptual_case_identified_inputs_not_frozen"
+  },
   "scope": "One local batch calculation followed by usable required dashboard plots; no 3D",
   "execution": {
     "users": 1,
@@ -46,7 +53,16 @@
   },
   "evidence": {
     "product_baseline_report": null,
-    "budget_adoption_record": null
+    "budget_adoption_record": null,
+    "analytical_core_probe": "benchmarks/reports/foundation-probe-2026-10-26.json"
+  },
+  "remaining_input_owners": {
+    "3": "Fix nominal speed, contact loading, duration, initial/boundary conditions, viscosity and evaluation windows",
+    "4": "Qualify independent references, applicability and observable-specific tolerances",
+    "7": "Freeze configuration and observable schemas, versions, units and provenance",
+    "8": "Implement the repeatable physical-case runner and publication path",
+    "39": "Complete the machine/browser context and derive budgets from a representative baseline",
+    "46": "Collect full-path timings, application memory traces, raw attempts and baseline report"
   },
   "readiness_requirements": [
     "Replace every frozen-input null with a reviewed value or explicit justified applicability record",

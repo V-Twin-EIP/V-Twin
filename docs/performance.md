@@ -4,6 +4,8 @@
 
 The first application is a local, single-user **batch sandbox**, with one numerical worker and optional 3D. Performance work must follow that scope. The real-engine twin has a later telemetry profile. The [initial tracking table](../benchmarks/README.md) records what is known and what has not been measured.
 
+**October 26 update:** the nominal workload now references Adam's SCN-001/CONF-A and records the remaining input owners. An [executed analytical-core probe](../benchmarks/reports/foundation-probe-2026-10-26.json) exercises 30 repetitions with correctness checks, raw timings and source hashes. It is explicitly separate from the still-unmeasured product KPI/baseline and cannot set the application's latency or memory budgets. [ADR 0004](architecture/adr/0004-study-review-and-v1-boundary.md) records the review of Slakkos's studies.
+
 ## Confirmed user expectations
 
 The owner confirmed these targets on October 19, 2026:
