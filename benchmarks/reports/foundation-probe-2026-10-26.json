@@ -1,0 +1,338 @@
+{
+  "record_type": "analytical_core_performance_probe",
+  "schema_version": "1.0.0",
+  "captured_at_utc": "2026-10-26T15:33:55.573349+00:00",
+  "product_baseline": false,
+  "workload": {
+    "id": "analytical-exponential-decay-v1",
+    "equation": "y'=-y; y(0)=1; exact solution exp(-t)",
+    "simulated_interval_s": [
+      0,
+      5
+    ],
+    "output_samples": 51,
+    "method": "RK45",
+    "relative_tolerance": 1e-09,
+    "absolute_tolerance": 1e-12,
+    "warmups": 3,
+    "measured_attempts": 30
+  },
+  "environment": {
+    "os": "Darwin",
+    "os_release": "27.0.0",
+    "architecture": "arm64",
+    "physical_memory_bytes": 17179869184,
+    "logical_cpus": 10,
+    "python": "3.13.16",
+    "packages": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "psutil": "7.2.2",
+      "vtwin": "0.1.0"
+    }
+  },
+  "source": {
+    "commit": "c842e3099d1c270c308761e9f9fd4eef0ce9f6b4",
+    "files_sha256": {
+      "src/vtwin/application/foundation.py": "8bd767ffddbd0f3a4b4478a858b16e268bb300eb2c2d1bf05e6e1784e1a17ad4",
+      "src/vtwin/engine/numerics.py": "9e8a6e38418f5412b12713a7692d73d8c2c62b65eb9adbe05c2c547216e2da5d",
+      "src/vtwin/domain/numerics.py": "ecb4173f489f2110801c73143acf473d6e3ff436ff4e74fb224a0ce41bf85d79",
+      "src/vtwin/bootstrap/__init__.py": "4102e6c64c6084ba5be4bb4540b1ddd935794ce584d4946f16b24812c69b5c84",
+      "scripts/measure_foundation.py": "a5545dc71ec1991b55eeb8afaacdff49d803b7b67676f2439c65d7387d3af5c9",
+      "uv.lock": "e8239d1cf98c2b383c630ec8b1a2eab80d161aa96a48f97e384b14f6ef60f8e6"
+    }
+  },
+  "clock": "time.perf_counter_ns; one process; imports and warm-ups excluded",
+  "attempts": [
+    {
+      "attempt": 1,
+      "wall_s": 0.002234875,
+      "correct": true,
+      "max_absolute_error": 1.5312273671241883e-10,
+      "acceptance_tolerance": 1e-07,
+      "evaluations": 518,
+      "rss_after_bytes": 75448320
+    },
+    {
+      "attempt": 2,
+      "wall_s": 0.002084417,
+      "correct": true,
+      "max_absolute_error": 1.5312273671241883e-10,
+      "acceptance_tolerance": 1e-07,
+      "evaluations": 518,
+      "rss_after_bytes": 75464704
+    },
+    {
+      "attempt": 3,
+      "wall_s": 0.002100292,
+      "correct": true,
+      "max_absolute_error": 1.5312273671241883e-10,
+      "acceptance_tolerance": 1e-07,
+      "evaluations": 518,
+      "rss_after_bytes": 75481088
+    },
+    {
+      "attempt": 4,
+      "wall_s": 0.002207833,
+      "correct": true,
+      "max_absolute_error": 1.5312273671241883e-10,
+      "acceptance_tolerance": 1e-07,
+      "evaluations": 518,
+      "rss_after_bytes": 75497472
+    },
+    {
+      "attempt": 5,
+      "wall_s": 0.002173167,
+      "correct": true,
+      "max_absolute_error": 1.5312273671241883e-10,
+      "acceptance_tolerance": 1e-07,
+      "evaluations": 518,
+      "rss_after_bytes": 75513856
+    },
+    {
+      "attempt": 6,
+      "wall_s": 0.002102792,
+      "correct": true,
+      "max_absolute_error": 1.5312273671241883e-10,
+      "acceptance_tolerance": 1e-07,
+      "evaluations": 518,
+      "rss_after_bytes": 75546624
+    },
+    {
+      "attempt": 7,
+      "wall_s": 0.00214525,
+      "correct": true,
+      "max_absolute_error": 1.5312273671241883e-10,
+      "acceptance_tolerance": 1e-07,
+      "evaluations": 518,
+      "rss_after_bytes": 75563008
+    },
+    {
+      "attempt": 8,
+      "wall_s": 0.00211275,
+      "correct": true,
+      "max_absolute_error": 1.5312273671241883e-10,
+      "acceptance_tolerance": 1e-07,
+      "evaluations": 518,
+      "rss_after_bytes": 75563008
+    },
+    {
+      "attempt": 9,
+      "wall_s": 0.00218975,
+      "correct": true,
+      "max_absolute_error": 1.5312273671241883e-10,
+      "acceptance_tolerance": 1e-07,
+      "evaluations": 518,
+      "rss_after_bytes": 75563008
+    },
+    {
+      "attempt": 10,
+      "wall_s": 0.002107792,
+      "correct": true,
+      "max_absolute_error": 1.5312273671241883e-10,
+      "acceptance_tolerance": 1e-07,
+      "evaluations": 518,
+      "rss_after_bytes": 75563008
+    },
+    {
+      "attempt": 11,
+      "wall_s": 0.00210525,
+      "correct": true,
+      "max_absolute_error": 1.5312273671241883e-10,
+      "acceptance_tolerance": 1e-07,
+      "evaluations": 518,
+      "rss_after_bytes": 75563008
+    },
+    {
+      "attempt": 12,
+      "wall_s": 0.002055708,
+      "correct": true,
+      "max_absolute_error": 1.5312273671241883e-10,
+      "acceptance_tolerance": 1e-07,
+      "evaluations": 518,
+      "rss_after_bytes": 75595776
+    },
+    {
+      "attempt": 13,
+      "wall_s": 0.002100375,
+      "correct": true,
+      "max_absolute_error": 1.5312273671241883e-10,
+      "acceptance_tolerance": 1e-07,
+      "evaluations": 518,
+      "rss_after_bytes": 75612160
+    },
+    {
+      "attempt": 14,
+      "wall_s": 0.002062041,
+      "correct": true,
+      "max_absolute_error": 1.5312273671241883e-10,
+      "acceptance_tolerance": 1e-07,
+      "evaluations": 518,
+      "rss_after_bytes": 75612160
+    },
+    {
+      "attempt": 15,
+      "wall_s": 0.002218292,
+      "correct": true,
+      "max_absolute_error": 1.5312273671241883e-10,
+      "acceptance_tolerance": 1e-07,
+      "evaluations": 518,
+      "rss_after_bytes": 75628544
+    },
+    {
+      "attempt": 16,
+      "wall_s": 0.00215325,
+      "correct": true,
+      "max_absolute_error": 1.5312273671241883e-10,
+      "acceptance_tolerance": 1e-07,
+      "evaluations": 518,
+      "rss_after_bytes": 75628544
+    },
+    {
+      "attempt": 17,
+      "wall_s": 0.002049125,
+      "correct": true,
+      "max_absolute_error": 1.5312273671241883e-10,
+      "acceptance_tolerance": 1e-07,
+      "evaluations": 518,
+      "rss_after_bytes": 75628544
+    },
+    {
+      "attempt": 18,
+      "wall_s": 0.002058625,
+      "correct": true,
+      "max_absolute_error": 1.5312273671241883e-10,
+      "acceptance_tolerance": 1e-07,
+      "evaluations": 518,
+      "rss_after_bytes": 75628544
+    },
+    {
+      "attempt": 19,
+      "wall_s": 0.002095458,
+      "correct": true,
+      "max_absolute_error": 1.5312273671241883e-10,
+      "acceptance_tolerance": 1e-07,
+      "evaluations": 518,
+      "rss_after_bytes": 75628544
+    },
+    {
+      "attempt": 20,
+      "wall_s": 0.002078541,
+      "correct": true,
+      "max_absolute_error": 1.5312273671241883e-10,
+      "acceptance_tolerance": 1e-07,
+      "evaluations": 518,
+      "rss_after_bytes": 75644928
+    },
+    {
+      "attempt": 21,
+      "wall_s": 0.002115625,
+      "correct": true,
+      "max_absolute_error": 1.5312273671241883e-10,
+      "acceptance_tolerance": 1e-07,
+      "evaluations": 518,
+      "rss_after_bytes": 75644928
+    },
+    {
+      "attempt": 22,
+      "wall_s": 0.002147166,
+      "correct": true,
+      "max_absolute_error": 1.5312273671241883e-10,
+      "acceptance_tolerance": 1e-07,
+      "evaluations": 518,
+      "rss_after_bytes": 75644928
+    },
+    {
+      "attempt": 23,
+      "wall_s": 0.002290959,
+      "correct": true,
+      "max_absolute_error": 1.5312273671241883e-10,
+      "acceptance_tolerance": 1e-07,
+      "evaluations": 518,
+      "rss_after_bytes": 75644928
+    },
+    {
+      "attempt": 24,
+      "wall_s": 0.002137667,
+      "correct": true,
+      "max_absolute_error": 1.5312273671241883e-10,
+      "acceptance_tolerance": 1e-07,
+      "evaluations": 518,
+      "rss_after_bytes": 75644928
+    },
+    {
+      "attempt": 25,
+      "wall_s": 0.002067333,
+      "correct": true,
+      "max_absolute_error": 1.5312273671241883e-10,
+      "acceptance_tolerance": 1e-07,
+      "evaluations": 518,
+      "rss_after_bytes": 75644928
+    },
+    {
+      "attempt": 26,
+      "wall_s": 0.002076209,
+      "correct": true,
+      "max_absolute_error": 1.5312273671241883e-10,
+      "acceptance_tolerance": 1e-07,
+      "evaluations": 518,
+      "rss_after_bytes": 75644928
+    },
+    {
+      "attempt": 27,
+      "wall_s": 0.002122958,
+      "correct": true,
+      "max_absolute_error": 1.5312273671241883e-10,
+      "acceptance_tolerance": 1e-07,
+      "evaluations": 518,
+      "rss_after_bytes": 75644928
+    },
+    {
+      "attempt": 28,
+      "wall_s": 0.002117708,
+      "correct": true,
+      "max_absolute_error": 1.5312273671241883e-10,
+      "acceptance_tolerance": 1e-07,
+      "evaluations": 518,
+      "rss_after_bytes": 75644928
+    },
+    {
+      "attempt": 29,
+      "wall_s": 0.002055958,
+      "correct": true,
+      "max_absolute_error": 1.5312273671241883e-10,
+      "acceptance_tolerance": 1e-07,
+      "evaluations": 518,
+      "rss_after_bytes": 75661312
+    },
+    {
+      "attempt": 30,
+      "wall_s": 0.002079292,
+      "correct": true,
+      "max_absolute_error": 1.5312273671241883e-10,
+      "acceptance_tolerance": 1e-07,
+      "evaluations": 518,
+      "rss_after_bytes": 75661312
+    }
+  ],
+  "summary": {
+    "correct_attempts": 30,
+    "median_wall_s": 0.002106521,
+    "p95_wall_s": 0.002234875,
+    "minimum_wall_s": 0.002049125,
+    "maximum_wall_s": 0.002290959,
+    "maximum_observed_endpoint_rss_bytes": 75661312
+  },
+  "product_kpis": {
+    "run_ready_s": null,
+    "simulation_rate": null,
+    "peak_sampled_app_rss_bytes": null
+  },
+  "limitations": [
+    "Analytical ODE only: no Hydra/contact/lubrication/wear model or SCN-001 execution",
+    "No browser, queue, publication, result retrieval or rendering is measured",
+    "RSS values are post-attempt observations, not sampled application peaks",
+    "This establishes no product latency, physical accuracy or reference-PC qualification",
+    "Hardware, BLAS, power and background load vary; do not pool different campaigns"
+  ]
+}
