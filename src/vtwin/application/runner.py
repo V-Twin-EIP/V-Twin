@@ -244,6 +244,8 @@ class RunService:
                 )
                 last = now
                 self.store.write_checkpoint(run_id, checkpoint)
+                record.completed_samples = stop  # committed progress, not an estimate
+                self._save(record)
             series = self.store.read_chunks(run_id, checkpoint.chunks)
             if any(values.shape != (case.total_samples,) for values in series.values()):
                 raise IntegrityFailure("Committed chunks do not cover the case grid exactly once.")

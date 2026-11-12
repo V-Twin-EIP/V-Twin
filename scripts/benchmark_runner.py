@@ -605,7 +605,7 @@ def scenario_coordinator_kill(work: Path) -> dict[str, Any]:
     checks = {
         "orphan_worker_exited": not orphan_alive,
         "reconciled_as_interrupted": reconciled["state"] == "interrupted",
-        "progress_kept": reconciled["progress"]["completed_samples"] >= 1440,
+        "killed_mid_run": 1440 <= reconciled["progress"]["completed_samples"] < 7201,
         "resume_accepted": resumed == 202,
         "completed_after_resume": final["state"] == "completed",
         "no_double_counting": len(values["time_s"]) == 7201,
