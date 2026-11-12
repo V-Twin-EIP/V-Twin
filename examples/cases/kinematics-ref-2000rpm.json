@@ -1,0 +1,37 @@
+{
+  "schema": "vtwin.kinematic-case",
+  "schema_version": "1.0.0",
+  "case_id": "KIN-DEMO-REF",
+  "title": "Référence — cinématique bielle-manivelle à 2000 tr/min",
+  "model": "slider-crank-kinematics",
+  "synthetic": true,
+  "geometry": {
+    "bore": {
+      "value": 86,
+      "unit": "mm",
+      "source": "Ricardo Hydra, docs/validation/scenarios/scenario-catalog.md §2"
+    },
+    "stroke": {
+      "value": 86,
+      "unit": "mm",
+      "source": "Ricardo Hydra, docs/validation/scenarios/scenario-catalog.md §2"
+    },
+    "connecting_rod_length": {
+      "value": 143,
+      "unit": "mm",
+      "source": "hypothèse de démo (r/l ≈ 0.30), à remplacer par la valeur sourcée de #3"
+    }
+  },
+  "operating_point": {
+    "crank_speed": {
+      "value": 2000,
+      "unit": "rpm",
+      "source": "hypothèse de démo, régime à confirmer dans #3"
+    }
+  },
+  "sampling": {
+    "revolutions": 2,
+    "samples_per_revolution": 360
+  },
+  "notes": "Exemple du contrat runner #8 pour la démo #51 ; les valeurs définitives des deux cas appartiennent à #3."
+}

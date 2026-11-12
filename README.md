@@ -28,7 +28,7 @@ Both applications will share a simulation core that connects operating condition
 ## Current status
 
 > [!NOTE]
-> V-Twin has an **initial development foundation**: an installable Python numerical package, local read-only API, Vue startup screen, tests, quality checks, and a cross-platform CI workflow. Physical engine/wear models, data integrations, the simulation runner, dashboards, and 3D remain planned work.
+> V-Twin has an **initial development foundation**: an installable Python numerical package, a headless runner with checkpointed resume and deterministic replay, a first slider-crank kinematics model, a local API, a Vue startup screen, tests, quality checks, and a cross-platform CI workflow. Dynamics, friction/lubrication and wear models, data integrations, dashboards, and 3D remain planned work.
 
 The first demonstrator will prioritize **the design sandbox**, with one reference engine and a focused reliability case. The real-engine twin remains a subsequent delivery goal. The scoped reference case, evidence gaps, and demonstration requirements are recorded in the [product scope](docs/product-scope.md).
 
@@ -48,6 +48,8 @@ uv run --locked --extra api vtwin serve
 ```
 
 Open [http://127.0.0.1:8000](http://127.0.0.1:8000). The startup screen checks the local API; it does not simulate an engine. See the [development guide](docs/development.md) for setup, dev mode, tests, reports, configuration, and CI.
+
+Run the two demo kinematic cases without the interface with `uv run --locked vtwin run examples/cases/kinematics-ref-2000rpm.json`; the [runner guide](docs/runner.md) covers the contract, replay and resume.
 
 The independent numerical smoke check is `uv run --locked --extra api vtwin check-numerics`. It compares an analytical ODE with its exact solution and does not validate engine wear.
 

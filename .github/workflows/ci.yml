@@ -80,5 +80,12 @@ jobs:
           version: "0.13.1"
       - run: uv sync --locked --no-dev --no-editable
       - run: uv run --no-sync vtwin check-numerics
+      - name: Run and replay a demo case without HTTP dependencies
+        shell: bash
+        run: |
+          mkdir -p artifacts
+          uv run --no-sync vtwin run examples/cases/kinematics-ref-2000rpm.json --data-dir artifacts/core-runs > artifacts/core-run.json
+          run_id=$(uv run --no-sync python -c "import json; print(json.load(open('artifacts/core-run.json'))['run']['run_id'])")
+          uv run --no-sync vtwin replay "$run_id" --data-dir artifacts/core-runs
       - name: Verify core import isolation and wheel installation
         run: uv run --no-sync python -c "import importlib.util, vtwin; assert importlib.util.find_spec('fastapi') is None; assert 'site-packages' in vtwin.__file__; print(vtwin.__file__)"

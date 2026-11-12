@@ -1,6 +1,6 @@
 # Development foundation
 
-V-Twin's foundation contains an installable numerical package, a read-only local API, and a Vue startup screen. The numerical check uses analytical ODEs; no Hydra physics, calibrated wear model, job runner, result store, dashboards, or 3D viewer is implemented yet. Those capabilities keep their own roadmap issues.
+V-Twin's foundation contains an installable numerical package, a headless [runner](runner.md) with a filesystem result store, a first slider-crank kinematics model, a local API, and a Vue startup screen. No Hydra dynamics, friction/lubrication or calibrated wear model, dashboards, or 3D viewer is implemented yet. Those capabilities keep their own roadmap issues.
 
 **Selected frontend:** Next.js (React)/TypeScript, corrected on October 26, 2026. **Current implementation:** the Vue/Vite startup scaffold described by the commands, paths and tests below. Migration is pending; [ADR 0001](architecture/adr/0001-local-application-and-ui-boundary.md) records the target deployment and checks to update.
 
@@ -116,12 +116,12 @@ The command uses the pinned development-only psutil dependency and leaves unavai
 
 | Path | Implemented responsibility |
 | :--- | :--- |
-| `src/vtwin/domain/` | Framework-independent numerical policy, trajectory and error records. |
-| `src/vtwin/ports/` | Replaceable integrator protocol. The full run/engine contracts remain #7/#8 work. |
-| `src/vtwin/engine/` | SciPy ODE adapter with finite/shape/completeness checks. |
-| `src/vtwin/application/` | Analytical foundation check using the integrator port. |
-| `src/vtwin/bootstrap/` | Explicit selection of the SciPy implementation. |
-| `src/vtwin/adapters/` | CLI and optional FastAPI entrypoints. |
+| `src/vtwin/domain/` | Framework-independent numerical policy, trajectory, kinematic case, run lifecycle/checkpoint and error records. |
+| `src/vtwin/ports/` | Replaceable integrator, kinematics engine and run store protocols. |
+| `src/vtwin/engine/` | SciPy ODE adapter with finite/shape/completeness checks; closed-form slider-crank kinematics. |
+| `src/vtwin/application/` | Analytical foundation check; case validation; run prepare/compute/publish/resume/replay use cases. |
+| `src/vtwin/bootstrap/` | Explicit selection of the SciPy, kinematics and filesystem-store implementations; data-directory default. |
+| `src/vtwin/adapters/` | CLI and optional FastAPI entrypoints; filesystem run store and workspace lock. |
 | `web/src/api/` | Versioned capability request and response validation. |
 | `web/src/App.vue` | Minimal connection/empty-state screen, without 3D. |
 | `tests/`, `web/src/*.test.ts` | Numerical, adapter and frontend checks. |
