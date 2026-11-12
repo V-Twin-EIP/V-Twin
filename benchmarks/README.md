@@ -6,10 +6,10 @@
 
 | Metric | User expectation | Measured baseline | Adopted technical budget | Next evidence |
 | :--- | :--- | :--- | :--- | :--- |
-| Primary: single-run `run_ready_s` | ≤ 60 s per calculation, through usable initial graphs. | Not measured. | Stage allocations unset. | Freeze nominal case #3/#4/#7/#8; measure the full path in #46. |
-| Primary: `simulation_rate` | Batch workflow; no real-time requirement. | Not measured. | Minimum unset. | Engine span and simulated interval from the same nominal case in #46. |
-| Primary: `peak_sampled_app_rss_bytes` | Usable on the reported 16 GB Pacien and Divin profiles, including dashboard-only operation. | Not measured. | RSS cap/headroom unset. | Complete each machine's environment inventory, then sample application/browser groups in #46. |
-| Supporting: stored-result/curve readiness | < 1 s, including required retrieval and rendering. | Not measured. | Per-stage/query budgets unset. | Fix result volume/curves and cache modes; measure in #46. |
+| Primary: single-run `run_ready_s` | ≤ 60 s per calculation, through usable initial graphs. | Browser path not measured. API part on the kinematic demo, Raphael's M4: median 306 ms, p95 447 ms, max 457 ms (30 runs, [Nov 12](reports/runner-api-baseline-2026-11-12.md)). | Stage allocations unset. | Measure the browser path with #51; freeze the SCN-001 case #3/#4. |
+| Primary: `simulation_rate` | Batch workflow; no real-time requirement. | Kinematic demo only: 312 s_sim/s_wall aggregate (closed-form model; not indicative of the tribology model). | Minimum unset. | Re-measure with the first ODE/contact model. |
+| Primary: `peak_sampled_app_rss_bytes` | Usable on the reported 16 GB Pacien and Divin profiles, including dashboard-only operation. | Without browser, M4: idle coordinator 96 MiB; nominal coordinator + worker 170 MiB; 347 MiB at 1 M output samples. | RSS cap/headroom unset. | Add the browser group with #51; run on Pacien's and Divin's machines. |
+| Supporting: stored-result/curve readiness | < 1 s, including required retrieval and rendering. | API retrieval and decoding only: 1.4 ms median for 721 samples; 1.45 s for 1 M samples (50 pages). Rendering not measured. | Per-stage/query budgets unset. | Measure chart rendering with #51. |
 | Future twin: telemetry p95 | To define for the acquisition/consumer workflow. | Not measured. | Unset. | Signals/clock/payload/workload from #2/#35/#42. |
 
 We set targets of **one minute per calculation** and **less than one second for result exploration**. Neither target is a measurement. There is no published engine timing, memory qualification or adopted regression threshold yet.
@@ -56,3 +56,34 @@ uv run --locked --extra api python scripts/measure_foundation.py --output artifa
 ```
 
 This is not the product baseline: no physical model, browser, queue, result publication or graphs are exercised. The three product KPI measurements and their technical budgets remain open.
+
+## November 12 runner API baseline (#46)
+
+[Report](reports/runner-api-baseline-2026-11-12.md) and [raw attempts](reports/runner-api-baseline-2026-11-12.json), recorded on `raphael-m4-16gb` at commit `e5c8ad3`. The worktree was flagged dirty only because of two untracked local folders outside the source tree (`.blame/`, `output/`). Workload: [kinematic-demo-v1](workloads/kinematic-demo-v1.json). Reproduce with:
+
+```sh
+uv run --locked --extra api python scripts/benchmark_runner.py --label raphael-m4-16gb --output benchmarks/reports/runner-api-baseline-<date>.json
+```
+
+**Path measured: HTTP API, no browser.** A Python client on loopback submits the case to `vtwin serve`; one worker is spawned, results are published, then every series page is fetched and decoded. The browser `run_ready_s` stays `null`: chart rendering and the first readable graph belong to #51.
+
+| Result | Value | Reading |
+| :--- | :--- | :--- |
+| Nominal API run ready, 30 correct attempts | median 306 ms, p95 447 ms, max 457 ms | 98 % of it is spent between acceptance and the terminal state, while the engine itself takes 0.18 ms: starting a fresh `spawn` worker (Python + NumPy import) dominates. |
+| Series retrieval and decoding, 721 samples | median 2.0 ms | Negligible at the demo size. |
+| Stored result read | median 1.4 ms, max 5.0 ms | API part only of the < 1 s target. |
+| Output ramp up to 997 201 samples | run ready 2.05 s, of which retrieval 1.45 s for 73.5 MB of JSON; peak RSS 347 MiB | Each 20 000-sample page re-verifies and reloads the whole series file. Fine for the demo; the first candidate for #47 at large volumes. |
+| 8 simultaneous submissions × 3 rounds | 1 accepted, 7 `workspace_busy` each round; `/health` p95 ≤ 8.6 ms during the run | Single execution is enforced, and the coordinator stays responsive while the worker computes. |
+| Resilience, 6 scenarios / 37 checks | all PASS | Invalid, foreign and oversize requests; out-of-order requests; duplicates; worker crash; coordinator killed mid-run (1440/7201 samples committed), restarted and resumed; hung worker stopped by the timeout. Resumed series are bit-identical to an uninterrupted run, with exact sample counts. |
+
+All faults are **software** faults, injected with `VTWIN_FAULT_INJECTION`. No physical defect is simulated: SCN-004/005 need the tribology model.
+
+### Proposals returned to #39
+
+These are proposals from one machine and a demo workload, not adopted budgets.
+
+- `run_ready_s`: the API part uses about 0.5 % of the 60 s target. The budget question moves to the browser part (#51) and the future physical model. Measure those before allocating stages.
+- Worker start-up (≈ 0.3 s per run) is the dominant fixed cost. A persistent worker would remove most of it; justify it in #47 once a real model makes the cost visible, as it would weaken isolation.
+- Result reads: keep pages at 20 000 samples, and cache the verified series per run or move to a column format before raising output limits. The < 1 s exploration target holds up to about 360 000 samples on this path (354 ms).
+- Memory: the measured application group stays below 0.4 GiB without browser at the 1 M-sample limit, so the current output limit is compatible with a 16 GB machine. Confirm on Pacien's and Divin's machines before setting a cap.
+- CI: `tests/test_benchmark_runner.py` runs the reduced `--quick` campaign on every OS and checks behaviour and correctness only. No timing threshold is set, because shared runners vary.

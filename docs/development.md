@@ -119,6 +119,14 @@ uv run --locked --extra api python scripts/performance_inventory.py --label paci
 
 The command uses the pinned development-only psutil dependency and leaves unavailable/manual context explicit. It collects environment metadata, not a performance baseline. Complete browser, graphics, power/display, background-load, BLAS/thread and storage information before running a benchmark. CI records its own inventory under `artifacts/performance/`; its integration test exercises the command on all three OS targets without introducing a wall-time performance gate.
 
+### Runner load and resilience bench
+
+```sh
+uv run --locked --extra api python scripts/benchmark_runner.py --label raphael-m4-16gb --output artifacts/performance/runner-api.json
+```
+
+It starts the real server, measures the nominal kinematic case through the API (3 warm-ups, 30 attempts), an output ramp and concurrent submissions, then runs six software-fault scenarios. `--quick` is the reduced version exercised by `tests/test_benchmark_runner.py` in CI, without timing thresholds. See the [baseline](../benchmarks/README.md#november-12-runner-api-baseline-46).
+
 ## Module responsibilities
 
 | Path | Implemented responsibility |

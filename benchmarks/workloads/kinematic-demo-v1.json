@@ -1,0 +1,43 @@
+{
+  "record_type": "workload_definition",
+  "schema_version": "1.0.0",
+  "workload_id": "kinematic-demo-v1",
+  "status": "frozen_for_api_baseline",
+  "ready_for_execution": true,
+  "scope": "One kinematic batch run through the local HTTP API, then retrieval and decoding of all series; no browser, no 3D",
+  "relation_to_nominal": "Demo workload of the November 13 mentoring (#3/#8/#9/#51). It does not replace sandbox-nominal-v1 (SCN-001/CONF-A tribology), which stays awaiting its reference case.",
+  "case": {
+    "path": "examples/cases/kinematics-ref-2000rpm.json",
+    "sha256": "98a5cb1cd3bc0fa826965f9b12ee7a31f9b8371fe529ab5f1651bf48852848e4",
+    "schema": "vtwin.kinematic-case 1.0.0",
+    "synthetic": true,
+    "demo_assumptions": ["connecting_rod_length 143 mm", "crank_speed 2000 rpm"]
+  },
+  "model": {"id": "slider-crank-kinematics", "version": "1.0.0", "method": "closed_form", "precision": "binary64"},
+  "outputs": {
+    "observables": ["time_s", "crank_angle_rad", "piston_displacement_m", "piston_velocity_m_s"],
+    "samples": 721,
+    "simulated_duration_s": 0.06,
+    "query": "GET /api/v1/runs/{id}/series, pages of 20000 samples, all observables, no display reduction"
+  },
+  "execution": {
+    "users": 1,
+    "numerical_workers": 1,
+    "worker_start": "spawned per run",
+    "initial_queue": "empty",
+    "warmup_attempts": 3,
+    "measured_attempts": 30,
+    "memory_sampling_interval_s": 0.05
+  },
+  "ramp_sizes": [
+    {"revolutions": 2, "samples_per_revolution": 360},
+    {"revolutions": 50, "samples_per_revolution": 720},
+    {"revolutions": 100, "samples_per_revolution": 3600},
+    {"revolutions": 277, "samples_per_revolution": 3600}
+  ],
+  "correctness_guardrail": "Each measured result: sample count, stroke at BDC, zero velocity at dead centres, period 60/rpm, finite values (scripts/benchmark_runner.py check_kinematics)",
+  "command": "uv run --locked --extra api python scripts/benchmark_runner.py --label <profile> --output benchmarks/reports/runner-api-baseline-<date>.json",
+  "evidence": {
+    "baseline_report": "benchmarks/reports/runner-api-baseline-2026-11-12.json"
+  }
+}

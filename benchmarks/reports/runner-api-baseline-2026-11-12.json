@@ -1,0 +1,1921 @@
+{
+  "record_type": "runner_api_benchmark",
+  "schema_version": "1.0.0",
+  "protocol_version": "1.0.0",
+  "captured_at_utc": "2026-11-12T12:37:11.523204Z",
+  "quick": false,
+  "product_baseline": false,
+  "path_measured": "HTTP API on loopback (Python client \u2192 coordinator \u2192 spawned worker \u2192 paginated JSON series), no browser",
+  "command": "python scripts/benchmark_runner.py --label raphael-m4-16gb --output benchmarks/reports/runner-api-baseline-2026-11-12.json",
+  "environment": {
+    "record_type": "environment_inventory",
+    "schema_version": "1.0.0",
+    "captured_at_utc": "2026-11-12T12:37:49.613093+00:00",
+    "machine_label": "raphael-m4-16gb",
+    "hardware": {
+      "os": "Darwin",
+      "os_release": "27.0.0",
+      "os_version": "Darwin Kernel Version 27.0.0: Tue Aug 11 21:02:57 PDT 2026; root:xnu-13432.1.9~1/RELEASE_ARM64_T8132",
+      "architecture": "arm64",
+      "cpu_model": "Apple M4",
+      "logical_cpu_count": 10,
+      "physical_cpu_count": 10,
+      "physical_memory_bytes": 17179869184
+    },
+    "software": {
+      "python": "3.13.16",
+      "python_implementation": "CPython",
+      "node": "v24.18.1",
+      "packages": {
+        "vtwin": "0.1.0",
+        "numpy": "2.5.4",
+        "scipy": "1.18.1",
+        "psutil": "7.2.2"
+      }
+    },
+    "source": {
+      "commit": "e5c8ad3f7005760e3dc7bd683a017db725fbc9a5",
+      "worktree_dirty": true,
+      "lockfiles_sha256": {
+        "uv.lock": "e8239d1cf98c2b383c630ec8b1a2eab80d161aa96a48f97e384b14f6ef60f8e6",
+        "web/package-lock.json": "52a77e9a0ce5a7de15843deb1fe484676c7ac482779fe091a9f426e15842fa03"
+      }
+    },
+    "clock": {
+      "name": "time.perf_counter_ns",
+      "implementation": "mach_absolute_time()",
+      "monotonic": true,
+      "resolution_s": 4.166666666666666e-08
+    },
+    "manual_context": {
+      "browser_name": null,
+      "browser_version": null,
+      "graphics_reported": null,
+      "power_mode": null,
+      "display_css_pixels": null,
+      "device_pixel_ratio": null,
+      "background_workload": null,
+      "blas_backend_and_thread_count": null,
+      "storage_medium_and_free_space": null
+    },
+    "performance_measurements": null,
+    "reference_machine_qualified": false
+  },
+  "python_executable_version": "3.13.16",
+  "clock": "time.perf_counter in the client process; engine spans from the worker's perf_counter_ns",
+  "memory_sampling": {
+    "interval_s": 0.05,
+    "group": "vtwin serve process and all descendants (spawned workers)",
+    "samples": 403,
+    "collection_errors": 0,
+    "browser_group": null
+  },
+  "product_kpis": {
+    "run_ready_s": null,
+    "run_ready_s_reason": "No browser/chart rendering in this campaign; see api_run_ready_s",
+    "simulation_rate_aggregate_s_per_s": 312.4499863042756,
+    "peak_sampled_app_rss_bytes_without_browser": 178126848
+  },
+  "nominal": {
+    "workload": {
+      "case": "examples/cases/kinematics-ref-2000rpm.json",
+      "samples": 721,
+      "observables": 4
+    },
+    "idle_before": {
+      "peak_sampled_rss_bytes": 100352000,
+      "samples": 17,
+      "max_processes": 1
+    },
+    "warmups": [
+      {
+        "outcome": "completed",
+        "run_id": "run-20261112T123713Z-ae95860e",
+        "api_run_ready_s": 0.4118938749888912,
+        "spans_s": {
+          "submit_until_accepted": 0.005927750025875866,
+          "accepted_until_terminal_observed": 0.40248329198220745,
+          "series_retrieval_and_decode": 0.0034828329808078706
+        },
+        "engine_wall_s": 0.00024375,
+        "compute_wall_s": 0.004838542,
+        "simulated_duration_s": 0.060000000000000005,
+        "simulation_rate_s_per_s": 246.1538461538462,
+        "worker_peak_rss_bytes": 76218368,
+        "output_samples": 721,
+        "response_bytes": 55913,
+        "memory": {
+          "peak_sampled_rss_bytes": 192380928,
+          "samples": 7,
+          "max_processes": 4
+        },
+        "correctness": {
+          "correct": true,
+          "checks": {
+            "sample_count": true,
+            "stroke": true,
+            "dead_centre_velocity": true,
+            "period": true,
+            "finite": true
+          }
+        }
+      },
+      {
+        "outcome": "completed",
+        "run_id": "run-20261112T123713Z-8944f6b1",
+        "api_run_ready_s": 0.390145167009905,
+        "spans_s": {
+          "submit_until_accepted": 0.0022280829725787044,
+          "accepted_until_terminal_observed": 0.38553183403564617,
+          "series_retrieval_and_decode": 0.002385250001680106
+        },
+        "engine_wall_s": 0.000251542,
+        "compute_wall_s": 0.004160709,
+        "simulated_duration_s": 0.060000000000000005,
+        "simulation_rate_s_per_s": 238.52875464137205,
+        "worker_peak_rss_bytes": 76136448,
+        "output_samples": 721,
+        "response_bytes": 55913,
+        "memory": {
+          "peak_sampled_rss_bytes": 177750016,
+          "samples": 7,
+          "max_processes": 4
+        },
+        "correctness": {
+          "correct": true,
+          "checks": {
+            "sample_count": true,
+            "stroke": true,
+            "dead_centre_velocity": true,
+            "period": true,
+            "finite": true
+          }
+        }
+      },
+      {
+        "outcome": "completed",
+        "run_id": "run-20261112T123713Z-5f424940",
+        "api_run_ready_s": 0.3019393340218812,
+        "spans_s": {
+          "submit_until_accepted": 0.004885750007815659,
+          "accepted_until_terminal_observed": 0.2948784999898635,
+          "series_retrieval_and_decode": 0.0021750840242020786
+        },
+        "engine_wall_s": 0.0001935,
+        "compute_wall_s": 0.004063125,
+        "simulated_duration_s": 0.060000000000000005,
+        "simulation_rate_s_per_s": 310.077519379845,
+        "worker_peak_rss_bytes": 76038144,
+        "output_samples": 721,
+        "response_bytes": 55913,
+        "memory": {
+          "peak_sampled_rss_bytes": 173260800,
+          "samples": 5,
+          "max_processes": 3
+        },
+        "correctness": {
+          "correct": true,
+          "checks": {
+            "sample_count": true,
+            "stroke": true,
+            "dead_centre_velocity": true,
+            "period": true,
+            "finite": true
+          }
+        }
+      }
+    ],
+    "attempts": [
+      {
+        "outcome": "completed",
+        "run_id": "run-20261112T123714Z-9d81a7bb",
+        "api_run_ready_s": 0.3113729999749921,
+        "spans_s": {
+          "submit_until_accepted": 0.0036857500090263784,
+          "accepted_until_terminal_observed": 0.3057225829688832,
+          "series_retrieval_and_decode": 0.0019646669970825315
+        },
+        "engine_wall_s": 0.000185666,
+        "compute_wall_s": 0.003843333,
+        "simulated_duration_s": 0.060000000000000005,
+        "simulation_rate_s_per_s": 323.160944922603,
+        "worker_peak_rss_bytes": 76103680,
+        "output_samples": 721,
+        "response_bytes": 55913,
+        "memory": {
+          "peak_sampled_rss_bytes": 173096960,
+          "samples": 6,
+          "max_processes": 3
+        },
+        "correctness": {
+          "correct": true,
+          "checks": {
+            "sample_count": true,
+            "stroke": true,
+            "dead_centre_velocity": true,
+            "period": true,
+            "finite": true
+          }
+        }
+      },
+      {
+        "outcome": "completed",
+        "run_id": "run-20261112T123714Z-4cef7d18",
+        "api_run_ready_s": 0.29825912503292784,
+        "spans_s": {
+          "submit_until_accepted": 0.004494834051001817,
+          "accepted_until_terminal_observed": 0.2918557079974562,
+          "series_retrieval_and_decode": 0.001908582984469831
+        },
+        "engine_wall_s": 0.000226834,
+        "compute_wall_s": 0.004085,
+        "simulated_duration_s": 0.060000000000000005,
+        "simulation_rate_s_per_s": 264.5106112840227,
+        "worker_peak_rss_bytes": 75988992,
+        "output_samples": 721,
+        "response_bytes": 55913,
+        "memory": {
+          "peak_sampled_rss_bytes": 173309952,
+          "samples": 5,
+          "max_processes": 3
+        },
+        "correctness": {
+          "correct": true,
+          "checks": {
+            "sample_count": true,
+            "stroke": true,
+            "dead_centre_velocity": true,
+            "period": true,
+            "finite": true
+          }
+        }
+      },
+      {
+        "outcome": "completed",
+        "run_id": "run-20261112T123714Z-2d8331ed",
+        "api_run_ready_s": 0.30583245801972225,
+        "spans_s": {
+          "submit_until_accepted": 0.0018693750025704503,
+          "accepted_until_terminal_observed": 0.301639833021909,
+          "series_retrieval_and_decode": 0.0023232499952428043
+        },
+        "engine_wall_s": 0.000176168,
+        "compute_wall_s": 0.003799541,
+        "simulated_duration_s": 0.060000000000000005,
+        "simulation_rate_s_per_s": 340.58398801144364,
+        "worker_peak_rss_bytes": 76234752,
+        "output_samples": 721,
+        "response_bytes": 55913,
+        "memory": {
+          "peak_sampled_rss_bytes": 173555712,
+          "samples": 5,
+          "max_processes": 3
+        },
+        "correctness": {
+          "correct": true,
+          "checks": {
+            "sample_count": true,
+            "stroke": true,
+            "dead_centre_velocity": true,
+            "period": true,
+            "finite": true
+          }
+        }
+      },
+      {
+        "outcome": "completed",
+        "run_id": "run-20261112T123715Z-f439645d",
+        "api_run_ready_s": 0.3023327920236625,
+        "spans_s": {
+          "submit_until_accepted": 0.004125625011511147,
+          "accepted_until_terminal_observed": 0.29630345897749066,
+          "series_retrieval_and_decode": 0.0019037080346606672
+        },
+        "engine_wall_s": 0.000183832,
+        "compute_wall_s": 0.004578041,
+        "simulated_duration_s": 0.060000000000000005,
+        "simulation_rate_s_per_s": 326.38496018103484,
+        "worker_peak_rss_bytes": 76169216,
+        "output_samples": 721,
+        "response_bytes": 55913,
+        "memory": {
+          "peak_sampled_rss_bytes": 173522944,
+          "samples": 5,
+          "max_processes": 3
+        },
+        "correctness": {
+          "correct": true,
+          "checks": {
+            "sample_count": true,
+            "stroke": true,
+            "dead_centre_velocity": true,
+            "period": true,
+            "finite": true
+          }
+        }
+      },
+      {
+        "outcome": "completed",
+        "run_id": "run-20261112T123715Z-b53785b3",
+        "api_run_ready_s": 0.30880424997303635,
+        "spans_s": {
+          "submit_until_accepted": 0.003535625000949949,
+          "accepted_until_terminal_observed": 0.30317574995569885,
+          "series_retrieval_and_decode": 0.002092875016387552
+        },
+        "engine_wall_s": 0.000209751,
+        "compute_wall_s": 0.003866125,
+        "simulated_duration_s": 0.060000000000000005,
+        "simulation_rate_s_per_s": 286.05346339230806,
+        "worker_peak_rss_bytes": 76070912,
+        "output_samples": 721,
+        "response_bytes": 55913,
+        "memory": {
+          "peak_sampled_rss_bytes": 177635328,
+          "samples": 6,
+          "max_processes": 4
+        },
+        "correctness": {
+          "correct": true,
+          "checks": {
+            "sample_count": true,
+            "stroke": true,
+            "dead_centre_velocity": true,
+            "period": true,
+            "finite": true
+          }
+        }
+      },
+      {
+        "outcome": "completed",
+        "run_id": "run-20261112T123715Z-4d639ef1",
+        "api_run_ready_s": 0.3169605419971049,
+        "spans_s": {
+          "submit_until_accepted": 0.004307541996240616,
+          "accepted_until_terminal_observed": 0.3105706659844145,
+          "series_retrieval_and_decode": 0.0020823340164497495
+        },
+        "engine_wall_s": 0.000224251,
+        "compute_wall_s": 0.003875584,
+        "simulated_duration_s": 0.060000000000000005,
+        "simulation_rate_s_per_s": 267.5573353073119,
+        "worker_peak_rss_bytes": 76152832,
+        "output_samples": 721,
+        "response_bytes": 55913,
+        "memory": {
+          "peak_sampled_rss_bytes": 173555712,
+          "samples": 5,
+          "max_processes": 3
+        },
+        "correctness": {
+          "correct": true,
+          "checks": {
+            "sample_count": true,
+            "stroke": true,
+            "dead_centre_velocity": true,
+            "period": true,
+            "finite": true
+          }
+        }
+      },
+      {
+        "outcome": "completed",
+        "run_id": "run-20261112T123716Z-ff04dd33",
+        "api_run_ready_s": 0.30033829202875495,
+        "spans_s": {
+          "submit_until_accepted": 0.004427959036547691,
+          "accepted_until_terminal_observed": 0.2939085830003023,
+          "series_retrieval_and_decode": 0.002001749991904944
+        },
+        "engine_wall_s": 0.0002,
+        "compute_wall_s": 0.00364175,
+        "simulated_duration_s": 0.060000000000000005,
+        "simulation_rate_s_per_s": 300.0,
+        "worker_peak_rss_bytes": 75874304,
+        "output_samples": 721,
+        "response_bytes": 55913,
+        "memory": {
+          "peak_sampled_rss_bytes": 173195264,
+          "samples": 5,
+          "max_processes": 3
+        },
+        "correctness": {
+          "correct": true,
+          "checks": {
+            "sample_count": true,
+            "stroke": true,
+            "dead_centre_velocity": true,
+            "period": true,
+            "finite": true
+          }
+        }
+      },
+      {
+        "outcome": "completed",
+        "run_id": "run-20261112T123716Z-f1717a38",
+        "api_run_ready_s": 0.3069025829900056,
+        "spans_s": {
+          "submit_until_accepted": 0.003696082974784076,
+          "accepted_until_terminal_observed": 0.30129991698777303,
+          "series_retrieval_and_decode": 0.0019065830274485052
+        },
+        "engine_wall_s": 0.000166208,
+        "compute_wall_s": 0.003794833,
+        "simulated_duration_s": 0.060000000000000005,
+        "simulation_rate_s_per_s": 360.99345398536775,
+        "worker_peak_rss_bytes": 76038144,
+        "output_samples": 721,
+        "response_bytes": 55913,
+        "memory": {
+          "peak_sampled_rss_bytes": 172326912,
+          "samples": 6,
+          "max_processes": 3
+        },
+        "correctness": {
+          "correct": true,
+          "checks": {
+            "sample_count": true,
+            "stroke": true,
+            "dead_centre_velocity": true,
+            "period": true,
+            "finite": true
+          }
+        }
+      },
+      {
+        "outcome": "completed",
+        "run_id": "run-20261112T123716Z-2f52e3a3",
+        "api_run_ready_s": 0.3246001250226982,
+        "spans_s": {
+          "submit_until_accepted": 0.003478375030681491,
+          "accepted_until_terminal_observed": 0.31893999996827915,
+          "series_retrieval_and_decode": 0.0021817500237375498
+        },
+        "engine_wall_s": 0.00023446,
+        "compute_wall_s": 0.004200625,
+        "simulated_duration_s": 0.060000000000000005,
+        "simulation_rate_s_per_s": 255.9071909920669,
+        "worker_peak_rss_bytes": 76152832,
+        "output_samples": 721,
+        "response_bytes": 55913,
+        "memory": {
+          "peak_sampled_rss_bytes": 173572096,
+          "samples": 5,
+          "max_processes": 3
+        },
+        "correctness": {
+          "correct": true,
+          "checks": {
+            "sample_count": true,
+            "stroke": true,
+            "dead_centre_velocity": true,
+            "period": true,
+            "finite": true
+          }
+        }
+      },
+      {
+        "outcome": "completed",
+        "run_id": "run-20261112T123717Z-585236b2",
+        "api_run_ready_s": 0.29896345804445446,
+        "spans_s": {
+          "submit_until_accepted": 0.006528583006002009,
+          "accepted_until_terminal_observed": 0.290470042033121,
+          "series_retrieval_and_decode": 0.0019648330053314567
+        },
+        "engine_wall_s": 0.000159917,
+        "compute_wall_s": 0.003489083,
+        "simulated_duration_s": 0.060000000000000005,
+        "simulation_rate_s_per_s": 375.1946322154618,
+        "worker_peak_rss_bytes": 76316672,
+        "output_samples": 721,
+        "response_bytes": 55913,
+        "memory": {
+          "peak_sampled_rss_bytes": 172490752,
+          "samples": 6,
+          "max_processes": 3
+        },
+        "correctness": {
+          "correct": true,
+          "checks": {
+            "sample_count": true,
+            "stroke": true,
+            "dead_centre_velocity": true,
+            "period": true,
+            "finite": true
+          }
+        }
+      },
+      {
+        "outcome": "completed",
+        "run_id": "run-20261112T123717Z-7e3224cf",
+        "api_run_ready_s": 0.3011797920335084,
+        "spans_s": {
+          "submit_until_accepted": 0.0021102920291014016,
+          "accepted_until_terminal_observed": 0.2971182079636492,
+          "series_retrieval_and_decode": 0.001951292040757835
+        },
+        "engine_wall_s": 0.000189291,
+        "compute_wall_s": 0.00407725,
+        "simulated_duration_s": 0.060000000000000005,
+        "simulation_rate_s_per_s": 316.97228077404634,
+        "worker_peak_rss_bytes": 76087296,
+        "output_samples": 721,
+        "response_bytes": 55913,
+        "memory": {
+          "peak_sampled_rss_bytes": 173506560,
+          "samples": 5,
+          "max_processes": 3
+        },
+        "correctness": {
+          "correct": true,
+          "checks": {
+            "sample_count": true,
+            "stroke": true,
+            "dead_centre_velocity": true,
+            "period": true,
+            "finite": true
+          }
+        }
+      },
+      {
+        "outcome": "completed",
+        "run_id": "run-20261112T123717Z-d7196bca",
+        "api_run_ready_s": 0.30541433399775997,
+        "spans_s": {
+          "submit_until_accepted": 0.003362459014169872,
+          "accepted_until_terminal_observed": 0.29998404101934284,
+          "series_retrieval_and_decode": 0.0020678339642472565
+        },
+        "engine_wall_s": 0.000162083,
+        "compute_wall_s": 0.003907167,
+        "simulated_duration_s": 0.060000000000000005,
+        "simulation_rate_s_per_s": 370.180709883208,
+        "worker_peak_rss_bytes": 76218368,
+        "output_samples": 721,
+        "response_bytes": 55913,
+        "memory": {
+          "peak_sampled_rss_bytes": 173637632,
+          "samples": 5,
+          "max_processes": 3
+        },
+        "correctness": {
+          "correct": true,
+          "checks": {
+            "sample_count": true,
+            "stroke": true,
+            "dead_centre_velocity": true,
+            "period": true,
+            "finite": true
+          }
+        }
+      },
+      {
+        "outcome": "completed",
+        "run_id": "run-20261112T123717Z-7bab4c00",
+        "api_run_ready_s": 0.30260754202026874,
+        "spans_s": {
+          "submit_until_accepted": 0.002061709004919976,
+          "accepted_until_terminal_observed": 0.2985911660362035,
+          "series_retrieval_and_decode": 0.0019546669791452587
+        },
+        "engine_wall_s": 0.000178583,
+        "compute_wall_s": 0.00408675,
+        "simulated_duration_s": 0.060000000000000005,
+        "simulation_rate_s_per_s": 335.978228610786,
+        "worker_peak_rss_bytes": 75972608,
+        "output_samples": 721,
+        "response_bytes": 55913,
+        "memory": {
+          "peak_sampled_rss_bytes": 173441024,
+          "samples": 5,
+          "max_processes": 3
+        },
+        "correctness": {
+          "correct": true,
+          "checks": {
+            "sample_count": true,
+            "stroke": true,
+            "dead_centre_velocity": true,
+            "period": true,
+            "finite": true
+          }
+        }
+      },
+      {
+        "outcome": "completed",
+        "run_id": "run-20261112T123718Z-1f5acca4",
+        "api_run_ready_s": 0.3083679169649258,
+        "spans_s": {
+          "submit_until_accepted": 0.004243791976477951,
+          "accepted_until_terminal_observed": 0.30214558297302574,
+          "series_retrieval_and_decode": 0.0019785420154221356
+        },
+        "engine_wall_s": 0.000195584,
+        "compute_wall_s": 0.003962625,
+        "simulated_duration_s": 0.060000000000000005,
+        "simulation_rate_s_per_s": 306.7735602094241,
+        "worker_peak_rss_bytes": 76120064,
+        "output_samples": 721,
+        "response_bytes": 55913,
+        "memory": {
+          "peak_sampled_rss_bytes": 178126848,
+          "samples": 6,
+          "max_processes": 4
+        },
+        "correctness": {
+          "correct": true,
+          "checks": {
+            "sample_count": true,
+            "stroke": true,
+            "dead_centre_velocity": true,
+            "period": true,
+            "finite": true
+          }
+        }
+      },
+      {
+        "outcome": "completed",
+        "run_id": "run-20261112T123718Z-62395c85",
+        "api_run_ready_s": 0.29815637500723824,
+        "spans_s": {
+          "submit_until_accepted": 0.004247332981321961,
+          "accepted_until_terminal_observed": 0.29183954204199836,
+          "series_retrieval_and_decode": 0.0020694999839179218
+        },
+        "engine_wall_s": 0.000192542,
+        "compute_wall_s": 0.00414,
+        "simulated_duration_s": 0.060000000000000005,
+        "simulation_rate_s_per_s": 311.620321799919,
+        "worker_peak_rss_bytes": 76169216,
+        "output_samples": 721,
+        "response_bytes": 55913,
+        "memory": {
+          "peak_sampled_rss_bytes": 173686784,
+          "samples": 5,
+          "max_processes": 3
+        },
+        "correctness": {
+          "correct": true,
+          "checks": {
+            "sample_count": true,
+            "stroke": true,
+            "dead_centre_velocity": true,
+            "period": true,
+            "finite": true
+          }
+        }
+      },
+      {
+        "outcome": "completed",
+        "run_id": "run-20261112T123718Z-af6243a7",
+        "api_run_ready_s": 0.3080849580001086,
+        "spans_s": {
+          "submit_until_accepted": 0.0034455000422894955,
+          "accepted_until_terminal_observed": 0.3026077499962412,
+          "series_retrieval_and_decode": 0.002031707961577922
+        },
+        "engine_wall_s": 0.000181708,
+        "compute_wall_s": 0.004120792,
+        "simulated_duration_s": 0.060000000000000005,
+        "simulation_rate_s_per_s": 330.2001012613644,
+        "worker_peak_rss_bytes": 76054528,
+        "output_samples": 721,
+        "response_bytes": 55913,
+        "memory": {
+          "peak_sampled_rss_bytes": 173572096,
+          "samples": 5,
+          "max_processes": 3
+        },
+        "correctness": {
+          "correct": true,
+          "checks": {
+            "sample_count": true,
+            "stroke": true,
+            "dead_centre_velocity": true,
+            "period": true,
+            "finite": true
+          }
+        }
+      },
+      {
+        "outcome": "completed",
+        "run_id": "run-20261112T123719Z-fccf9c26",
+        "api_run_ready_s": 0.3121062910067849,
+        "spans_s": {
+          "submit_until_accepted": 0.0041100410162471235,
+          "accepted_until_terminal_observed": 0.30610283400164917,
+          "series_retrieval_and_decode": 0.0018934159888885915
+        },
+        "engine_wall_s": 0.000177167,
+        "compute_wall_s": 0.004050834,
+        "simulated_duration_s": 0.060000000000000005,
+        "simulation_rate_s_per_s": 338.66352085885075,
+        "worker_peak_rss_bytes": 76054528,
+        "output_samples": 721,
+        "response_bytes": 55913,
+        "memory": {
+          "peak_sampled_rss_bytes": 173408256,
+          "samples": 6,
+          "max_processes": 4
+        },
+        "correctness": {
+          "correct": true,
+          "checks": {
+            "sample_count": true,
+            "stroke": true,
+            "dead_centre_velocity": true,
+            "period": true,
+            "finite": true
+          }
+        }
+      },
+      {
+        "outcome": "completed",
+        "run_id": "run-20261112T123719Z-2daee398",
+        "api_run_ready_s": 0.2987597500323318,
+        "spans_s": {
+          "submit_until_accepted": 0.004522667033597827,
+          "accepted_until_terminal_observed": 0.2923534580040723,
+          "series_retrieval_and_decode": 0.001883624994661659
+        },
+        "engine_wall_s": 0.000180292,
+        "compute_wall_s": 0.003938208,
+        "simulated_duration_s": 0.060000000000000005,
+        "simulation_rate_s_per_s": 332.7934683735274,
+        "worker_peak_rss_bytes": 76201984,
+        "output_samples": 721,
+        "response_bytes": 55913,
+        "memory": {
+          "peak_sampled_rss_bytes": 173768704,
+          "samples": 5,
+          "max_processes": 3
+        },
+        "correctness": {
+          "correct": true,
+          "checks": {
+            "sample_count": true,
+            "stroke": true,
+            "dead_centre_velocity": true,
+            "period": true,
+            "finite": true
+          }
+        }
+      },
+      {
+        "outcome": "completed",
+        "run_id": "run-20261112T123719Z-04bd10b3",
+        "api_run_ready_s": 0.3043141249800101,
+        "spans_s": {
+          "submit_until_accepted": 0.0037786249886266887,
+          "accepted_until_terminal_observed": 0.298182166996412,
+          "series_retrieval_and_decode": 0.0023533329949714243
+        },
+        "engine_wall_s": 0.000195459,
+        "compute_wall_s": 0.004080791,
+        "simulated_duration_s": 0.060000000000000005,
+        "simulation_rate_s_per_s": 306.9697481313217,
+        "worker_peak_rss_bytes": 76152832,
+        "output_samples": 721,
+        "response_bytes": 55913,
+        "memory": {
+          "peak_sampled_rss_bytes": 173735936,
+          "samples": 5,
+          "max_processes": 3
+        },
+        "correctness": {
+          "correct": true,
+          "checks": {
+            "sample_count": true,
+            "stroke": true,
+            "dead_centre_velocity": true,
+            "period": true,
+            "finite": true
+          }
+        }
+      },
+      {
+        "outcome": "completed",
+        "run_id": "run-20261112T123720Z-adffcb85",
+        "api_run_ready_s": 0.303036917001009,
+        "spans_s": {
+          "submit_until_accepted": 0.004195833986159414,
+          "accepted_until_terminal_observed": 0.29688612499739975,
+          "series_retrieval_and_decode": 0.001954958017449826
+        },
+        "engine_wall_s": 0.000168126,
+        "compute_wall_s": 0.003843417,
+        "simulated_duration_s": 0.060000000000000005,
+        "simulation_rate_s_per_s": 356.8752007423005,
+        "worker_peak_rss_bytes": 76152832,
+        "output_samples": 721,
+        "response_bytes": 55913,
+        "memory": {
+          "peak_sampled_rss_bytes": 173670400,
+          "samples": 5,
+          "max_processes": 3
+        },
+        "correctness": {
+          "correct": true,
+          "checks": {
+            "sample_count": true,
+            "stroke": true,
+            "dead_centre_velocity": true,
+            "period": true,
+            "finite": true
+          }
+        }
+      },
+      {
+        "outcome": "completed",
+        "run_id": "run-20261112T123720Z-49577d9d",
+        "api_run_ready_s": 0.31467308301944286,
+        "spans_s": {
+          "submit_until_accepted": 0.0042870420147664845,
+          "accepted_until_terminal_observed": 0.30838399997446686,
+          "series_retrieval_and_decode": 0.0020020410302095115
+        },
+        "engine_wall_s": 0.000177041,
+        "compute_wall_s": 0.003778417,
+        "simulated_duration_s": 0.060000000000000005,
+        "simulation_rate_s_per_s": 338.90454753418703,
+        "worker_peak_rss_bytes": 76201984,
+        "output_samples": 721,
+        "response_bytes": 55913,
+        "memory": {
+          "peak_sampled_rss_bytes": 172720128,
+          "samples": 6,
+          "max_processes": 3
+        },
+        "correctness": {
+          "correct": true,
+          "checks": {
+            "sample_count": true,
+            "stroke": true,
+            "dead_centre_velocity": true,
+            "period": true,
+            "finite": true
+          }
+        }
+      },
+      {
+        "outcome": "completed",
+        "run_id": "run-20261112T123720Z-ab3f0128",
+        "api_run_ready_s": 0.3061142499791458,
+        "spans_s": {
+          "submit_until_accepted": 0.004002582980319858,
+          "accepted_until_terminal_observed": 0.3000009579700418,
+          "series_retrieval_and_decode": 0.0021107090287841856
+        },
+        "engine_wall_s": 0.00018175,
+        "compute_wall_s": 0.003959125,
+        "simulated_duration_s": 0.060000000000000005,
+        "simulation_rate_s_per_s": 330.1237964236589,
+        "worker_peak_rss_bytes": 76169216,
+        "output_samples": 721,
+        "response_bytes": 55913,
+        "memory": {
+          "peak_sampled_rss_bytes": 173752320,
+          "samples": 5,
+          "max_processes": 3
+        },
+        "correctness": {
+          "correct": true,
+          "checks": {
+            "sample_count": true,
+            "stroke": true,
+            "dead_centre_velocity": true,
+            "period": true,
+            "finite": true
+          }
+        }
+      },
+      {
+        "outcome": "completed",
+        "run_id": "run-20261112T123721Z-fa41d580",
+        "api_run_ready_s": 0.4472894999780692,
+        "spans_s": {
+          "submit_until_accepted": 0.004284707945771515,
+          "accepted_until_terminal_observed": 0.4406909170211293,
+          "series_retrieval_and_decode": 0.0023138750111684203
+        },
+        "engine_wall_s": 0.000234583,
+        "compute_wall_s": 0.003876417,
+        "simulated_duration_s": 0.060000000000000005,
+        "simulation_rate_s_per_s": 255.77300997941032,
+        "worker_peak_rss_bytes": 76103680,
+        "output_samples": 721,
+        "response_bytes": 55913,
+        "memory": {
+          "peak_sampled_rss_bytes": 173686784,
+          "samples": 7,
+          "max_processes": 3
+        },
+        "correctness": {
+          "correct": true,
+          "checks": {
+            "sample_count": true,
+            "stroke": true,
+            "dead_centre_velocity": true,
+            "period": true,
+            "finite": true
+          }
+        }
+      },
+      {
+        "outcome": "completed",
+        "run_id": "run-20261112T123721Z-3ff5cd79",
+        "api_run_ready_s": 0.4573830830049701,
+        "spans_s": {
+          "submit_until_accepted": 0.002991124987602234,
+          "accepted_until_terminal_observed": 0.4523555419873446,
+          "series_retrieval_and_decode": 0.002036416030023247
+        },
+        "engine_wall_s": 0.000343792,
+        "compute_wall_s": 0.008046,
+        "simulated_duration_s": 0.060000000000000005,
+        "simulation_rate_s_per_s": 174.5241308698283,
+        "worker_peak_rss_bytes": 74973184,
+        "output_samples": 721,
+        "response_bytes": 55913,
+        "memory": {
+          "peak_sampled_rss_bytes": 175652864,
+          "samples": 8,
+          "max_processes": 4
+        },
+        "correctness": {
+          "correct": true,
+          "checks": {
+            "sample_count": true,
+            "stroke": true,
+            "dead_centre_velocity": true,
+            "period": true,
+            "finite": true
+          }
+        }
+      },
+      {
+        "outcome": "completed",
+        "run_id": "run-20261112T123721Z-f92f9fd4",
+        "api_run_ready_s": 0.36675383301917464,
+        "spans_s": {
+          "submit_until_accepted": 0.003566458006389439,
+          "accepted_until_terminal_observed": 0.36108724999940023,
+          "series_retrieval_and_decode": 0.002100125013384968
+        },
+        "engine_wall_s": 0.000193708,
+        "compute_wall_s": 0.003870583,
+        "simulated_duration_s": 0.060000000000000005,
+        "simulation_rate_s_per_s": 309.7445639829021,
+        "worker_peak_rss_bytes": 76070912,
+        "output_samples": 721,
+        "response_bytes": 55913,
+        "memory": {
+          "peak_sampled_rss_bytes": 172851200,
+          "samples": 6,
+          "max_processes": 3
+        },
+        "correctness": {
+          "correct": true,
+          "checks": {
+            "sample_count": true,
+            "stroke": true,
+            "dead_centre_velocity": true,
+            "period": true,
+            "finite": true
+          }
+        }
+      },
+      {
+        "outcome": "completed",
+        "run_id": "run-20261112T123722Z-10708c9a",
+        "api_run_ready_s": 0.369217875006143,
+        "spans_s": {
+          "submit_until_accepted": 0.004017333034425974,
+          "accepted_until_terminal_observed": 0.36331329197855666,
+          "series_retrieval_and_decode": 0.001887249993160367
+        },
+        "engine_wall_s": 0.000191,
+        "compute_wall_s": 0.003632167,
+        "simulated_duration_s": 0.060000000000000005,
+        "simulation_rate_s_per_s": 314.13612565445027,
+        "worker_peak_rss_bytes": 76136448,
+        "output_samples": 721,
+        "response_bytes": 55913,
+        "memory": {
+          "peak_sampled_rss_bytes": 171966464,
+          "samples": 6,
+          "max_processes": 3
+        },
+        "correctness": {
+          "correct": true,
+          "checks": {
+            "sample_count": true,
+            "stroke": true,
+            "dead_centre_velocity": true,
+            "period": true,
+            "finite": true
+          }
+        }
+      },
+      {
+        "outcome": "completed",
+        "run_id": "run-20261112T123722Z-5faad79a",
+        "api_run_ready_s": 0.29104329203255475,
+        "spans_s": {
+          "submit_until_accepted": 0.003599500050768256,
+          "accepted_until_terminal_observed": 0.28564208396710455,
+          "series_retrieval_and_decode": 0.0018017080146819353
+        },
+        "engine_wall_s": 0.000172668,
+        "compute_wall_s": 0.003826125,
+        "simulated_duration_s": 0.060000000000000005,
+        "simulation_rate_s_per_s": 347.4876641879213,
+        "worker_peak_rss_bytes": 76120064,
+        "output_samples": 721,
+        "response_bytes": 55913,
+        "memory": {
+          "peak_sampled_rss_bytes": 170770432,
+          "samples": 5,
+          "max_processes": 3
+        },
+        "correctness": {
+          "correct": true,
+          "checks": {
+            "sample_count": true,
+            "stroke": true,
+            "dead_centre_velocity": true,
+            "period": true,
+            "finite": true
+          }
+        }
+      },
+      {
+        "outcome": "completed",
+        "run_id": "run-20261112T123722Z-604c7547",
+        "api_run_ready_s": 0.26736175001133233,
+        "spans_s": {
+          "submit_until_accepted": 0.003983417002018541,
+          "accepted_until_terminal_observed": 0.261617332987953,
+          "series_retrieval_and_decode": 0.0017610000213608146
+        },
+        "engine_wall_s": 0.0001815,
+        "compute_wall_s": 0.00364275,
+        "simulated_duration_s": 0.060000000000000005,
+        "simulation_rate_s_per_s": 330.57851239669424,
+        "worker_peak_rss_bytes": 76103680,
+        "output_samples": 721,
+        "response_bytes": 55913,
+        "memory": {
+          "peak_sampled_rss_bytes": 171966464,
+          "samples": 4,
+          "max_processes": 3
+        },
+        "correctness": {
+          "correct": true,
+          "checks": {
+            "sample_count": true,
+            "stroke": true,
+            "dead_centre_velocity": true,
+            "period": true,
+            "finite": true
+          }
+        }
+      },
+      {
+        "outcome": "completed",
+        "run_id": "run-20261112T123723Z-2cab31c9",
+        "api_run_ready_s": 0.2739616669714451,
+        "spans_s": {
+          "submit_until_accepted": 0.0037477919831871986,
+          "accepted_until_terminal_observed": 0.2685093749896623,
+          "series_retrieval_and_decode": 0.0017044999985955656
+        },
+        "engine_wall_s": 0.000157958,
+        "compute_wall_s": 0.003518167,
+        "simulated_duration_s": 0.060000000000000005,
+        "simulation_rate_s_per_s": 379.84780764507025,
+        "worker_peak_rss_bytes": 76021760,
+        "output_samples": 721,
+        "response_bytes": 55913,
+        "memory": {
+          "peak_sampled_rss_bytes": 175702016,
+          "samples": 5,
+          "max_processes": 4
+        },
+        "correctness": {
+          "correct": true,
+          "checks": {
+            "sample_count": true,
+            "stroke": true,
+            "dead_centre_velocity": true,
+            "period": true,
+            "finite": true
+          }
+        }
+      },
+      {
+        "outcome": "completed",
+        "run_id": "run-20261112T123723Z-67ed782a",
+        "api_run_ready_s": 0.27441829099552706,
+        "spans_s": {
+          "submit_until_accepted": 0.003394416009541601,
+          "accepted_until_terminal_observed": 0.2693077090079896,
+          "series_retrieval_and_decode": 0.0017161659779958427
+        },
+        "engine_wall_s": 0.000139,
+        "compute_wall_s": 0.003365209,
+        "simulated_duration_s": 0.060000000000000005,
+        "simulation_rate_s_per_s": 431.6546762589929,
+        "worker_peak_rss_bytes": 76103680,
+        "output_samples": 721,
+        "response_bytes": 55913,
+        "memory": {
+          "peak_sampled_rss_bytes": 172048384,
+          "samples": 4,
+          "max_processes": 3
+        },
+        "correctness": {
+          "correct": true,
+          "checks": {
+            "sample_count": true,
+            "stroke": true,
+            "dead_centre_velocity": true,
+            "period": true,
+            "finite": true
+          }
+        }
+      }
+    ],
+    "outcomes": {
+      "completed": 30
+    },
+    "summary": {
+      "api_run_ready_s": {
+        "count": 30,
+        "median": 0.3056233960087411,
+        "p95_nearest_rank": 0.4472894999780692,
+        "minimum": 0.26736175001133233,
+        "maximum": 0.4573830830049701
+      },
+      "accepted_until_terminal_observed_s": {
+        "count": 30,
+        "median": 0.2999924994946923,
+        "p95_nearest_rank": 0.4406909170211293,
+        "minimum": 0.261617332987953,
+        "maximum": 0.4523555419873446
+      },
+      "series_retrieval_and_decode_s": {
+        "count": 30,
+        "median": 0.001971687510376796,
+        "p95_nearest_rank": 0.0023232499952428043,
+        "minimum": 0.0017044999985955656,
+        "maximum": 0.0023533329949714243
+      },
+      "engine_wall_s": {
+        "count": 30,
+        "median": 0.00018279100000000002,
+        "p95_nearest_rank": 0.000234583,
+        "minimum": 0.000139,
+        "maximum": 0.000343792
+      },
+      "simulation_rate_per_attempt": {
+        "count": 30,
+        "median": 328.2543783023469,
+        "p95_nearest_rank": 379.84780764507025,
+        "minimum": 174.5241308698283,
+        "maximum": 431.6546762589929
+      },
+      "simulation_rate_aggregate_s_per_s": 312.4499863042756,
+      "peak_sampled_app_rss_bytes": 178126848,
+      "stored_result_api_read_s": {
+        "count": 30,
+        "median": 0.001417020510416478,
+        "p95_nearest_rank": 0.0017422909731976688,
+        "minimum": 0.0013517909683287144,
+        "maximum": 0.005002916033845395
+      }
+    }
+  },
+  "ramp": [
+    {
+      "revolutions": 2,
+      "samples_per_revolution": 360,
+      "output_samples": 721,
+      "attempts": [
+        {
+          "outcome": "completed",
+          "run_id": "run-20261112T123723Z-8216d102",
+          "api_run_ready_s": 0.26863395801046863,
+          "spans_s": {
+            "submit_until_accepted": 0.0036571670207194984,
+            "accepted_until_terminal_observed": 0.2633399579790421,
+            "series_retrieval_and_decode": 0.0016368330107070506
+          },
+          "engine_wall_s": 0.000153249,
+          "compute_wall_s": 0.003275,
+          "simulated_duration_s": 0.060000000000000005,
+          "simulation_rate_s_per_s": 391.51968365209564,
+          "worker_peak_rss_bytes": 76005376,
+          "output_samples": 721,
+          "response_bytes": 55913,
+          "memory": {
+            "peak_sampled_rss_bytes": 170868736,
+            "samples": 5,
+            "max_processes": 3
+          },
+          "correctness": {
+            "correct": true,
+            "checks": {
+              "sample_count": true,
+              "stroke": true,
+              "dead_centre_velocity": true,
+              "period": true,
+              "finite": true
+            }
+          }
+        },
+        {
+          "outcome": "completed",
+          "run_id": "run-20261112T123724Z-6eca0b61",
+          "api_run_ready_s": 0.25089720799587667,
+          "spans_s": {
+            "submit_until_accepted": 0.0015990409883670509,
+            "accepted_until_terminal_observed": 0.24762874998850748,
+            "series_retrieval_and_decode": 0.0016694170190021396
+          },
+          "engine_wall_s": 0.000150834,
+          "compute_wall_s": 0.003439125,
+          "simulated_duration_s": 0.060000000000000005,
+          "simulation_rate_s_per_s": 397.78829706830027,
+          "worker_peak_rss_bytes": 76201984,
+          "output_samples": 721,
+          "response_bytes": 55913,
+          "memory": {
+            "peak_sampled_rss_bytes": 167985152,
+            "samples": 4,
+            "max_processes": 3
+          },
+          "correctness": {
+            "correct": true,
+            "checks": {
+              "sample_count": true,
+              "stroke": true,
+              "dead_centre_velocity": true,
+              "period": true,
+              "finite": true
+            }
+          }
+        },
+        {
+          "outcome": "completed",
+          "run_id": "run-20261112T123724Z-3a0942c6",
+          "api_run_ready_s": 0.26282900001388043,
+          "spans_s": {
+            "submit_until_accepted": 0.0029597090324386954,
+            "accepted_until_terminal_observed": 0.2581066249986179,
+            "series_retrieval_and_decode": 0.001762665982823819
+          },
+          "engine_wall_s": 0.000175457,
+          "compute_wall_s": 0.003711458,
+          "simulated_duration_s": 0.060000000000000005,
+          "simulation_rate_s_per_s": 341.9641279629767,
+          "worker_peak_rss_bytes": 76070912,
+          "output_samples": 721,
+          "response_bytes": 55913,
+          "memory": {
+            "peak_sampled_rss_bytes": 172163072,
+            "samples": 4,
+            "max_processes": 3
+          },
+          "correctness": {
+            "correct": true,
+            "checks": {
+              "sample_count": true,
+              "stroke": true,
+              "dead_centre_velocity": true,
+              "period": true,
+              "finite": true
+            }
+          }
+        }
+      ],
+      "api_run_ready_s": {
+        "count": 3,
+        "median": 0.26282900001388043,
+        "p95_nearest_rank": 0.26863395801046863,
+        "minimum": 0.25089720799587667,
+        "maximum": 0.26863395801046863
+      },
+      "engine_wall_s": {
+        "count": 3,
+        "median": 0.000153249,
+        "p95_nearest_rank": 0.000175457,
+        "minimum": 0.000150834,
+        "maximum": 0.000175457
+      },
+      "series_retrieval_and_decode_s": {
+        "count": 3,
+        "median": 0.0016694170190021396,
+        "p95_nearest_rank": 0.001762665982823819,
+        "minimum": 0.0016368330107070506,
+        "maximum": 0.001762665982823819
+      },
+      "peak_sampled_app_rss_bytes": 172163072,
+      "response_bytes": 55913
+    },
+    {
+      "revolutions": 50,
+      "samples_per_revolution": 720,
+      "output_samples": 36001,
+      "attempts": [
+        {
+          "outcome": "completed",
+          "run_id": "run-20261112T123724Z-5ef21e1b",
+          "api_run_ready_s": 0.4710964999976568,
+          "spans_s": {
+            "submit_until_accepted": 0.0031915840227156878,
+            "accepted_until_terminal_observed": 0.433651291008573,
+            "series_retrieval_and_decode": 0.03425362496636808
+          },
+          "engine_wall_s": 0.001120707,
+          "compute_wall_s": 0.043615459,
+          "simulated_duration_s": 1.5000000000000002,
+          "simulation_rate_s_per_s": 1338.44082351587,
+          "worker_peak_rss_bytes": 80166912,
+          "output_samples": 36001,
+          "response_bytes": 2739122,
+          "memory": {
+            "peak_sampled_rss_bytes": 176275456,
+            "samples": 7,
+            "max_processes": 3
+          },
+          "correctness": {
+            "correct": true,
+            "checks": {
+              "sample_count": true,
+              "stroke": true,
+              "dead_centre_velocity": true,
+              "period": true,
+              "finite": true
+            }
+          }
+        },
+        {
+          "outcome": "completed",
+          "run_id": "run-20261112T123725Z-40d8ed15",
+          "api_run_ready_s": 0.382913124980405,
+          "spans_s": {
+            "submit_until_accepted": 0.007708583027124405,
+            "accepted_until_terminal_observed": 0.3442037499626167,
+            "series_retrieval_and_decode": 0.031000791990663856
+          },
+          "engine_wall_s": 0.001093916,
+          "compute_wall_s": 0.03923425,
+          "simulated_duration_s": 1.5000000000000002,
+          "simulation_rate_s_per_s": 1371.2204593405713,
+          "worker_peak_rss_bytes": 80281600,
+          "output_samples": 36001,
+          "response_bytes": 2739122,
+          "memory": {
+            "peak_sampled_rss_bytes": 178159616,
+            "samples": 7,
+            "max_processes": 3
+          },
+          "correctness": {
+            "correct": true,
+            "checks": {
+              "sample_count": true,
+              "stroke": true,
+              "dead_centre_velocity": true,
+              "period": true,
+              "finite": true
+            }
+          }
+        },
+        {
+          "outcome": "completed",
+          "run_id": "run-20261112T123725Z-a60a06f5",
+          "api_run_ready_s": 0.32388595800148323,
+          "spans_s": {
+            "submit_until_accepted": 0.003821374964900315,
+            "accepted_until_terminal_observed": 0.2934857920045033,
+            "series_retrieval_and_decode": 0.026578791032079607
+          },
+          "engine_wall_s": 0.001106207,
+          "compute_wall_s": 0.040373709,
+          "simulated_duration_s": 1.5000000000000002,
+          "simulation_rate_s_per_s": 1355.984910599915,
+          "worker_peak_rss_bytes": 80232448,
+          "output_samples": 36001,
+          "response_bytes": 2739122,
+          "memory": {
+            "peak_sampled_rss_bytes": 183746560,
+            "samples": 5,
+            "max_processes": 4
+          },
+          "correctness": {
+            "correct": true,
+            "checks": {
+              "sample_count": true,
+              "stroke": true,
+              "dead_centre_velocity": true,
+              "period": true,
+              "finite": true
+            }
+          }
+        }
+      ],
+      "api_run_ready_s": {
+        "count": 3,
+        "median": 0.382913124980405,
+        "p95_nearest_rank": 0.4710964999976568,
+        "minimum": 0.32388595800148323,
+        "maximum": 0.4710964999976568
+      },
+      "engine_wall_s": {
+        "count": 3,
+        "median": 0.001106207,
+        "p95_nearest_rank": 0.001120707,
+        "minimum": 0.001093916,
+        "maximum": 0.001120707
+      },
+      "series_retrieval_and_decode_s": {
+        "count": 3,
+        "median": 0.031000791990663856,
+        "p95_nearest_rank": 0.03425362496636808,
+        "minimum": 0.026578791032079607,
+        "maximum": 0.03425362496636808
+      },
+      "peak_sampled_app_rss_bytes": 183746560,
+      "response_bytes": 2739122
+    },
+    {
+      "revolutions": 100,
+      "samples_per_revolution": 3600,
+      "output_samples": 360001,
+      "attempts": [
+        {
+          "outcome": "completed",
+          "run_id": "run-20261112T123725Z-285e8eb7",
+          "api_run_ready_s": 0.7348665830213577,
+          "spans_s": {
+            "submit_until_accepted": 0.00409354199655354,
+            "accepted_until_terminal_observed": 0.37306416599312797,
+            "series_retrieval_and_decode": 0.35770887503167614
+          },
+          "engine_wall_s": 0.004214876,
+          "compute_wall_s": 0.099921458,
+          "simulated_duration_s": 3.0,
+          "simulation_rate_s_per_s": 711.7647114648212,
+          "worker_peak_rss_bytes": 115654656,
+          "output_samples": 360001,
+          "response_bytes": 26641970,
+          "memory": {
+            "peak_sampled_rss_bytes": 188727296,
+            "samples": 13,
+            "max_processes": 3
+          },
+          "correctness": {
+            "correct": true,
+            "checks": {
+              "sample_count": true,
+              "stroke": true,
+              "dead_centre_velocity": true,
+              "period": true,
+              "finite": true
+            }
+          }
+        },
+        {
+          "outcome": "completed",
+          "run_id": "run-20261112T123726Z-7f8fdcc3",
+          "api_run_ready_s": 0.7426645419909619,
+          "spans_s": {
+            "submit_until_accepted": 0.004300542001146823,
+            "accepted_until_terminal_observed": 0.3847173329559155,
+            "series_retrieval_and_decode": 0.3536466670338996
+          },
+          "engine_wall_s": 0.004256545,
+          "compute_wall_s": 0.101009208,
+          "simulated_duration_s": 3.0,
+          "simulation_rate_s_per_s": 704.7969656141307,
+          "worker_peak_rss_bytes": 115572736,
+          "output_samples": 360001,
+          "response_bytes": 26641970,
+          "memory": {
+            "peak_sampled_rss_bytes": 216956928,
+            "samples": 13,
+            "max_processes": 3
+          },
+          "correctness": {
+            "correct": true,
+            "checks": {
+              "sample_count": true,
+              "stroke": true,
+              "dead_centre_velocity": true,
+              "period": true,
+              "finite": true
+            }
+          }
+        },
+        {
+          "outcome": "completed",
+          "run_id": "run-20261112T123727Z-5158657e",
+          "api_run_ready_s": 0.7500721670221537,
+          "spans_s": {
+            "submit_until_accepted": 0.004042250046040863,
+            "accepted_until_terminal_observed": 0.3955565419746563,
+            "series_retrieval_and_decode": 0.3504733750014566
+          },
+          "engine_wall_s": 0.004364088,
+          "compute_wall_s": 0.101133917,
+          "simulated_duration_s": 3.0,
+          "simulation_rate_s_per_s": 687.4288511139097,
+          "worker_peak_rss_bytes": 115654656,
+          "output_samples": 360001,
+          "response_bytes": 26641970,
+          "memory": {
+            "peak_sampled_rss_bytes": 214204416,
+            "samples": 13,
+            "max_processes": 3
+          },
+          "correctness": {
+            "correct": true,
+            "checks": {
+              "sample_count": true,
+              "stroke": true,
+              "dead_centre_velocity": true,
+              "period": true,
+              "finite": true
+            }
+          }
+        }
+      ],
+      "api_run_ready_s": {
+        "count": 3,
+        "median": 0.7426645419909619,
+        "p95_nearest_rank": 0.7500721670221537,
+        "minimum": 0.7348665830213577,
+        "maximum": 0.7500721670221537
+      },
+      "engine_wall_s": {
+        "count": 3,
+        "median": 0.004256545,
+        "p95_nearest_rank": 0.004364088,
+        "minimum": 0.004214876,
+        "maximum": 0.004364088
+      },
+      "series_retrieval_and_decode_s": {
+        "count": 3,
+        "median": 0.3536466670338996,
+        "p95_nearest_rank": 0.35770887503167614,
+        "minimum": 0.3504733750014566,
+        "maximum": 0.35770887503167614
+      },
+      "peak_sampled_app_rss_bytes": 216956928,
+      "response_bytes": 26641970
+    },
+    {
+      "revolutions": 277,
+      "samples_per_revolution": 3600,
+      "output_samples": 997201,
+      "attempts": [
+        {
+          "outcome": "completed",
+          "run_id": "run-20261112T123728Z-65eecde8",
+          "api_run_ready_s": 2.05391795898322,
+          "spans_s": {
+            "submit_until_accepted": 0.004230416961945593,
+            "accepted_until_terminal_observed": 0.6119229170144536,
+            "series_retrieval_and_decode": 1.437764625006821
+          },
+          "engine_wall_s": 0.011808992,
+          "compute_wall_s": 0.2949995,
+          "simulated_duration_s": 8.31,
+          "simulation_rate_s_per_s": 703.7010440857272,
+          "worker_peak_rss_bytes": 187088896,
+          "output_samples": 997201,
+          "response_bytes": 73518985,
+          "memory": {
+            "peak_sampled_rss_bytes": 270827520,
+            "samples": 34,
+            "max_processes": 3
+          },
+          "correctness": {
+            "correct": true,
+            "checks": {
+              "sample_count": true,
+              "stroke": true,
+              "dead_centre_velocity": true,
+              "period": true,
+              "finite": true
+            }
+          }
+        },
+        {
+          "outcome": "completed",
+          "run_id": "run-20261112T123730Z-c2021af6",
+          "api_run_ready_s": 2.3886425000382587,
+          "spans_s": {
+            "submit_until_accepted": 0.0076500410214066505,
+            "accepted_until_terminal_observed": 0.5867328339954838,
+            "series_retrieval_and_decode": 1.7942596250213683
+          },
+          "engine_wall_s": 0.011527451,
+          "compute_wall_s": 0.284631167,
+          "simulated_duration_s": 8.31,
+          "simulation_rate_s_per_s": 720.8879048802725,
+          "worker_peak_rss_bytes": 187105280,
+          "output_samples": 997201,
+          "response_bytes": 73518985,
+          "memory": {
+            "peak_sampled_rss_bytes": 299483136,
+            "samples": 38,
+            "max_processes": 3
+          },
+          "correctness": {
+            "correct": true,
+            "checks": {
+              "sample_count": true,
+              "stroke": true,
+              "dead_centre_velocity": true,
+              "period": true,
+              "finite": true
+            }
+          }
+        },
+        {
+          "outcome": "completed",
+          "run_id": "run-20261112T123732Z-e8809149",
+          "api_run_ready_s": 2.0538854170008563,
+          "spans_s": {
+            "submit_until_accepted": 0.004811083024833351,
+            "accepted_until_terminal_observed": 0.5969286669860594,
+            "series_retrieval_and_decode": 1.4521456669899635
+          },
+          "engine_wall_s": 0.011553957,
+          "compute_wall_s": 0.298032416,
+          "simulated_duration_s": 8.31,
+          "simulation_rate_s_per_s": 719.2341117419772,
+          "worker_peak_rss_bytes": 187138048,
+          "output_samples": 997201,
+          "response_bytes": 73518985,
+          "memory": {
+            "peak_sampled_rss_bytes": 364150784,
+            "samples": 33,
+            "max_processes": 3
+          },
+          "correctness": {
+            "correct": true,
+            "checks": {
+              "sample_count": true,
+              "stroke": true,
+              "dead_centre_velocity": true,
+              "period": true,
+              "finite": true
+            }
+          }
+        }
+      ],
+      "api_run_ready_s": {
+        "count": 3,
+        "median": 2.05391795898322,
+        "p95_nearest_rank": 2.3886425000382587,
+        "minimum": 2.0538854170008563,
+        "maximum": 2.3886425000382587
+      },
+      "engine_wall_s": {
+        "count": 3,
+        "median": 0.011553957,
+        "p95_nearest_rank": 0.011808992,
+        "minimum": 0.011527451,
+        "maximum": 0.011808992
+      },
+      "series_retrieval_and_decode_s": {
+        "count": 3,
+        "median": 1.4521456669899635,
+        "p95_nearest_rank": 1.7942596250213683,
+        "minimum": 1.437764625006821,
+        "maximum": 1.7942596250213683
+      },
+      "peak_sampled_app_rss_bytes": 364150784,
+      "response_bytes": 73518985
+    }
+  ],
+  "stress": {
+    "clients": 8,
+    "rounds": [
+      {
+        "statuses": [
+          202,
+          409,
+          409,
+          409,
+          409,
+          409,
+          409,
+          409
+        ],
+        "accepted": 1,
+        "busy_rejections": 7,
+        "run_state": "completed",
+        "health_latency_during_run_s": {
+          "count": 50,
+          "median": 0.0027850619808305055,
+          "p95_nearest_rank": 0.006443166988901794,
+          "minimum": 0.0008685420034453273,
+          "maximum": 0.006712209025863558
+        }
+      },
+      {
+        "statuses": [
+          202,
+          409,
+          409,
+          409,
+          409,
+          409,
+          409,
+          409
+        ],
+        "accepted": 1,
+        "busy_rejections": 7,
+        "run_state": "completed",
+        "health_latency_during_run_s": {
+          "count": 50,
+          "median": 0.0027649999829009175,
+          "p95_nearest_rank": 0.0075037500355392694,
+          "minimum": 0.0007978340145200491,
+          "maximum": 0.007834833988454193
+        }
+      },
+      {
+        "statuses": [
+          202,
+          409,
+          409,
+          409,
+          409,
+          409,
+          409,
+          409
+        ],
+        "accepted": 1,
+        "busy_rejections": 7,
+        "run_state": "completed",
+        "health_latency_during_run_s": {
+          "count": 50,
+          "median": 0.002849896001862362,
+          "p95_nearest_rank": 0.008573625003919005,
+          "minimum": 0.0015221249777823687,
+          "maximum": 0.008971708011813462
+        }
+      }
+    ],
+    "passed": true
+  },
+  "resilience": {
+    "invalid_messages": {
+      "checks": {
+        "malformed_json": {
+          "status": 422,
+          "code": "invalid_input",
+          "passed": true
+        },
+        "non_finite_number": {
+          "status": 422,
+          "code": "invalid_input",
+          "passed": true
+        },
+        "unsupported_version": {
+          "status": 422,
+          "code": "unsupported_model",
+          "passed": true
+        },
+        "unknown_field": {
+          "status": 422,
+          "code": "invalid_input",
+          "passed": true
+        },
+        "output_over_limit": {
+          "status": 422,
+          "code": "limit_exceeded",
+          "passed": true
+        },
+        "oversize_body": {
+          "status": 413,
+          "code": "payload_too_large",
+          "passed": true
+        },
+        "missing_token": {
+          "status": 401,
+          "code": "unauthorized",
+          "passed": true
+        },
+        "foreign_origin": {
+          "status": 403,
+          "code": "forbidden_origin",
+          "passed": true
+        },
+        "foreign_host": {
+          "status": 400,
+          "code": null,
+          "passed": true
+        }
+      },
+      "runs_created": 0,
+      "server_healthy_after": true,
+      "passed": true
+    },
+    "out_of_order_requests": {
+      "checks": {
+        "status_of_unknown_run_404": true,
+        "series_before_completion_409": true,
+        "resume_while_running_409": true,
+        "completed": true,
+        "resume_after_completion_409": true,
+        "series_after_completion_200": true
+      },
+      "passed": true
+    },
+    "duplicate_submissions": {
+      "checks": {
+        "distinct_run_ids": true,
+        "identical_results": true,
+        "exact_sample_counts": true,
+        "one_record_per_accepted_submission": true
+      },
+      "run_ids": [
+        "run-20261112T123739Z-f5283234",
+        "run-20261112T123739Z-9f30d0f9"
+      ],
+      "passed": true
+    },
+    "worker_crash_and_resume": {
+      "checks": {
+        "failure_recorded_as_worker_failure": true,
+        "committed_samples_before_crash": true,
+        "coordinator_survived": true,
+        "resume_accepted": true,
+        "completed_after_resume": true,
+        "no_double_counting": true,
+        "identical_to_uninterrupted": true
+      },
+      "events": [
+        "run_queued",
+        "run_started",
+        "run_failed",
+        "run_requeued",
+        "run_resumed",
+        "run_computed",
+        "run_completed"
+      ],
+      "passed": true
+    },
+    "coordinator_kill_restart_and_resume": {
+      "checks": {
+        "orphan_worker_exited": true,
+        "reconciled_as_interrupted": true,
+        "killed_mid_run": true,
+        "resume_accepted": true,
+        "completed_after_resume": true,
+        "no_double_counting": true,
+        "identical_to_uninterrupted": true
+      },
+      "committed_samples_at_restart": 1440,
+      "passed": true
+    },
+    "hung_worker_timeout": {
+      "checks": {
+        "stopped_as_run_timeout": true,
+        "resumable": true,
+        "bounded_by_timeout": true,
+        "coordinator_completes_next_run": true
+      },
+      "elapsed_s": 3.0393549160216935,
+      "remaining_workers": 1,
+      "passed": true
+    }
+  },
+  "fault_classes": {
+    "software": [
+      "coordinator_kill_restart_and_resume",
+      "duplicate_submissions",
+      "hung_worker_timeout",
+      "invalid_messages",
+      "out_of_order_requests",
+      "worker_crash_and_resume"
+    ],
+    "simulated_physical_defects": [],
+    "note": "Physical defect scenarios (SCN-004/005) need the tribology model and are not part of this bench."
+  },
+  "limitations": [
+    "Kinematic demo case only; not the SCN-001 tribological nominal workload of #39",
+    "No browser: the < 60 s run_ready_s and < 1 s stored-result KPIs are only bounded by their API parts",
+    "One machine and one campaign; no pooling across machines, no CI timing threshold",
+    "RSS is sampled every 50 ms and summed over processes; short spikes can be missed and shared pages double-counted",
+    "Each run spawns a fresh worker, so process start-up is inside every nominal attempt"
+  ],
+  "passed": true
+}

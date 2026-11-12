@@ -6,6 +6,8 @@ The first application is a local, single-user **batch sandbox**, with one numeri
 
 **October 26 update:** the nominal workload now references Adam's SCN-001/CONF-A and records the remaining input owners. An [executed analytical-core probe](../benchmarks/reports/foundation-probe-2026-10-26.json) exercises 30 repetitions with correctness checks, raw timings and source hashes. It is explicitly separate from the still-unmeasured product KPI/baseline and cannot set the application's latency or memory budgets. [ADR 0004](architecture/adr/0004-study-review-and-v1-boundary.md) records the review of Slakkos's studies.
 
+**November 12 update:** [#46](https://github.com/V-Twin-EIP/V-Twin/issues/46) adds the [load and resilience bench](../scripts/benchmark_runner.py) and a [first runner API baseline](../benchmarks/reports/runner-api-baseline-2026-11-12.md) on the kinematic demo workload. It measures the HTTP API path without a browser: 30 correct attempts, median 306 ms submission-to-decoded-series, plus output ramp, concurrency and six software-fault scenarios. The browser `run_ready_s`, the SCN-001 nominal case and the technical budgets remain open; the [tracking table](../benchmarks/README.md#november-12-runner-api-baseline-46) lists the proposals returned to #39.
+
 ## Confirmed user expectations
 
 We set these targets on October 19, 2026:
