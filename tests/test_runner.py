@@ -218,3 +218,35 @@ def test_workspace_has_a_single_owner(tmp_path: Path) -> None:
         WorkspaceLock(tmp_path).acquire()
     with WorkspaceLock(tmp_path):
         pass
+
+
+def test_completed_is_only_observable_once_artifacts_are_published(
+    tmp_path: Path, document: dict[str, Any], monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Regression found by the #46 bench: a poller saw "completed" before publication."""
+    service = create_run_service(tmp_path)
+    run_id = service.prepare(document).run_id
+    original = service.store.publish
+    seen: list[RunState] = []
+
+    def observing_publish(run: str) -> dict[str, Any]:
+        seen.append(service.status(run).state)
+        return original(run)
+
+    monkeypatch.setattr(service.store, "publish", observing_publish)
+    assert service.execute(run_id).state is RunState.COMPLETED
+    assert seen == [RunState.RUNNING]
+    assert service.store.read_series(run_id)["time_s"].shape == (721,)
+
+
+def test_reconcile_completes_a_run_stopped_after_publication(
+    tmp_path: Path, document: dict[str, Any]
+) -> None:
+    service = create_run_service(tmp_path)
+    run_id = service.run(document).run_id
+    record = service.status(run_id)
+    record.state = RunState.RUNNING  # as if the process died before the final status write
+    service.store.write_status(run_id, record.to_dict())
+    assert [item.run_id for item in service.reconcile()] == [run_id]
+    assert service.status(run_id).state is RunState.COMPLETED
+    assert service.replay(run_id).identical

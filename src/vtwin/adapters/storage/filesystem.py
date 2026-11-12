@@ -20,6 +20,7 @@ import json
 import os
 import shutil
 import sys
+import time
 from collections.abc import Iterator, Sequence
 from pathlib import Path
 from types import TracebackType
@@ -53,6 +54,18 @@ def _fsync_dir(path: Path) -> None:
         os.fsync(descriptor)
     finally:
         os.close(descriptor)
+
+
+def _replace_directory(source: Path, target: Path) -> None:
+    """Rename a directory; on Windows, retry while a reader briefly holds a file open."""
+    for attempt in range(40):
+        try:
+            os.replace(source, target)
+            return
+        except PermissionError:
+            if os.name != "nt" or attempt == 39:
+                raise
+            time.sleep(0.05)
 
 
 def atomic_write(path: Path, data: bytes) -> None:
@@ -181,14 +194,41 @@ class FileRunStore:
 
     def _read_json(self, path: Path) -> dict[str, Any]:
         try:
-            data = json.loads(path.read_bytes())
+            return self._parse(path.read_bytes(), path.name, path.parent.name)
         except FileNotFoundError:
             raise IntegrityFailure(f"Missing {path.name} for run {path.parent.name}.") from None
-        except (OSError, ValueError):
+        except OSError:
             raise IntegrityFailure(f"Unreadable {path.name} for run {path.parent.name}.") from None
-        if not isinstance(data, dict):
-            raise IntegrityFailure(f"Malformed {path.name} for run {path.parent.name}.")
-        return data
+
+    @staticmethod
+    def _parse(data: bytes, name: str, run_id: str) -> dict[str, Any]:
+        try:
+            document = json.loads(data)
+        except ValueError:
+            raise IntegrityFailure(f"Unreadable {name} for run {run_id}.") from None
+        if not isinstance(document, dict):
+            raise IntegrityFailure(f"Malformed {name} for run {run_id}.")
+        return document
+
+    def _read_run_bytes(self, run_id: str, name: str) -> bytes:
+        """Read a run file, re-resolving once if publication moved the directory meanwhile."""
+        for attempt in range(2):
+            path = self._dir(run_id) / name
+            try:
+                return path.read_bytes()
+            except FileNotFoundError:
+                moved = (
+                    path.parent.parent == self.staging_root and (self.runs_root / run_id).is_dir()
+                )
+                if attempt == 0 and moved:
+                    continue
+                raise IntegrityFailure(f"Missing {name} for run {run_id}.") from None
+            except OSError:
+                raise IntegrityFailure(f"Unreadable {name} for run {run_id}.") from None
+        raise IntegrityFailure(f"Missing {name} for run {run_id}.")
+
+    def _read_run_json(self, run_id: str, name: str) -> dict[str, Any]:
+        return self._parse(self._read_run_bytes(run_id, name), name, run_id)
 
     # ---------------------------------------------------------------- records
     def create(self, run_id: str, case_bytes: bytes, manifest: dict[str, Any]) -> None:
@@ -201,17 +241,13 @@ class FileRunStore:
             atomic_write(target / "manifest.json", _json_bytes(manifest))
 
     def read_case(self, run_id: str) -> bytes:
-        path = self._dir(run_id) / "case.json"
-        try:
-            return path.read_bytes()
-        except OSError:
-            raise IntegrityFailure(f"Missing frozen case for run {run_id}.") from None
+        return self._read_run_bytes(run_id, "case.json")
 
     def read_manifest(self, run_id: str) -> dict[str, Any]:
-        return self._read_json(self._dir(run_id) / "manifest.json")
+        return self._read_run_json(run_id, "manifest.json")
 
     def read_status(self, run_id: str) -> dict[str, Any]:
-        return self._read_json(self._dir(run_id) / "status.json")
+        return self._read_run_json(run_id, "status.json")
 
     def write_status(self, run_id: str, status: dict[str, Any]) -> None:
         with _storage_errors("write the run status"):
@@ -226,10 +262,11 @@ class FileRunStore:
             handle.write(line)
 
     def read_events(self, run_id: str) -> list[dict[str, Any]]:
-        path = self._dir(run_id) / "events.jsonl"
-        if not path.exists():
+        try:
+            text = self._read_run_bytes(run_id, "events.jsonl").decode("utf-8")
+        except IntegrityFailure:
             return []
-        return [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line]
+        return [json.loads(line) for line in text.splitlines() if line]
 
     # ------------------------------------------------------------ checkpoints
     def read_checkpoint(self, run_id: str) -> Checkpoint | None:
@@ -297,10 +334,11 @@ class FileRunStore:
         start: int = 0,
         stop: int | None = None,
     ) -> dict[str, FloatArray]:
-        path = self._dir(run_id) / "series.npz"
-        inventory = self._read_json(self._dir(run_id) / "inventory.json")
-        expected = inventory["files"]["series.npz"]["sha256"]
-        arrays = self._load_npz(path, expected)
+        if self.location(run_id) != "published":
+            raise IntegrityFailure(f"Run {run_id} has no published series.")
+        base = self.runs_root / run_id
+        inventory = self._read_json(base / "inventory.json")
+        arrays = self._load_npz(base / "series.npz", inventory["files"]["series.npz"]["sha256"])
         names = OBSERVABLE_IDS if observables is None else tuple(observables)
         selected = {name: arrays[name][start:stop] for name in names}
         return selected
@@ -325,7 +363,7 @@ class FileRunStore:
             shutil.rmtree(source / "chunks", ignore_errors=True)
             with contextlib.suppress(FileNotFoundError):
                 (source / "checkpoint.json").unlink()
-            os.replace(source, self.runs_root / run_id)
+            _replace_directory(source, self.runs_root / run_id)
             _fsync_dir(self.runs_root)
         return inventory
 

@@ -315,8 +315,6 @@ class RunService:
         manifest = self.store.read_manifest(run_id)
         simulated = float(manifest["numerical_policy"]["simulated_duration_s"])
         engine_s = checkpoint.engine_wall_ns / 1e9
-        record.state = RunState.COMPLETED
-        record.finished_at_utc = _utc(self.now())
         record.kpis = {
             "simulated_duration_s": simulated,
             "engine_wall_s": engine_s,
@@ -327,8 +325,12 @@ class RunService:
             "resources": record.extra.pop("compute_resources", None) or dict(self.resource_probe()),
             "clock": "time.perf_counter_ns in the computing process",
         }
-        self._save(record)
+        self._save(record)  # KPIs travel with the artifacts; the state is still running
         inventory = self.store.publish(run_id)
+        # Only now may a client observe "completed": every artifact is published.
+        record.state = RunState.COMPLETED
+        record.finished_at_utc = _utc(self.now())
+        self._save(record)
         self._event(
             run_id,
             "run_completed",
@@ -367,14 +369,22 @@ class RunService:
     def reconcile(self) -> list[RunRecord]:
         """Mark staged runs left queued/running by a dead process as interrupted.
 
-        Call only while holding exclusive workspace ownership. A staged run whose
-        status is already ``completed`` lost its publication step: publish it again.
+        Call only while holding exclusive workspace ownership. A published run
+        whose status was not yet ``completed`` (stop between publication and the
+        status update) is verified and completed.
         """
         changed: list[RunRecord] = []
         for run_id in self.store.list_runs():
-            if self.store.location(run_id) != "staging":
-                continue
             record = self.status(run_id)
+            if self.store.location(run_id) == "published":
+                if record.state is not RunState.COMPLETED:
+                    self.store.verify(run_id)
+                    record.state = RunState.COMPLETED
+                    record.finished_at_utc = record.finished_at_utc or _utc(self.now())
+                    self._save(record)
+                    self._event(run_id, "run_publication_recovered")
+                    changed.append(record)
+                continue
             if record.state in {RunState.QUEUED, RunState.RUNNING}:
                 changed.append(self.mark_interrupted(run_id, "Process stopped before completion."))
             elif record.state is RunState.COMPLETED:
