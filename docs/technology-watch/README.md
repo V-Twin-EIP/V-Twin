@@ -32,8 +32,10 @@ Screenshots of RSS feeds, newsletters and bookmarks: `docs/technology-watch/asse
 
 ## 3. Journal
 
-| Date | Source | Question | Critical analysis | Expected impact | Linked to |
+| Date | Source | Question | Result or limit | Decision | Linked to |
 | :--- | :--- | :--- | :--- | :--- | :--- |
+| 2026-10-26 | Mentoring meeting notes (26/10) + [study #33](../research/etudes-comparaison/04_prediction_usure_moteur_pinn_vs_ml.md) | Should a PINN (neural network constrained by physical laws) be studied for the wear model? | Discussed at the meeting; flav: it should be studied as part of the technology watch. Limits: the mentor does not know the method and is unsure the team can obtain large datasets. Nothing tested yet. | Study the PINN under the watch: issue #54 opened 2026-11-08 (Slakkos, Adam; note due 2026-11-13). Next proof: a minimal reproducible trial on one ring/liner observable, and the data needed to run it. | #33, #54 |
+| 2026-10-26 | Mentoring meeting notes (26/10) | Are the KPI targets (60 s per calculation, under 1 s to explore a result) ready to be fixed? | flav: a bit early to give targets. The performance of the nominal case and of the 8 GB machine still has to be measured. | Targets deferred: no numeric target until a baseline is measured. | #39, #42, #43 |
 
 ## 4. Work produced from the watch
 
@@ -60,7 +62,8 @@ Screenshots of RSS feeds, newsletters and bookmarks: `docs/technology-watch/asse
 
 | Date | Presented | Decision or action |
 | :--- | :--- | :--- |
-| | | |
+| 2026-10-26 | Technical comparatives (database, language, data bus, ...) presented to the mentor; see studies #30–#33 | No objection recorded in the meeting notes. Actions recorded: be more synthetic; prepare the meeting better. |
+| 2026-11-12 | Discussion on telemetry data acquisition (MQTT vs CAN) | MQTT selected as the primary telemetry communication approach for individual users. CAN remains a potential complementary acquisition method for manufacturers, depending on access to manufacturer-specific data. |
 
 ## 7. Decisions (adopted or rejected)
 
