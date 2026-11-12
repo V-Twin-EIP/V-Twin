@@ -36,6 +36,7 @@ Screenshots of RSS feeds, newsletters and bookmarks: `docs/technology-watch/asse
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | 2026-10-26 | Mentoring meeting notes (26/10) + [study #33](../research/etudes-comparaison/04_prediction_usure_moteur_pinn_vs_ml.md) | Should a PINN (neural network constrained by physical laws) be studied for the wear model? | Discussed at the meeting; flav: it should be studied as part of the technology watch. Limits: the mentor does not know the method and is unsure the team can obtain large datasets. Nothing tested yet. | Study the PINN under the watch: issue #54 opened 2026-11-08 (Slakkos, Adam; note due 2026-11-13). Next proof: a minimal reproducible trial on one ring/liner observable, and the data needed to run it. | #33, #54 |
 | 2026-10-26 | Mentoring meeting notes (26/10) | Are the KPI targets (60 s per calculation, under 1 s to explore a result) ready to be fixed? | flav: a bit early to give targets. The performance of the nominal case and of the 8 GB machine still has to be measured. | Targets deferred: no numeric target until a baseline is measured. | #39, #42, #43 |
+| 2026-11-12 | Raissi 2019, Almqvist 2021, Guan 2025, Mills 2015 ([PINN note](pinn-segment-chemise.md)) | Can a PINN predict the top ring's minimum oil-film thickness, and with which data? | No PINN study specific to the ring–liner contact found. Physics enters the loss as a penalty, not a guarantee; ring profile and cavitation are known difficulties. Measured films of 2–3 µm exist for another single-cylinder engine (ultrasound). Hydra ring parameters and a measured reference are missing. | PINN kept as a deferred candidate (ADR 0004). Next proof: 1D Reynolds trial, two oils, PINN versus finite differences on accuracy and cost. | #33, #54, #4 |
 
 ## 4. Work produced from the watch
 
@@ -45,6 +46,7 @@ Screenshots of RSS feeds, newsletters and bookmarks: `docs/technology-watch/asse
 | Study: telemetry transport (MQTT / WebSocket / REST / SSE) | [#31](https://github.com/V-Twin-EIP/V-Twin/issues/31) | [02_protocoles_reseau_mqtt_vs_websocket.md](../research/etudes-comparaison/02_protocoles_reseau_mqtt_vs_websocket.md) | Done |
 | Study: time-series storage (InfluxDB / TimescaleDB) | [#32](https://github.com/V-Twin-EIP/V-Twin/issues/32) | [03_stockage_series_temporelles_timescaledb_vs_influxdb.md](../research/etudes-comparaison/03_stockage_series_temporelles_timescaledb_vs_influxdb.md) | Done |
 | Study: wear estimation (physical / ML / hybrid) | [#33](https://github.com/V-Twin-EIP/V-Twin/issues/33) | [04_prediction_usure_moteur_pinn_vs_ml.md](../research/etudes-comparaison/04_prediction_usure_moteur_pinn_vs_ml.md) | Done |
+| PINN follow-up note: ring–liner film thickness | [#54](https://github.com/V-Twin-EIP/V-Twin/issues/54) | [pinn-segment-chemise.md](pinn-segment-chemise.md) | Done; trial not started |
 | POC: acquisition | [#34](https://github.com/V-Twin-EIP/V-Twin/issues/34) | — | Not started |
 | POC: MQTT telemetry | [#35](https://github.com/V-Twin-EIP/V-Twin/issues/35) | — | Not started |
 | Benchmark: transport | [#42](https://github.com/V-Twin-EIP/V-Twin/issues/42) | — | Not started |
@@ -72,7 +74,7 @@ Screenshots of RSS feeds, newsletters and bookmarks: `docs/technology-watch/asse
 | Ingestion duale CAN / OBD-II | Adopted | CAN haute fréquence (100–500 Hz) pour simulateur, OBD-II pour véhicules série | [Study #30](../research/etudes-comparaison/01_telemetrie_obd2_vs_can.md) |
 | Transport hybride MQTT v5 + WebSocket | Adopted | MQTT v5/Protobuf pour ingestion télémétrique résiliente, WebSocket pour flux temps réel 3D, REST pour services CRUD | [Study #31](../research/etudes-comparaison/02_protocoles_reseau_mqtt_vs_websocket.md) |
 | TimescaleDB pour séries temporelles | Adopted | SQL ANSI unifié, Hypertables, jointures natives avec nomenclatures/pièces et intégrité ACID | [Study #32](../research/etudes-comparaison/03_stockage_series_temporelles_timescaledb_vs_influxdb.md) |
-| Approche hybride PINN pour usure | Adopted | Inférence temps réel (<20 ms) tout en garantissant le respect strict des lois physiques (fatigue, lubrification) | [Study #33](../research/etudes-comparaison/04_prediction_usure_moteur_pinn_vs_ml.md) |
+| Approche hybride PINN pour usure | Candidate, deferred (ADR 0004) | Study #33 claimed <20 ms inference and guaranteed physics; neither is sourced nor measured for V-Twin. The PINN note keeps a physical reference for V1 and defines a minimal comparison trial. | [Study #33](../research/etudes-comparaison/04_prediction_usure_moteur_pinn_vs_ml.md), [PINN note #54](pinn-segment-chemise.md), [ADR 0004](../architecture/adr/0004-study-review-and-v1-boundary.md) |
 
 ## 8. Mentoring summary
 
