@@ -162,6 +162,11 @@ class LocalCoordinator:
         if thread is not None:
             thread.join(timeout_s)
 
-    def close(self) -> None:
-        self.wait(self.timeout_s + 10)
+    def close(self, grace_s: float = 2.0) -> None:
+        """Release ownership on shutdown after a short grace period.
+
+        A worker still running then exits with its parent (watchdog) and the next
+        coordinator reconciles the run as interrupted, resumable from its checkpoint.
+        """
+        self.wait(grace_s)
         self._lock.release()

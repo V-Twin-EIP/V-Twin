@@ -99,11 +99,23 @@ def compute_in_worker(
     Expected failures are already recorded in the run status by the service, so
     they only set a distinct exit code here.
     """
+    import multiprocessing
+    import threading
+
     from vtwin.adapters.observability import configure_logging, run_id_var
     from vtwin.domain.errors import VTwinError
 
     configure_logging(log_level, log_format, session=session)
     run_id_var.set(run_id)
+    parent = multiprocessing.parent_process()
+    if parent is not None:
+        # An orphaned worker (coordinator killed) must not keep writing to the
+        # staging area that the next coordinator reconciles as interrupted.
+        def exit_with_parent() -> None:
+            parent.join()
+            os._exit(75)
+
+        threading.Thread(target=exit_with_parent, name="parent-watchdog", daemon=True).start()
     try:
         create_run_service(Path(data_dir)).compute(run_id)
     except VTwinError:
