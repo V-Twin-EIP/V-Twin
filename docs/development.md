@@ -30,7 +30,7 @@ npm --prefix web run build
 uv run --locked --extra api vtwin serve
 ```
 
-Open [http://127.0.0.1:8000](http://127.0.0.1:8000). The startup screen checks the API connection and reports that simulation models are not available. Stop the local process with Ctrl+C. The default launch expects `web/dist/index.html`; a missing build produces an actionable CLI error.
+Open the launch URL printed on stderr, `http://127.0.0.1:8000/#session=…`; its fragment carries the per-launch session token for the run API. The startup screen checks the API connection. Stop the local process with Ctrl+C. The default launch expects `web/dist/index.html`; a missing build produces an actionable CLI error.
 
 For frontend development, start the API in one terminal:
 
@@ -56,18 +56,25 @@ The optional `.env.example` contains these two settings without secrets. Copy it
 uv run --env-file .env --locked --extra api vtwin serve
 ```
 
-An `.env` file is not loaded implicitly. If the API port changes during frontend development, update the local Vite proxy target accordingly. Runtime data-directory, queue, storage, acquisition, and session-token settings will be added when their modules exist; they are not inert example settings today.
+An `.env` file is not loaded implicitly. If the API port changes during frontend development, update the local Vite proxy target accordingly. The session token is generated at each launch and is deliberately not an `.env` setting.
 
 ### Current API surface
 
 | Route | Meaning |
 | :--- | :--- |
-| `GET /health` | Process liveness and package version. |
-| `GET /api/v1/capabilities` | Foundation stage, version, empty model list, simulation/3D availability both false. |
-| `GET /api/v1/openapi.json` | Machine-readable API schema. |
+| `GET /health` | Process liveness and package version. Public. |
+| `GET /api/v1/capabilities` | Stage, version, model list, limits, session header; simulation available when served by `vtwin serve`. Public. |
+| `GET /api/v1/openapi.json` | Machine-readable API schema. Public. |
+| `POST /api/v1/runs` | Submit a `vtwin.kinematic-case` document; `202` with the persisted run ID, `422` with field paths when invalid, `409 workspace_busy` while a run executes. |
+| `GET /api/v1/runs`, `GET /api/v1/runs/{id}` | Recent runs and one run's status, progress, error and KPIs. |
+| `GET /api/v1/runs/{id}/manifest`, `…/events` | Frozen inputs, versions and provenance; lifecycle events. |
+| `GET /api/v1/runs/{id}/series?observables=&start=&limit=` | Completed results with units, at most 20 000 samples per page. |
+| `POST /api/v1/runs/{id}/resume` | Continue an interrupted or retryable failed run. |
 | `/` and built frontend assets | Served when a UI build is selected. |
 
-This scaffold exposes only local, read-only metadata. It validates allowed hosts and enables no wildcard CORS. It has no run-submission or result-reading endpoints. #40 must implement the local session-token/error/logging controls before such endpoints are exposed; full storage recovery/backup remains #41 work. The architecture describes those future controls separately.
+Run routes require the `X-VTwin-Session` token printed in the launch URL, a same-origin or explicitly allowed dev origin, and bounded requests. `vtwin serve` owns its workspace: CLI runs against the same `--data-dir` fail with `workspace_busy` while it is running. Errors, logs, access controls and backup/restore are documented in the [policy page](architecture/errors-logging-security.md).
+
+For frontend development, start the API with `--allow-origin http://localhost:5173`. Other settings: `--data-dir`/`VTWIN_DATA_DIR`, `--run-timeout-s`/`VTWIN_RUN_TIMEOUT_S`, `--log-level`/`VTWIN_LOG_LEVEL`, `--log-format`/`VTWIN_LOG_FORMAT`.
 
 ## Quality and tests
 
@@ -84,7 +91,7 @@ The Python quality command runs Ruff lint/format checks, strict mypy for `src`, 
 
 The numerical tests compare decay and a coupled oscillator against analytical solutions, check output sampling and binary64 values, and reject invalid policies, states, grids, derivatives, and a singular problem. These verify the integration module's software/numerical contract. Their tolerances are explicitly for those analytical references and are not physical-model or wear-validation tolerances.
 
-HTTP tests use [HTTPX's ASGI transport](https://fastapi.tiangolo.com/advanced/async-tests/). CLI tests exercise invalid input and environment configuration through real subprocesses. The smoke command launches the built UI/API together on an available local port, checks their routes, then stops the process. Vue tests cover connection, failure/retry, and incompatible responses.
+HTTP tests use [HTTPX's ASGI transport](https://fastapi.tiangolo.com/advanced/async-tests/). CLI tests exercise invalid input and environment configuration through real subprocesses. The smoke command launches the built UI/API together on an available local port, checks the metadata routes, submits a protected run, reads its series, checks the refusal of an invalid case and of a missing token, then stops the process. Vue tests cover connection, failure/retry, and incompatible responses.
 
 Reports are generated under the ignored `artifacts/` directory: `python-quality.json`, `pytest.xml`, `coverage.xml`, and CI's `eslint.json`/`vitest.xml`. Python distributions are in `dist/`; the frontend build is in `web/dist/`. Generated reports are CI artifacts rather than committed snapshots.
 

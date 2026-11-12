@@ -269,6 +269,7 @@ class RunService:
             raise
         record = self.status(run_id)
         record.completed_samples = case.total_samples
+        record.extra["compute_resources"] = dict(self.resource_probe())
         self._save(record)
         self._event(run_id, "run_computed", samples=case.total_samples)
         return record
@@ -323,7 +324,7 @@ class RunService:
             "compute_wall_s": checkpoint.compute_wall_ns / 1e9,
             "output_samples": record.total_samples,
             "compute_segments": checkpoint.segments,
-            "resources": dict(self.resource_probe()),
+            "resources": record.extra.pop("compute_resources", None) or dict(self.resource_probe()),
             "clock": "time.perf_counter_ns in the computing process",
         }
         self._save(record)
@@ -351,6 +352,17 @@ class RunService:
         if record.state is RunState.FAILED and not record.resumable:
             raise RunStateConflict(f"{run_id} failed with a non-retryable error.")
         return self.execute(run_id)
+
+    def requeue(self, run_id: str) -> RunRecord:
+        """Accept a resume request: persist ``queued`` before a worker picks it up."""
+        record = self.status(run_id)
+        if not record.resumable:
+            raise RunStateConflict(f"{run_id} is {record.state.value} and cannot be resumed.")
+        record.state = RunState.QUEUED
+        record.finished_at_utc = None
+        self._save(record)
+        self._event(run_id, "run_requeued", previous_error=(record.error or {}).get("code"))
+        return record
 
     def reconcile(self) -> list[RunRecord]:
         """Mark staged runs left queued/running by a dead process as interrupted.

@@ -21,7 +21,9 @@ def create_integrator() -> Integrator:
 
 
 def create_engine() -> KinematicsEngine:
-    return SliderCrankKinematics()
+    from vtwin.bootstrap.faults import maybe_inject
+
+    return maybe_inject(SliderCrankKinematics())
 
 
 def default_data_dir() -> Path:
@@ -87,3 +89,22 @@ def create_run_service(data_dir: Path, engine: KinematicsEngine | None = None) -
         software=software_versions(),
         resource_probe=peak_rss,
     )
+
+
+def compute_in_worker(
+    data_dir: str, run_id: str, log_level: str, log_format: str, session: str
+) -> None:
+    """Child-process entrypoint: compute one staged run; the coordinator publishes it.
+
+    Expected failures are already recorded in the run status by the service, so
+    they only set a distinct exit code here.
+    """
+    from vtwin.adapters.observability import configure_logging, run_id_var
+    from vtwin.domain.errors import VTwinError
+
+    configure_logging(log_level, log_format, session=session)
+    run_id_var.set(run_id)
+    try:
+        create_run_service(Path(data_dir)).compute(run_id)
+    except VTwinError:
+        raise SystemExit(3) from None

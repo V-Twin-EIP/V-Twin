@@ -111,3 +111,25 @@ def test_cli_refuses_a_workspace_owned_by_another_process(tmp_path: Path) -> Non
         result = vtwin("run", str(CASE), "--data-dir", str(tmp_path))
     assert result.returncode == 3
     assert json.loads(result.stdout)["error"]["code"] == "workspace_busy"
+
+
+@pytest.mark.parametrize(
+    "origin", ["https://localhost:5173", "http://evil.example:5173", "http://localhost", "*"]
+)
+def test_only_explicit_loopback_dev_origins_are_accepted(tmp_path: Path, origin: str) -> None:
+    result = vtwin("serve", "--no-web", "--data-dir", str(tmp_path), "--allow-origin", origin)
+    assert result.returncode == 2
+    assert "Allowed origins" in result.stderr
+
+
+def test_weak_session_token_from_environment_is_refused(tmp_path: Path) -> None:
+    result = subprocess.run(
+        [sys.executable, "-m", "vtwin", "serve", "--no-web", "--data-dir", str(tmp_path)],
+        env={**os.environ, "VTWIN_SESSION_TOKEN": "short"},
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert result.returncode == 2
+    assert "at least 32 characters" in result.stderr
+    assert "short" not in result.stdout
