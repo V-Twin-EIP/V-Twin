@@ -25,6 +25,7 @@ def test_quick_bench_records_raw_attempts_and_passes_resilience(tmp_path: Path) 
         check=False,
         timeout=600,
     )
+    assert output.exists(), (result.returncode, result.stderr[-4000:])
     report = json.loads(output.read_text(encoding="utf-8"))
     failed = {name: item for name, item in report["resilience"].items() if not item["passed"]}
     assert result.returncode == 0, (failed, report["stress"], result.stderr[-2000:])

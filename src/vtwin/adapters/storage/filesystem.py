@@ -56,8 +56,8 @@ def _fsync_dir(path: Path) -> None:
         os.close(descriptor)
 
 
-def _replace_directory(source: Path, target: Path) -> None:
-    """Rename a directory; on Windows, retry while a reader briefly holds a file open."""
+def _replace(source: Path, target: Path) -> None:
+    """Rename over ``target``; on Windows, retry while a reader briefly holds a file open."""
     for attempt in range(40):
         try:
             os.replace(source, target)
@@ -75,7 +75,7 @@ def atomic_write(path: Path, data: bytes) -> None:
         handle.write(data)
         handle.flush()
         os.fsync(handle.fileno())
-    os.replace(temporary, path)
+    _replace(temporary, path)
 
 
 def _json_bytes(data: Any) -> bytes:
@@ -363,7 +363,7 @@ class FileRunStore:
             shutil.rmtree(source / "chunks", ignore_errors=True)
             with contextlib.suppress(FileNotFoundError):
                 (source / "checkpoint.json").unlink()
-            _replace_directory(source, self.runs_root / run_id)
+            _replace(source, self.runs_root / run_id)
             _fsync_dir(self.runs_root)
         return inventory
 
