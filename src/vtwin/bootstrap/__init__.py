@@ -73,10 +73,10 @@ def software_versions() -> dict[str, Any]:
 
 def peak_rss() -> dict[str, Any]:
     """Process-lifetime peak resident memory of the computing process."""
-    try:
-        import resource
-    except ImportError:  # Windows: no getrusage; psutil is a development-only dependency.
+    if sys.platform == "win32":  # no getrusage; psutil is a development-only dependency.
         return {"peak_rss_bytes": None, "reason": "getrusage unavailable on this platform"}
+    import resource
+
     value = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
     scale = 1 if sys.platform == "darwin" else 1024  # bytes on macOS, KiB on Linux
     return {"peak_rss_bytes": value * scale, "method": "getrusage(RUSAGE_SELF).ru_maxrss"}

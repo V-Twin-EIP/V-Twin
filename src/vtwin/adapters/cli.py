@@ -147,7 +147,8 @@ def _backup_command(args: argparse.Namespace) -> int:
 
 
 def _emit(document: dict[str, Any]) -> None:
-    print(json.dumps(document, indent=2, allow_nan=False, ensure_ascii=False))
+    # ASCII escapes keep stdout valid on legacy consoles (cp1252 on Windows).
+    print(json.dumps(document, indent=2, allow_nan=False))
 
 
 def _exit_code(error: Exception) -> int:

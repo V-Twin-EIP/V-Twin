@@ -5,6 +5,8 @@ import subprocess
 import sys
 from pathlib import Path
 
+import pytest
+
 
 def test_quick_bench_records_raw_attempts_and_passes_resilience(tmp_path: Path) -> None:
     root = Path(__file__).resolve().parents[1]
@@ -25,6 +27,8 @@ def test_quick_bench_records_raw_attempts_and_passes_resilience(tmp_path: Path) 
         check=False,
         timeout=600,
     )
+    if not output.exists():  # pytest.fail keeps the whole traceback, unlike assert
+        pytest.fail(f"bench exited {result.returncode} without a report:\n{result.stderr}")
     report = json.loads(output.read_text(encoding="utf-8"))
     failed = {name: item for name, item in report["resilience"].items() if not item["passed"]}
     assert result.returncode == 0, (failed, report["stress"], result.stderr[-2000:])
