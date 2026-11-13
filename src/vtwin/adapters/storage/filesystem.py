@@ -68,6 +68,18 @@ def _replace(source: Path, target: Path) -> None:
             time.sleep(0.05)
 
 
+def _read_bytes(path: Path) -> bytes:
+    """Read a file; on Windows, retry while a concurrent rename briefly denies access."""
+    for attempt in range(40):
+        try:
+            return path.read_bytes()
+        except PermissionError:
+            if os.name != "nt" or attempt == 39:
+                raise
+            time.sleep(0.05)
+    raise AssertionError("unreachable")
+
+
 def atomic_write(path: Path, data: bytes) -> None:
     """Write via a sibling temporary file, fsync, then rename over the target."""
     temporary = path.with_name(f".{path.name}.tmp")
@@ -194,7 +206,7 @@ class FileRunStore:
 
     def _read_json(self, path: Path) -> dict[str, Any]:
         try:
-            return self._parse(path.read_bytes(), path.name, path.parent.name)
+            return self._parse(_read_bytes(path), path.name, path.parent.name)
         except FileNotFoundError:
             raise IntegrityFailure(f"Missing {path.name} for run {path.parent.name}.") from None
         except OSError:
@@ -215,7 +227,7 @@ class FileRunStore:
         for attempt in range(2):
             path = self._dir(run_id) / name
             try:
-                return path.read_bytes()
+                return _read_bytes(path)
             except FileNotFoundError:
                 moved = (
                     path.parent.parent == self.staging_root and (self.runs_root / run_id).is_dir()
@@ -295,7 +307,7 @@ class FileRunStore:
 
     def _load_npz(self, path: Path, expected_sha256: str | None = None) -> dict[str, FloatArray]:
         try:
-            data = path.read_bytes()
+            data = _read_bytes(path)
         except OSError:
             raise IntegrityFailure(f"Missing result file {path.name}.") from None
         if expected_sha256 is not None and hashlib.sha256(data).hexdigest() != expected_sha256:
