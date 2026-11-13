@@ -46,7 +46,7 @@ Screenshots of RSS feeds, newsletters and bookmarks: `docs/technology-watch/asse
 | Study: time-series storage (InfluxDB / TimescaleDB) | [#32](https://github.com/V-Twin-EIP/V-Twin/issues/32) | [03_stockage_series_temporelles_timescaledb_vs_influxdb.md](../research/etudes-comparaison/03_stockage_series_temporelles_timescaledb_vs_influxdb.md) | Done |
 | Study: wear estimation (physical / ML / hybrid) | [#33](https://github.com/V-Twin-EIP/V-Twin/issues/33) | [04_prediction_usure_moteur_pinn_vs_ml.md](../research/etudes-comparaison/04_prediction_usure_moteur_pinn_vs_ml.md) | Done |
 | POC: acquisition | [#34](https://github.com/V-Twin-EIP/V-Twin/issues/34) | — | Not started |
-| POC: MQTT telemetry | [#35](https://github.com/V-Twin-EIP/V-Twin/issues/35) | — | Not started |
+| POC: MQTT telemetry | [#35](https://github.com/V-Twin-EIP/V-Twin/issues/35) | [poc/mqtt-telemetry](../../poc/mqtt-telemetry/README.md) | Done (synthetic data) |
 | Benchmark: transport | [#42](https://github.com/V-Twin-EIP/V-Twin/issues/42) | — | Not started |
 | Benchmark: storage | [#43](https://github.com/V-Twin-EIP/V-Twin/issues/43) | — | Not started |
 | Integration of a new technology | [#44](https://github.com/V-Twin-EIP/V-Twin/issues/44) | — | Not started |
@@ -69,9 +69,9 @@ Screenshots of RSS feeds, newsletters and bookmarks: `docs/technology-watch/asse
 
 | Decision | Status | Why | Evidence (study / POC / benchmark / ADR) |
 | :--- | :--- | :--- | :--- |
-| Ingestion duale CAN / OBD-II | Adopted | CAN haute fréquence (100–500 Hz) pour simulateur, OBD-II pour véhicules série | [Study #30](../research/etudes-comparaison/01_telemetrie_obd2_vs_can.md) |
-| Transport hybride MQTT v5 + WebSocket | Adopted | MQTT v5/Protobuf pour ingestion télémétrique résiliente, WebSocket pour flux temps réel 3D, REST pour services CRUD | [Study #31](../research/etudes-comparaison/02_protocoles_reseau_mqtt_vs_websocket.md) |
-| TimescaleDB pour séries temporelles | Adopted | SQL ANSI unifié, Hypertables, jointures natives avec nomenclatures/pièces et intégrité ACID | [Study #32](../research/etudes-comparaison/03_stockage_series_temporelles_timescaledb_vs_influxdb.md) |
+| Ingestion duale CAN / OBD-II | Direction for the later twin, not implemented | Team decision of 2026-11-12: individual users through OBD-II with MQTT transport; CAN as a complementary path for manufacturers, depending on access to their data. The sandbox V1 uses explicit parameters and needs no vehicle acquisition. Neural interpolation of missing signals is not selected. | [Study #30](../research/etudes-comparaison/01_telemetrie_obd2_vs_can.md), [ADR 0004](../architecture/adr/0004-study-review-and-v1-boundary.md), acquisition POC [#34](https://github.com/V-Twin-EIP/V-Twin/issues/34) not started |
+| Transport hybride MQTT v5 + WebSocket | MQTT selected for twin telemetry (2026-11-12), POC done; WebSocket not selected | MQTT v5 / QoS 1 with persistent sessions delivered every message in nominal, 500 Hz, 2000 Hz, consumer-outage and broker-restart runs; a broker crash lost messages until periodic broker autosave was enabled. The sandbox V1 keeps HTTP polling. WebSocket streaming waits for a measured need; adoption also needs benchmark #42. | [Study #31](../research/etudes-comparaison/02_protocoles_reseau_mqtt_vs_websocket.md), [MQTT POC #35](../../poc/mqtt-telemetry/README.md), [ADR 0004](../architecture/adr/0004-study-review-and-v1-boundary.md) |
+| TimescaleDB pour séries temporelles | Candidate for the later twin, deferred | The sandbox V1 keeps local files and a catalogue. TimescaleDB stays the preferred candidate for telemetry history; adoption waits for benchmark #43 on V-Twin data. | [Study #32](../research/etudes-comparaison/03_stockage_series_temporelles_timescaledb_vs_influxdb.md), [ADR 0004](../architecture/adr/0004-study-review-and-v1-boundary.md) |
 | Approche hybride PINN pour usure | Adopted | Inférence temps réel (<20 ms) tout en garantissant le respect strict des lois physiques (fatigue, lubrification) | [Study #33](../research/etudes-comparaison/04_prediction_usure_moteur_pinn_vs_ml.md) |
 
 ## 8. Mentoring summary
