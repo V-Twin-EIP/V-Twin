@@ -178,12 +178,26 @@ class Server:
 
     def stop(self) -> None:
         if self.process and self.process.poll() is None:
+            children = self._children()
             self.process.terminate()
             try:
                 self.process.wait(10)
             except subprocess.TimeoutExpired:
                 self.process.kill()
                 self.process.wait(5)
+            # Windows terminate() is a hard kill: a worker outlives it until its
+            # watchdog notices, still holding run files open. Wait, then kill.
+            _, alive = psutil.wait_procs(children, timeout=10)
+            for child in alive:
+                with contextlib.suppress(psutil.Error):
+                    child.kill()
+            psutil.wait_procs(alive, timeout=5)
+
+    def _children(self) -> list[psutil.Process]:
+        assert self.process is not None
+        with contextlib.suppress(psutil.Error):
+            return psutil.Process(self.process.pid).children(True)
+        return []
 
     def kill(self) -> list[int]:
         """SIGKILL-equivalent stop of the coordinator only; return orphan worker PIDs."""
@@ -791,7 +805,8 @@ def main() -> int:
     repetitions = 1 if args.quick else 3
     clients, rounds = (4, 1) if args.quick else (8, 3)
     started = now_utc()
-    with tempfile.TemporaryDirectory(prefix="vtwin-bench-") as scratch:
+    # A file still held open at cleanup must not discard a finished report.
+    with tempfile.TemporaryDirectory(prefix="vtwin-bench-", ignore_cleanup_errors=True) as scratch:
         work = Path(scratch)
         sampler = GroupSampler()
         sampler.start()
