@@ -1,8 +1,8 @@
 # Development foundation
 
-V-Twin's foundation contains an installable numerical package, a headless [runner](runner.md) with a filesystem result store, a first slider-crank kinematics model, a local API, and a Vue startup screen. No Hydra dynamics, friction/lubrication or calibrated wear model, dashboards, or 3D viewer is implemented yet. Those capabilities keep their own roadmap issues.
+V-Twin's foundation contains an installable numerical package, a headless [runner](runner.md) with a filesystem result store, a first slider-crank kinematics model, a protected local API, and a Next.js dashboard. No Hydra dynamics, friction/lubrication or calibrated wear model, dashboards, or 3D viewer is implemented yet. Those capabilities keep their own roadmap issues.
 
-**Selected frontend:** Next.js (React)/TypeScript, corrected on October 26, 2026. **Current implementation:** the Vue/Vite startup scaffold described by the commands, paths and tests below. Migration is pending; [ADR 0001](architecture/adr/0001-local-application-and-ui-boundary.md) records the target deployment and checks to update.
+**Frontend:** Next.js (React)/TypeScript with shadcn/ui components and its Recharts-based charts, exported as static files to `web/dist` and served by `vtwin serve` ([ADR 0001](architecture/adr/0001-local-application-and-ui-boundary.md)). It replaced the Vue/Vite scaffold on November 13, 2026. ADR 0001 named ECharts for plots; the dashboard uses shadcn's chart component, which wraps Recharts, so that the UI kit stays consistent.
 
 ## Supported toolchain
 
@@ -32,19 +32,21 @@ uv run --locked --extra api vtwin serve
 
 Open the launch URL printed on stderr, `http://127.0.0.1:8000/#session=…`; its fragment carries the per-launch session token for the run API. The startup screen checks the API connection. Stop the local process with Ctrl+C. The default launch expects `web/dist/index.html`; a missing build produces an actionable CLI error.
 
-For frontend development, start the API in one terminal:
+Open the dashboard from the launch URL: **Lancer les deux calculs** runs the reference and variant cases one after the other, then overlays displacement and velocity on a shared crank-angle or time axis. The run pickers compare any two completed runs; **Importer un export CLI** displays a file produced by `vtwin export` when the HTTP path is not available. The card « Clic → premier graphique lisible » measures, in the browser, the delay from the click to the first rendered chart and to the full comparison; the values are also pushed to `window.__vtwinTimings` for the #46 bench.
+
+For frontend development, start the API with a fixed token and an allowed dev origin in one terminal:
 
 ```sh
-uv run --locked --extra api vtwin serve --no-web
+VTWIN_SESSION_TOKEN=<at least 32 characters> uv run --locked --extra api vtwin serve --no-web --allow-origin http://127.0.0.1:3000
 ```
 
-In another terminal, start Vite:
+In another terminal, start Next.js against that API:
 
 ```sh
-npm --prefix web run dev
+NEXT_PUBLIC_VTWIN_API=http://127.0.0.1:8000 npm --prefix web run dev
 ```
 
-Use the URL printed by Vite. Its `/api` and `/health` proxy targets the API on port 8000, keeping browser requests relative to their origin. Restart the Python process after backend changes; frontend edits use Vite's development reload.
+Open `http://127.0.0.1:3000/#session=<the same token>`. The fragment is moved to `sessionStorage` and removed from the address bar. Restart the Python process after backend changes; frontend edits reload automatically.
 
 ### Configuration
 
@@ -56,7 +58,7 @@ The optional `.env.example` contains these two settings without secrets. Copy it
 uv run --env-file .env --locked --extra api vtwin serve
 ```
 
-An `.env` file is not loaded implicitly. If the API port changes during frontend development, update the local Vite proxy target accordingly. The session token is generated at each launch and is deliberately not an `.env` setting.
+An `.env` file is not loaded implicitly. If the API port changes during frontend development, update `NEXT_PUBLIC_VTWIN_API` accordingly. The session token is generated at each launch and is deliberately not an `.env` setting.
 
 ### Current API surface
 
@@ -74,7 +76,7 @@ An `.env` file is not loaded implicitly. If the API port changes during frontend
 
 Run routes require the `X-VTwin-Session` token printed in the launch URL, a same-origin or explicitly allowed dev origin, and bounded requests. `vtwin serve` owns its workspace: CLI runs against the same `--data-dir` fail with `workspace_busy` while it is running. Errors, logs, access controls and backup/restore are documented in the [policy page](architecture/errors-logging-security.md).
 
-For frontend development, start the API with `--allow-origin http://localhost:5173`. Other settings: `--data-dir`/`VTWIN_DATA_DIR`, `--run-timeout-s`/`VTWIN_RUN_TIMEOUT_S`, `--log-level`/`VTWIN_LOG_LEVEL`, `--log-format`/`VTWIN_LOG_FORMAT`.
+For frontend development, start the API with `--allow-origin http://127.0.0.1:3000`. Other settings: `--data-dir`/`VTWIN_DATA_DIR`, `--run-timeout-s`/`VTWIN_RUN_TIMEOUT_S`, `--log-level`/`VTWIN_LOG_LEVEL`, `--log-format`/`VTWIN_LOG_FORMAT`.
 
 ## Quality and tests
 
@@ -91,7 +93,7 @@ The Python quality command runs Ruff lint/format checks, strict mypy for `src`, 
 
 The numerical tests compare decay and a coupled oscillator against analytical solutions, check output sampling and binary64 values, and reject invalid policies, states, grids, derivatives, and a singular problem. These verify the integration module's software/numerical contract. Their tolerances are explicitly for those analytical references and are not physical-model or wear-validation tolerances.
 
-HTTP tests use [HTTPX's ASGI transport](https://fastapi.tiangolo.com/advanced/async-tests/). CLI tests exercise invalid input and environment configuration through real subprocesses. The smoke command launches the built UI/API together on an available local port, checks the metadata routes, submits a protected run, reads its series, checks the refusal of an invalid case and of a missing token, then stops the process. Vue tests cover connection, failure/retry, and incompatible responses.
+HTTP tests use [HTTPX's ASGI transport](https://fastapi.tiangolo.com/advanced/async-tests/). CLI tests exercise invalid input and environment configuration through real subprocesses. The smoke command launches the built UI/API together on an available local port, checks the metadata routes, submits a protected run, reads its series, checks the refusal of an invalid case and of a missing token, then stops the process. Vitest tests cover the API client (session header, structured errors, busy retry, pagination), the demo cases against `examples/cases`, the comparison derivations, the CLI-export import and the dashboard flow with a mocked API.
 
 Reports are generated under the ignored `artifacts/` directory: `python-quality.json`, `pytest.xml`, `coverage.xml`, and CI's `eslint.json`/`vitest.xml`. Python distributions are in `dist/`; the frontend build is in `web/dist/`. Generated reports are CI artifacts rather than committed snapshots.
 
@@ -137,9 +139,9 @@ It starts the real server, measures the nominal kinematic case through the API (
 | `src/vtwin/application/` | Analytical foundation check; case validation; run prepare/compute/publish/resume/replay use cases. |
 | `src/vtwin/bootstrap/` | Explicit selection of the SciPy, kinematics and filesystem-store implementations; data-directory default. |
 | `src/vtwin/adapters/` | CLI and optional FastAPI entrypoints; filesystem run store and workspace lock. |
-| `web/src/api/` | Versioned capability request and response validation. |
-| `web/src/App.vue` | Minimal connection/empty-state screen, without 3D. |
-| `tests/`, `web/src/*.test.ts` | Numerical, adapter and frontend checks. |
+| `web/src/lib/` | API client and session token, demo cases, result derivations and export import. |
+| `web/src/components/dashboard/` | Dashboard: runs, indicators, compared charts, history; shadcn/ui primitives in `web/src/components/ui/`. No 3D. |
+| `tests/`, `web/src/**/*.test.ts(x)` | Numerical, adapter and frontend checks. |
 | `scripts/`, `.github/workflows/` | Quality reports, real-server smoke check, cross-platform CI. |
 
 The [V1 architecture](architecture/README.md) retains the target module layout. Storage, acquisition, physical/wear models, persistent workers, and full visualization are subsequent implementation work. Review a related ADR when changing an architectural boundary.

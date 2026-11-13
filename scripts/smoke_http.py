@@ -60,7 +60,7 @@ def main() -> None:
                     raise RuntimeError("Local application did not become ready.") from None
                 time.sleep(0.1)
         with urllib.request.urlopen(base, timeout=5) as response:
-            assert "V-Twin workspace" in response.read().decode()
+            assert "<title>V-Twin</title>" in response.read().decode()
         status, capabilities = request(base + "/api/v1/capabilities")
         assert status == 200 and capabilities["simulation_available"] is True
 

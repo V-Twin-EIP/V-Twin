@@ -28,13 +28,13 @@ Both applications will share a simulation core that connects operating condition
 ## Current status
 
 > [!NOTE]
-> V-Twin has an **initial development foundation**: an installable Python numerical package, a headless runner with checkpointed resume and deterministic replay, a first slider-crank kinematics model, a local API, a Vue startup screen, tests, quality checks, and a cross-platform CI workflow. Dynamics, friction/lubrication and wear models, data integrations, dashboards, and 3D remain planned work.
+> V-Twin has an **initial development foundation**: an installable Python numerical package, a headless runner with checkpointed resume and deterministic replay, a first slider-crank kinematics model, a protected local API, a Next.js dashboard that runs and compares the two demo cases, tests, quality checks, and a cross-platform CI workflow. Dynamics, friction/lubrication and wear models, data integrations, dashboards, and 3D remain planned work.
 
 The first demonstrator will prioritize **the design sandbox**, with one reference engine and a focused reliability case. The real-engine twin remains a subsequent delivery goal. The scoped reference case, evidence gaps, and demonstration requirements are recorded in the [product scope](docs/product-scope.md).
 
 The scoped MVP uses parameter-based configuration, an **interactive 3D view**, graphs, and baseline-versus-variant comparison. A **dashboard-only mode** supports configuration, calculations, graphs, comparison, and export without loading 3D. Its first reliability topic is ring–liner wear associated with friction and lubrication. Audio is outside the product scope. The project has **five team members**; responsibilities and current GitHub availability are recorded in the [team allocation](docs/product-scope.md#team-and-work-allocation). The next Epitech mentoring meeting is **Monday, October 26, 2026**; the first executable-demonstration date remains to be defined.
 
-**Frontend choice updated on October 26, 2026:** we selected **Next.js (React) with TypeScript**. The current startup scaffold is still Vue/Vite; migrating its screen, tooling and tests is pending. The commands below describe the existing scaffold.
+**Frontend:** Next.js (React) with TypeScript and shadcn/ui, built as a static export and served by the local API. The Vue/Vite scaffold was replaced on November 13, 2026.
 
 ## Run the foundation
 

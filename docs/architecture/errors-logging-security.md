@@ -58,7 +58,7 @@ Example record:
 | Files | Workspace directories are created with owner-only permissions (`0700`) in a per-user location outside Git. The data directory is never served as static files. Backup archives contain only run artifacts. |
 | Response headers | `Cache-Control: no-store` on run routes, `X-Content-Type-Options: nosniff`, `Referrer-Policy: no-referrer`, no `Server` header. |
 
-Frontend integration (#50/#51): the served UI receives the token in the URL fragment `#session=…`, which browsers do not send to the server. The client should read it from `location.hash`, keep it in memory or `sessionStorage`, remove it from the address bar with `history.replaceState`, and send it as `X-VTwin-Session`. With the Vite dev server, start the API with `--allow-origin http://localhost:5173`, because the proxy forwards the browser's `Origin`.
+Frontend integration (#50/#51): the served UI receives the token in the URL fragment `#session=…`, which browsers do not send to the server. The dashboard reads it from `location.hash`, keeps it in `sessionStorage`, removes it from the address bar with `history.replaceState`, and sends it as `X-VTwin-Session` (`web/src/lib/api.ts`). With the Next.js dev server on another port, start the API with `--allow-origin http://127.0.0.1:3000`.
 
 Acquisition data does not exist yet. When #30/#35 add it, recorded sessions go to the same owner-only workspace, credentials stay in the environment or OS keychain and are registered with the log masking, and acquired private datasets stay out of Git as `CONTRIBUTING.md` requires.
 
